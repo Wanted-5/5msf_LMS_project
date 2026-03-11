@@ -1,0 +1,62 @@
+title: 당일 업무 보고
+labels: ["Daily"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### 오늘
+        수행해야 할 업무 목록입니다
+  - type: textarea
+    id: this_ygh
+    attributes:
+      label: 강현
+      description: "당일 업무 입력"
+      value: |
+        - [ ] task1
+      render:
+    validations:
+      required: false
+
+  - type: textarea
+    id: this_ajs
+    attributes:
+      label: 정수
+      description: "당일 업무 입력"
+      value: |
+        - [ ] task1
+      render:
+    validations:
+      required: false
+
+  - type: textarea
+    id: this_bjh
+    attributes:
+      label: 정현
+      description: "당일 업무 입력"
+      value: |
+        - [ ] task1
+      render:
+    validations:
+      required: false
+
+  - type: textarea
+    id: this_ygh
+    attributes:
+      label: 종호
+      description: "당일 업무 입력"
+      value: |
+        - [ ] task1
+      render:
+    validations:
+      required: false
+
+  - type: textarea
+    id: this_lty
+    attributes:
+      label: 태연
+      description: "당일 업무 입력"
+      value: |
+        - [ ] task1
+      render:
+    validations:
+      required: false

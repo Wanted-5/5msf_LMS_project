@@ -1,5 +1,3 @@
-name: "DailyLog"
-description: "팀원들의 일일 업무 진행 상황을 확인합니다."
 title: "[당일 업무 회의]"
 labels: ["Daily"]
 body:

@@ -1,4 +1,6 @@
-title: 당일 업무 보고
+name: "당일 업무 회의"
+description: "팀원들의 일일 업무 진행 상황을 확인합니다."
+title: "[당일 업무 회의]"
 labels: ["Daily"]
 body:
   - type: markdown
@@ -7,7 +9,7 @@ body:
         ### 오늘
         수행해야 할 업무 목록입니다
   - type: textarea
-    id: this_ygh
+    id: today_gh
     attributes:
       label: 강현
       description: "당일 업무 입력"
@@ -18,7 +20,7 @@ body:
       required: false
 
   - type: textarea
-    id: this_ajs
+    id: today_js
     attributes:
       label: 정수
       description: "당일 업무 입력"
@@ -29,7 +31,7 @@ body:
       required: false
 
   - type: textarea
-    id: this_bjh
+    id: today_jh
     attributes:
       label: 정현
       description: "당일 업무 입력"
@@ -40,7 +42,7 @@ body:
       required: false
 
   - type: textarea
-    id: this_ygh
+    id: today_jongho
     attributes:
       label: 종호
       description: "당일 업무 입력"
@@ -51,7 +53,7 @@ body:
       required: false
 
   - type: textarea
-    id: this_lty
+    id: today_ty
     attributes:
       label: 태연
       description: "당일 업무 입력"

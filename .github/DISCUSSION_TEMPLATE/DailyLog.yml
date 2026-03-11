@@ -1,4 +1,4 @@
-name: "당일 업무 회의"
+name: "DailyLog"
 description: "팀원들의 일일 업무 진행 상황을 확인합니다."
 title: "[당일 업무 회의]"
 labels: ["Daily"]
@@ -7,58 +7,53 @@ body:
     attributes:
       value: |
         ### 오늘
-        수행해야 할 업무 목록입니다
+        수행해야 할 업무 목록입니다.
   - type: textarea
     id: today_gh
     attributes:
-      label: 강현
+      label: "강현"
       description: "당일 업무 입력"
       value: |
         - [ ] task1
-      render:
     validations:
       required: false
 
   - type: textarea
     id: today_js
     attributes:
-      label: 정수
+      label: "정수"
       description: "당일 업무 입력"
       value: |
         - [ ] task1
-      render:
     validations:
       required: false
 
   - type: textarea
     id: today_jh
     attributes:
-      label: 정현
+      label: "정현"
       description: "당일 업무 입력"
       value: |
         - [ ] task1
-      render:
     validations:
       required: false
 
   - type: textarea
     id: today_jongho
     attributes:
-      label: 종호
+      label: "종호"
       description: "당일 업무 입력"
       value: |
         - [ ] task1
-      render:
     validations:
       required: false
 
   - type: textarea
     id: today_ty
     attributes:
-      label: 태연
+      label: "태연"
       description: "당일 업무 입력"
       value: |
         - [ ] task1
-      render:
     validations:
       required: false

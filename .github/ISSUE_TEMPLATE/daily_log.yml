@@ -41,7 +41,10 @@ body:
       label: "🔥 Troubleshooting (트러블슈팅)"
       description: "개발 과정에서 마주친 예외(Exception)나 기술적 문제, 그리고 해결 과정을 논리적으로 기록해주세요."
       value: |
-        - **Problem (현상):** - **Cause (원인):** - **Solution (해결방안):** validations:
+        - **Problem (현상):**
+        - **Cause (원인):**
+        - **Solution (해결방안):**
+    validations:
       required: false
 
   - type: textarea

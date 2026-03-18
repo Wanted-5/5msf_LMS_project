@@ -1,4 +1,4 @@
 package com.lms.domain.category.controller;
 
-public class f {
+public class CategoryController {
 }

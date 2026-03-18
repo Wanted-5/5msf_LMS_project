@@ -4,27 +4,59 @@ import com.lms.domain.attendance.controller.AttendController;
 import com.lms.domain.attendance.service.AttendService;
 import com.lms.domain.attendance.view.AttendInputView;
 import com.lms.domain.attendance.view.AttendOutputView;
+import com.lms.domain.board.controller.BoardController;
+import com.lms.domain.board.service.BoardService;
+import com.lms.domain.board.view.BoardInputView;
+import com.lms.domain.board.view.BoardOutputView;
+import com.lms.domain.category.controller.CategoryController;
+import com.lms.domain.category.service.CategoryService;
+import com.lms.domain.category.view.CategoryInputView;
+import com.lms.domain.category.view.CategoryOutputView;
 import com.lms.domain.city.controller.CityController;
 import com.lms.domain.city.service.CityService;
 import com.lms.domain.city.view.CityInputView;
 import com.lms.domain.city.view.CityOutputView;
+import com.lms.domain.comment.controller.CommentController;
+import com.lms.domain.comment.service.CommentService;
+import com.lms.domain.comment.view.CommentInputView;
+import com.lms.domain.comment.view.CommentOutputView;
+import com.lms.domain.mafia.controller.MafiaController;
+import com.lms.domain.mafia.service.MafiaService;
+import com.lms.domain.mafia.view.MafiaInputView;
+import com.lms.domain.mafia.view.MafiaOutputView;
+import com.lms.domain.quiz.controller.QuizController;
+import com.lms.domain.quiz.service.QuizService;
+import com.lms.domain.quiz.view.QuizInputView;
+import com.lms.domain.quiz.view.QuizOutputView;
+import com.lms.domain.quizSubmission.controller.QuizSubController;
+import com.lms.domain.quizSubmission.service.QuizSubService;
+import com.lms.domain.quizSubmission.view.QuizSubInputView;
+import com.lms.domain.quizSubmission.view.QuizSubOutputView;
+import com.lms.domain.section.controller.SectionController;
 import com.lms.domain.section.service.SectionService;
+import com.lms.domain.section.view.SectionInputView;
+import com.lms.domain.section.view.SectionOutputView;
 import com.lms.domain.users.controller.UserController;
 import com.lms.domain.users.service.UserService;
 import com.lms.domain.users.view.UserInputView;
 import com.lms.domain.users.view.UserOutputView;
+import com.lms.domain.village.controller.VillageController;
+import com.lms.domain.village.service.VillageService;
+import com.lms.domain.village.view.VillageInputView;
+import com.lms.domain.village.view.VillageOutputView;
 
 import java.sql.Connection;
 
 public class AppContext {
 
     // 유저 커넥션
-//    public void userAppContext(Connection con) {
-//        UserService userService = new UserService(con);
-//        UserController userController = new UserController(userService);
-//        UserOutputView userOutputView = new UserOutputView();
-//        UserInputView userInputView = new UserInputView(userController, userOutputView);
-//    }
+    public void userAppContext(Connection con) {
+        UserService userService = new UserService(con);
+        UserController userController = new UserController(userService);
+        UserOutputView userOutputView = new UserOutputView();
+        UserInputView userInputView = new UserInputView(userController, userOutputView);
+        userInputView.displayInitialMenu();
+    }
 
 //    // 출결 커넥션
 //    public void attendAppContext(Connection con) {
@@ -100,10 +132,10 @@ public class AppContext {
 //
 //    // 퀴즈 제출 커넥션
 //    public void quizSubmissionAppContext(Connection con) {
-//        QuizSubmissionService quizSubmissionService = new QuizSubmissionService(con);
-//        QuizSubmissionController quizSubmissionController = new QuizSubmissionController(quizSubmissionService);
-//        QuizSubmissionOutputView quizSubmissionOutputView = new QuizSubmissionOutputView();
-//        QuizSubmissionInputView quizSubmissionInputView = new QuizSubmissionInputView(quizSubmissionController, quizSubmissionOutputView);
+//        QuizSubService quizSubService = new QuizSubService(con);
+//        QuizSubController quizSubController = new QuizSubController(quizSubService);
+//        QuizSubOutputView quizSubOutputView = new QuizSubOutputView();
+//        QuizSubInputView quizSubInputView = new QuizSubInputView(quizSubController, quizSubOutputView);
 //    }
 
 

@@ -15,7 +15,7 @@ public class Application {
             JDBCTemplate.printConnectionStatus();
 
             AppContext appContext = new AppContext();
-//            appContext.userAppContext(con);
+            appContext.userAppContext(con);
 
 
 

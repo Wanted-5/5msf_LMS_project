@@ -1,5 +1,5 @@
 ---
-name: "[미사용]\U0001F489\U0001FA78Feature request Template"
+name: "\U0001F489\U0001FA78Feature request Template"
 about: 기능 추가 리퀘스트 템플릿입니다.
 title: "[request]"
 labels: "[기능추가] 리퀘스트"

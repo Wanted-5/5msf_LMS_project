@@ -1,5 +1,5 @@
 ---
-name: "[미사용]\U0001F4CB✅ Daily Task & Study Check ✅\U0001F4CB"
+name: "\U0001F4CB✅ Daily Task & Study Check ✅\U0001F4CB"
 about: 일일 업무/학습 완료 체크 이슈 템플릿 입니다.
 title: "[daily]"
 labels: ''

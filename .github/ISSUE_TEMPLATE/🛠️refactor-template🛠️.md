@@ -1,5 +1,5 @@
 ---
-name: "[미사용]\U0001F6E0️Refactor Template\U0001F6E0️"
+name: "\U0001F6E0️Refactor Template\U0001F6E0️"
 about: 기능 리펙토링 / 수정 시 생성하는 이슈 템플릿 입니다.
 title: "[Refactor]"
 labels: ''

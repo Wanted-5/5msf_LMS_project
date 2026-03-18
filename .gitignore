@@ -1,8 +1,23 @@
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+.kotlin
+
+.idea
+
 ### IntelliJ IDEA ###
+.idea/modules.xml
+.idea/jarRepositories.xml
+.idea/compiler.xml
+.idea/libraries/
+*.iws
+*.iml
+*.ipr
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-.kotlin
 
 ### Eclipse ###
 .apt_generated
@@ -29,11 +44,8 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-
-/.idea
-
-# Created by https://www.toptal.com/developers/gitignore/api/java,git,windows,web
-# Edit at https://www.toptal.com/developers/gitignore?templates=java,git,windows,web
+# Created by https://www.toptal.com/developers/gitignore/api/java,gradle,groovy,git,web,windows
+# Edit at https://www.toptal.com/developers/gitignore?templates=java,gradle,groovy,git,web,windows
 
 ### Git ###
 # Created by git for backups. To disable backups in Git:
@@ -50,9 +62,34 @@ bin/
 *_LOCAL_*.txt
 *_REMOTE_*.txt
 
+### Groovy ###
+# .gitignore created from Groovy contributors in https://github.com/apache/groovy/blob/master/.gitignore
+
+user.gradle
+.gradle/
+target/
+build/
+out/
+
+*.DS_Store
+*.class
+*.swp
+*~
+
+.idea
+*.iml
+*.ipr
+*.iws
+.shelf
+
+.settings/
+.classpath
+.project
+bin/
+
+
 ### Java ###
 # Compiled class file
-*.class
 
 # Log file
 *.log
@@ -117,4 +154,34 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/java,git,windows,web
+### Gradle ###
+.gradle
+**/build/
+!src/**/build/
+
+settings.gradle
+gradlew
+gradlew.bat
+
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Avoid ignore Gradle wrappper properties
+!gradle-wrapper.properties
+
+# Cache of project
+.gradletasknamecache
+
+# Eclipse Gradle plugin generated files
+# Eclipse Core
+# JDT-specific (Eclipse Java Development Tools)
+
+### Gradle Patch ###
+# Java heap dump
+*.hprof
+
+# End of https://www.toptal.com/developers/gitignore/api/java,gradle,groovy,git,web,windows

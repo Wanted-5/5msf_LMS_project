@@ -16,6 +16,7 @@ public class JDBCTemplate {
 
     // static 블록은 정적 코드 블럭으로서
     // 클래스가 로드 될 때 한번만 실행된다.
+
     static {
         Properties prop = new Properties();
         //JDBCTemplate.class.getClassLoader() : 클래스의 메모리에 로드하는 역활을 한다.

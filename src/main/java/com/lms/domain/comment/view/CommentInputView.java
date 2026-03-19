@@ -19,6 +19,13 @@ public class CommentInputView {
 
     Scanner sc = new Scanner(System.in);
 
+    public void showInitialMenu() {
+        System.out.print("이동할 게시글 번호를 입력하세요: ");
+        long boardId = Long.parseLong(sc.nextLine());
+
+        this.CommentMenu(boardId);
+    }
+
     public void CommentMenu(long boardId) {
         while (true) {
             System.out.println("====댓글 메뉴====");
@@ -62,6 +69,7 @@ public class CommentInputView {
     }
 
     private void writeComment(long boardId) {
+
         System.out.print("댓글을 입력해주세요 : ");
         String content = sc.nextLine();
 

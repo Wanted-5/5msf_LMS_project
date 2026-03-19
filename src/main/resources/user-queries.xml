@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <properties>
+
     <query key="users.findByUsername">
         SELECT * FROM Users WHERE username = ?
     </query>
-
     <query key="users.insertUser">
         insert into Users
         (username, password, email, name, nickname, phone_number, address, gender, introduction, role)

@@ -2,7 +2,7 @@
 //
 //import com.lms.domain.attendance.controller.AttendController;
 //
-//import java.util.Scanner;
+
 //
 //public class AttendInputView {
 //

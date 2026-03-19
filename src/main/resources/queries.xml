@@ -11,4 +11,14 @@
         SELECT * FROM comments
         WHERE board_id = ?, user_id = ?
     </query>
+    <query key="users.findByUsername">
+        SELECT * FROM Users WHERE username = ?
+    </query>
+    <query key="users.insertUser">
+        insert into Users
+        (username, password, email, name, nickname, phone_number, address, gender, introduction, role)
+        VALUES
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    </query>
+
 </properties>

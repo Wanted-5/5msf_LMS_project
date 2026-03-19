@@ -1,10 +1,9 @@
 //package com.lms.domain.attendance.service;
 //
 //
-//import com.lms.domain.attendance.dao.AttendDAO;
-//import com.lms.domain.attendance.dto.AttendDTO;
+
 //
-//import java.sql.Connection;
+
 //
 //public class AttendService {
 //

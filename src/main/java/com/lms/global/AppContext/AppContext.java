@@ -1,34 +1,36 @@
-package com.lms.global.common;
+package com.lms.global.AppContext;
 
-//import com.lms.domain.attendance.controller.AttendController;
-//import com.lms.domain.attendance.service.AttendService;
-//import com.lms.domain.attendance.view.AttendInputView;
-//import com.lms.domain.attendance.view.AttendOutputView;
+
 import com.lms.domain.comment.controller.CommentController;
 import com.lms.domain.comment.service.CommentService;
 import com.lms.domain.comment.view.CommentInputView;
 import com.lms.domain.comment.view.CommentOutputView;
+import com.lms.domain.users.controller.UserController;
+import com.lms.domain.users.service.UserService;
+import com.lms.domain.users.view.UserInputView;
+import com.lms.domain.users.view.UserOutputView;
 
 import java.sql.Connection;
 
 public class AppContext {
 
-//     유저 커넥션
-//    public void userAppContext(Connection con) {
-//        UserService userService = new UserService(con);
-//        UserController userController = new UserController(userService);
-//        UserOutputView userOutputView = new UserOutputView();
-//        UserInputView userInputView = new UserInputView(userController, userOutputView);
-//    }
+    // 유저 커넥션
+    public void userAppContext(Connection con) {
+        UserService userService = new UserService(con);
+        UserController userController = new UserController(userService);
+        UserOutputView userOutputView = new UserOutputView();
+        UserInputView userInputView = new UserInputView(userController, userOutputView);
+        userInputView.displayInitialMenu();
+    }
 
-    // 출결 커넥션
+//    // 출결 커넥션
 //    public void attendAppContext(Connection con) {
 //        AttendService attendService = new AttendService(con);
 //        AttendController attendController = new AttendController(attendService);
 //        AttendOutputView attendOutputView = new AttendOutputView();
 //        AttendInputView attendInputView = new AttendInputView(attendController, attendOutputView);
 //    }
-
+//
 //    // 시티 커넥션
 //    public void cityAppContext(Connection con) {
 //        CityService cityService = new CityService(con);
@@ -36,7 +38,7 @@ public class AppContext {
 //        CityOutputView cityOutputView = new CityOutputView();
 //        CityInputView cityInputView = new CityInputView(cityController, cityOutputView);
 //    }
-
+//
 //    // 마을 커넥션
 //    public void villageAppContext(Connection con) {
 //        VillageService villageService = new VillageService(con);
@@ -44,7 +46,7 @@ public class AppContext {
 //        VillageOutputView villageOutputView = new VillageOutputView();
 //        VillageInputView villageInputView = new VillageInputView(villageController, villageOutputView);
 //    }
-
+//
 //    // 섹션 커넥션
 //    public void sectionAppContext(Connection con) {
 //        SectionService sectionService = new SectionService(con);
@@ -52,7 +54,7 @@ public class AppContext {
 //        SectionOutputView sectionOutputView = new SectionOutputView();
 //        SectionInputView sectionInputView = new SectionInputView(sectionController, sectionOutputView);
 //    }
-
+//
 //    // 카테고리 커넥션
 //    public void categoryAppContext(Connection con) {
 //        CategoryService categoryService = new CategoryService(con);
@@ -60,7 +62,7 @@ public class AppContext {
 //        CategoryOutputView categoryOutputView = new CategoryOutputView();
 //        CategoryInputView categoryInputView = new CategoryInputView(categoryController, categoryOutputView);
 //    }
-
+//
 //    // 게시판 커넥션
 //    public void boardAppContext(Connection con) {
 //        BoardService boardService = new BoardService(con);
@@ -70,6 +72,7 @@ public class AppContext {
 //    }
 
     // 댓글 커넥션
+
     public void commentAppContext(Connection con, Long boardId) {
         CommentService commentService = new CommentService(con);
         CommentController commentController = new CommentController(commentService);
@@ -85,7 +88,7 @@ public class AppContext {
 //        MafiaOutputView mafiaOutputView = new MafiaOutputView();
 //        MafiaInputView mafiaInputView = new MafiaInputView(mafiaController, mafiaOutputView);
 //    }
-
+//
 //    // 퀴즈 커넥션
 //    public void quizAppContext(Connection con) {
 //        QuizService quizService = new QuizService(con);
@@ -93,13 +96,13 @@ public class AppContext {
 //        QuizOutputView quizOutputView = new QuizOutputView();
 //        QuizInputView quizInputView = new QuizInputView(quizController, quizOutputView);
 //    }
-
+//
 //    // 퀴즈 제출 커넥션
 //    public void quizSubmissionAppContext(Connection con) {
-//        QuizSubmissionService quizSubmissionService = new QuizSubmissionService(con);
-//        QuizSubmissionController quizSubmissionController = new QuizSubmissionController(quizSubmissionService);
-//        QuizSubmissionOutputView quizSubmissionOutputView = new QuizSubmissionOutputView();
-//        QuizSubmissionInputView quizSubmissionInputView = new QuizSubmissionInputView(quizSubmissionController, quizSubmissionOutputView);
+//        QuizSubService quizSubService = new QuizSubService(con);
+//        QuizSubController quizSubController = new QuizSubController(quizSubService);
+//        QuizSubOutputView quizSubOutputView = new QuizSubOutputView();
+//        QuizSubInputView quizSubInputView = new QuizSubInputView(quizSubController, quizSubOutputView);
 //    }
 
 

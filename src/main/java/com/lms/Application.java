@@ -1,8 +1,7 @@
 package com.lms;
 
-import com.lms.global.common.AppContext;
+import com.lms.global.AppContext.AppContext;
 import com.lms.global.config.JDBCTemplate;
-
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -21,6 +20,10 @@ public class Application {
             long boardId = Long.parseLong(sc.nextLine());
 
             AppContext appContext = new AppContext();
+            appContext.userAppContext(con);
+
+
+
             appContext.commentAppContext(con, boardId);
 
 
@@ -31,8 +34,6 @@ public class Application {
             JDBCTemplate.cloase();
             System.out.println("🔚 데이테 베이스 종료...");
         }
-
-
 
     }
 }

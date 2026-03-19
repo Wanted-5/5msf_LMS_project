@@ -22,11 +22,6 @@ public class CommentController {
 
         Long currentUserId = 1L;
 
-        if (currentUserId == null) {
-            System.out.println("🚨 로그인이 필요한 서비스입니다.");
-            return false;
-        }
-
         CommentDTO newComment = new CommentDTO(boardId, currentUserId, content);
 
 

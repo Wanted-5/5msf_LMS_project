@@ -2,7 +2,9 @@ package com.lms.domain.users.controller;
 
 import com.lms.domain.users.dao.UserDAO;
 import com.lms.domain.users.dto.request.LoginRequest;
+import com.lms.domain.users.dto.request.SignupRequest;
 import com.lms.domain.users.dto.response.LoginResponse;
+import com.lms.domain.users.dto.response.SignupResponse;
 import com.lms.domain.users.service.UserService;
 
 import java.sql.Connection;
@@ -17,9 +19,14 @@ public class UserController {
         this.userService = userService;
     }
 
-    public LoginResponse loginProcess(String username, String password) throws SQLException {
+    public LoginResponse loginProcess(String username, String password) throws Exception {
         LoginRequest request = new LoginRequest(username, password);
 
         return userService.login(request);
+    }
+
+    public SignupResponse signupProcess(SignupRequest request) throws Exception {
+
+        return userService.signup(request);
     }
 }

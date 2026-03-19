@@ -2,7 +2,10 @@ package com.lms.domain.users.view;
 
 import com.lms.domain.users.controller.UserController;
 import com.lms.domain.users.dto.request.LoginRequest;
+import com.lms.domain.users.dto.request.SignupRequest;
 import com.lms.domain.users.dto.response.LoginResponse;
+import com.lms.domain.users.dto.response.SignupResponse;
+import com.lms.global.common.UserSession;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -76,17 +79,77 @@ public class UserInputView {
         try {
             LoginResponse response = userController.loginProcess(username, password);
 
+            UserSession.setLoggedInUser(response);
+
             userOutputView.displayLoginSuccess(response);
 
             // TODO: response.getRole()을 확인 후 강사 메뉴 / 학생 메뉴로 이동하는 로직이 추가!
 
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             userOutputView.displayLoginFailure(e.getMessage());
         }
     }
 
     private void processSignup() {
+
+        try {
+            System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
+            System.out.println("║               🌱 Of Course 마을 주민 등록증 발급                ║");
+            System.out.println("╚══════════════════════════════════════════════════════════════╝");
+
+            System.out.print("  ▶ 사용할 아이디: ");
+            String username = sc.nextLine();
+
+            System.out.print("  ▶ 비밀번호: ");
+            String password = sc.nextLine();
+
+            System.out.print("  ▶ 이메일: ");
+            String email = sc.nextLine();
+
+            System.out.print("  ▶ 실명(이름): ");
+            String name = sc.nextLine();
+
+            System.out.print("  ▶ 사용할 닉네임: ");
+            String nickname = sc.nextLine();
+
+            System.out.print("  ▶ 전화번호 (예: 010-1234-5678): ");
+            String phoneNumber = sc.nextLine();
+
+            System.out.print("  ▶ 거주지 주소: ");
+            String address = sc.nextLine();
+
+            System.out.print("  ▶ 성별 (M: 남성, F: 여성): ");
+            String genderInput = sc.nextLine();
+            boolean isFemale = genderInput.equalsIgnoreCase("F"); // M이면 false, F면 true
+
+            System.out.print("  ▶ 나를 표현하는 한 줄 소개: ");
+            String introduction = sc.nextLine();
+
+            System.out.println("\n  [ 시스템 처리 중... ]");
+
+            SignupRequest request = new SignupRequest(
+                    username,
+                    password,
+                    email,
+                    name,
+                    nickname,
+                    phoneNumber,
+                    address,
+                    isFemale,
+                    introduction
+            );
+
+            SignupResponse response = userController.signupProcess(request);
+
+            userOutputView.displaySignupSuccess(response);
+
+        } catch (Exception e) {
+            userOutputView.displaySignupFailure(e.getMessage());
+        }
+
+
+
 
     }
 

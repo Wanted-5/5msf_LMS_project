@@ -6,10 +6,7 @@ import com.lms.domain.users.dto.request.LoginRequest;
 import com.lms.domain.users.dto.response.LoginResponse;
 import com.lms.global.util.QueryUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class UserDAO {
 
@@ -17,6 +14,37 @@ public class UserDAO {
 
     public UserDAO(Connection connection) {
         this.connection = connection;
+    }
+
+    public Long insertUser(UserDTO newUser) throws SQLException {
+
+        String query = QueryUtil.getQuery("users.insertUser");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setString(1, newUser.getUsername());
+            pstmt.setString(2, newUser.getPassword());
+            pstmt.setString(3, newUser.getEmail());
+            pstmt.setString(4, newUser.getName());
+            pstmt.setString(5, newUser.getNickname());
+            pstmt.setString(6, newUser.getPhoneNumber());
+            pstmt.setString(7, newUser.getAddress());
+            pstmt.setBoolean(8, newUser.isGender());
+            pstmt.setString(9, newUser.getIntroduction());
+            pstmt.setString(10, newUser.getRole().name());
+
+            int resultQueryRow = pstmt.executeUpdate();
+
+            if (resultQueryRow > 0) {
+                // ResultSet도 끝나면 닫히도록 try문으로 감싸기
+                try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        return rs.getLong(1);
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 
 

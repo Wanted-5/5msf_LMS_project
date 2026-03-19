@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<properties>
+
+    <query key="comment.target">
+        INSERT INTO Comments (board_id, creator_id, content) VALUES (?, ?, ?)
+    </query>
+    <query key ="comment.adminselect">
+        SELECT * FROM comments
+        WHERE board_id = ?
+    </query>
+    <query key ="comment.userselect">
+        SELECT * FROM comments
+        WHERE board_id = ?, user_id = ?
+    </query>
+
+</properties>

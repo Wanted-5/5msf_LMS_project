@@ -15,4 +15,12 @@
         SELECT * FROM Users WHERE user_id = ?
     </query>
 
+    <query key="users.updateNickname">
+        UPDATE Users SET nickname = ? WHERE user_id = ?
+    </query>
+
+    <query key="users.updateEmail">
+        UPDATE Users SET email = ? WHERE user_id = ?
+    </query>
+
 </properties>

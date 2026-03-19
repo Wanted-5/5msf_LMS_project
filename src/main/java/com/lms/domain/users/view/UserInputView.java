@@ -5,6 +5,7 @@ import com.lms.domain.users.dto.request.LoginRequest;
 import com.lms.domain.users.dto.request.SignupRequest;
 import com.lms.domain.users.dto.response.LoginResponse;
 import com.lms.domain.users.dto.response.MyPageResponse;
+import com.lms.domain.users.dto.response.MyPageUpdateResponse;
 import com.lms.domain.users.dto.response.SignupResponse;
 import com.lms.global.common.UserSession;
 
@@ -219,11 +220,12 @@ public class UserInputView {
             switch (choice) {
                 case "1":
                     // TODO: 내 정보 조회 로직
-                    showMyPageProcess();
+                    showProfileProcess();
                     System.out.println("\n  [ 시스템 ] 거울을 봅니다. (내 정보 조회 실행)");
                     break;
                 case "2":
                     // TODO: 내 정보 수정 로직
+                    displayEditInfoMenu();
                     System.out.println("\n  [ 시스템 ] 옷장을 정리합니다. (내 정보 수정 실행)");
                     break;
                 case "3":
@@ -240,7 +242,69 @@ public class UserInputView {
         }
     }
 
-    private void showMyPageProcess() {
+    private void displayEditInfoMenu() {
+        while (true) {
+            System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
+            System.out.println("║                    👗 옷장 정리 (정보 수정)                  ║");
+            System.out.println("╚══════════════════════════════════════════════════════════════╝");
+            System.out.println("      [ 1 ] 닉네임 변경 (새로운 명찰 달기)");
+            System.out.println("      [ 2 ] 이메일 변경 (연락처 갱신)");
+            System.out.println("      [ 3 ] 비밀번호 변경 (자물쇠 교체)");
+            System.out.println("      [ 4 ] 이전으로 (옷장 닫기)");
+            System.out.println("────────────────────────────────────────────────────────────────");
+            System.out.print("  ▶ 원하시는 행동의 번호를 입력해주세요 : ");
+
+            String choice = sc.nextLine();
+
+            switch (choice) {
+                case "1":
+                    System.out.println("\n  [ 시스템 ] 새로운 명찰을 준비합니다.");
+                    updateNicknameProcess();
+                    break;
+                case "2":
+                    System.out.println("\n  [ 시스템 ] 새로운 연락처를 수첩에 적습니다.");
+                    updateEmailProcess();
+                    break;
+                case "3":
+                    System.out.println("\n  [ 시스템 ] 안전을 위해 새로운 자물쇠로 교체합니다.");
+                    updatePasswordProcess();
+                    break;
+                case "4":
+                    System.out.println("\n  🚪 옷장 문을 닫고 다시 방으로 돌아갑니다.");
+                    // 🌟 return을 호출하면 이 메서드가 종료되고, 이전 화면인 '숙소 메인 메뉴'로 돌아갑니다.
+                    return;
+                default:
+                    System.out.println("\n  [🚨] 올바른 번호(1, 2, 3, 4)를 입력해주세요.");
+            }
+        }
+    }
+
+    private void updatePasswordProcess() {
+        userController.updatePasswordProcess();
+    }
+
+    private void updateEmailProcess() {
+        userController.updateEmailProcess();
+    }
+
+    private void updateNicknameProcess() {
+        try {
+            System.out.println("\n  [ 시스템 ] 새로운 명찰을 준비합니다.");
+            System.out.print("  ▶ 새롭게 달고 싶은 닉네임(명찰)을 입력하세요: ");
+            String newNickname = sc.nextLine();
+
+            MyPageUpdateResponse response = userController.updateNicknameProcess(newNickname);
+
+            userOutputView.displayUpdateSuccess(response);
+        } catch (Exception e) {
+            // [❌개발 중 삭제 금지] 병합 중에도 추가하기, 디버깅용
+            e.printStackTrace();
+            userOutputView.displayUpdateFailure(e.getMessage());
+        }
+    }
+
+
+    private void showProfileProcess() {
         try {
             MyPageResponse response =userController.findById();
 

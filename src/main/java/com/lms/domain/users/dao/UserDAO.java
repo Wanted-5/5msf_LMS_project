@@ -81,6 +81,23 @@ public class UserDAO {
         return null;
     }
 
+    public UserDTO updateNickname(Long userId, String newNickname) throws SQLException {
+
+        String query = QueryUtil.getQuery("users.updateNickname");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, newNickname);
+            pstmt.setLong(2, userId);
+
+            int rs = pstmt.executeUpdate();
+            if (rs == 0) {
+                throw new SQLException("업데이트된 유저가 없습니다. (존재하지 않는 User ID)");
+            }
+
+        }
+        return findById(userId);
+    }
+
 
     // ---------- 내부 메서드 ----------------
     private UserDTO convertToDTO(ResultSet rs) throws SQLException {

@@ -7,6 +7,7 @@ import com.lms.domain.users.dto.request.LoginRequest;
 import com.lms.domain.users.dto.request.SignupRequest;
 import com.lms.domain.users.dto.response.LoginResponse;
 import com.lms.domain.users.dto.response.MyPageResponse;
+import com.lms.domain.users.dto.response.MyPageUpdateResponse;
 import com.lms.domain.users.dto.response.SignupResponse;
 import com.lms.global.common.UserSession;
 import com.lms.global.util.PasswordUtil;
@@ -135,5 +136,29 @@ public class UserService {
         } catch (SQLException e) {
             throw new RuntimeException("[🚨] 시스템 오류로 마이페이지를 조회할 수 없습니다. 잠시 후 다시 시도해주세요.", e);
         }
+    }
+
+    public MyPageUpdateResponse updateNickname(String newNickname) {
+
+        LoginResponse currentUser = UserSession.getLoggedInUser();
+
+        if (currentUser.getNickname().equals(newNickname)) {
+            throw new IllegalArgumentException("기존과 동일한 닉네임입니다. 다른 명찰을 준비해 주세요.");
+        }
+
+        try {
+            UserDTO updatedUser =userDAO.updateNickname(currentUser.getUserId(), newNickname);
+
+            currentUser.setNickname(newNickname);
+
+            return new MyPageUpdateResponse(
+                    updatedUser.getNickname(),
+                    "닉네임(명찰)이 성공적으로 변경되었습니다."
+            );
+
+        } catch (SQLException e) {
+            throw new RuntimeException("명찰 교체 중 시스템 오류가 발생했습니다.", e);
+        }
+
     }
 }

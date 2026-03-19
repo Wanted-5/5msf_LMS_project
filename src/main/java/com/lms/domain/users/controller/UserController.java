@@ -5,6 +5,7 @@ import com.lms.domain.users.dto.request.LoginRequest;
 import com.lms.domain.users.dto.request.SignupRequest;
 import com.lms.domain.users.dto.response.LoginResponse;
 import com.lms.domain.users.dto.response.MyPageResponse;
+import com.lms.domain.users.dto.response.MyPageUpdateResponse;
 import com.lms.domain.users.dto.response.SignupResponse;
 import com.lms.domain.users.service.UserService;
 
@@ -38,5 +39,15 @@ public class UserController {
     // 마이페이지 목록 조회
     public MyPageResponse findById() throws Exception {
         return userService.findById();
+    }
+
+    public void updatePasswordProcess() {
+    }
+
+    public void updateEmailProcess() {
+    }
+
+    public MyPageUpdateResponse updateNicknameProcess(String newNickname) throws Exception {
+        return userService.updateNickname(newNickname);
     }
 }

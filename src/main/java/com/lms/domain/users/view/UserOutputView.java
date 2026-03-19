@@ -2,6 +2,7 @@ package com.lms.domain.users.view;
 
 import com.lms.domain.users.dto.response.LoginResponse;
 import com.lms.domain.users.dto.response.MyPageResponse;
+import com.lms.domain.users.dto.response.MyPageUpdateResponse;
 import com.lms.domain.users.dto.response.SignupResponse;
 
 public class UserOutputView {
@@ -60,6 +61,28 @@ public class UserOutputView {
         System.out.println("  ▶ 한줄소개 : " + intro);
 
         System.out.println("  ▶ 소속마을 : 🚧 추후 업데이트 예정");
+        System.out.println("────────────────────────────────────────────────────────────────\n");
+    }
+
+    public void displayUpdateSuccess(MyPageUpdateResponse response) {
+        System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
+        System.out.println("║                    ✨ 옷장 정리 완료 ✨                        ║");
+        System.out.println("╚══════════════════════════════════════════════════════════════╝");
+
+        // 1. Service에서 전달해 준 맞춤형 성공 메시지 출력
+        System.out.println("  🎉 " + response.getMessage());
+
+        // 2. 범용 필드인 updatedValue를 통해 '무엇이 어떻게 바뀌었는지' 결과 출력
+        System.out.println("  ▶ 반영된 최신 정보: [ " + response.getUpdatedValue() + " ]");
+
+        System.out.println("────────────────────────────────────────────────────────────────\n");
+    }
+
+    // 🌟 정보 수정 실패 시 출력 포맷
+    public void displayUpdateFailure(String errorMessage) {
+        System.out.println("\n🚨 옷장 정리에 실패했습니다.");
+        System.out.println("  [오류 상세] " + errorMessage);
+        System.out.println("  다시 한 번 확인하고 시도해 주세요.");
         System.out.println("────────────────────────────────────────────────────────────────\n");
     }
 }

@@ -5,8 +5,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariPoolMXBean;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 public class JDBCTemplate {
@@ -36,10 +35,10 @@ public class JDBCTemplate {
             config.setMaximumPoolSize(10); // 최대 10개의 커넥션 관리
             config.setMinimumIdle(5); // 최소 5개의 커넥션 유지
             // 커넥션을 사용할 수 있는 최대 시간, 30분 후 새롭게 생성한다.
-            config.setMaxLifetime(180000);
+            config.setMaxLifetime(1800000); // 30분
+            config.setIdleTimeout(600000); // 10분 MaxLife보다 짧게
             // 커넥션 연결 요청이 2초 이상 지연되면 연결 실패로 인식한다.
-            config.setConnectionTimeout(2000);
-
+            config.setConnectionTimeout(30000);
             // 구성한 환경 설정을 바탕으로 datasource 객체 생성
             datasource = new HikariDataSource(config);
 
@@ -69,5 +68,46 @@ public class JDBCTemplate {
         System.out.println("🏋️ 활성 커넥션 수 : " + poolMXBean.getActiveConnections());
         System.out.println("🧘 유휴(idle) 커넥션 수 : " + poolMXBean.getIdleConnections());
         System.out.println("=============================================");
+    }
+
+
+    public static void close(ResultSet rs) {
+        try {
+            if (rs != null && !rs.isClosed()) {
+                rs.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void close(PreparedStatement pstmt) {
+        try {
+            if (pstmt != null && !pstmt.isClosed()) {
+                pstmt.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void close(Statement stmt) {
+        try {
+            if (stmt != null && !stmt.isClosed()) {
+                stmt.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void close(Connection con) {
+        try {
+            if (con != null && !con.isClosed()) {
+                con.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

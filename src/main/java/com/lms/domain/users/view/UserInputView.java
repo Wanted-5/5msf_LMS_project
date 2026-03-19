@@ -82,7 +82,7 @@ public class UserInputView {
             UserSession.setLoggedInUser(response);
 
             userOutputView.displayLoginSuccess(response);
-
+//이자리에 메서드 넣어 테스트
             // TODO: response.getRole()을 확인 후 강사 메뉴 / 학생 메뉴로 이동하는 로직이 추가!
 
 

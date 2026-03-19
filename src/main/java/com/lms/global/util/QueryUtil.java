@@ -17,7 +17,7 @@ public class QueryUtil {
 
     // 팀원 파일 모아둔 배열
     private static final String[] QUERIES_FILES = {
-            "village-queries.xml"
+            "section-queries.xml"
 
     };
 

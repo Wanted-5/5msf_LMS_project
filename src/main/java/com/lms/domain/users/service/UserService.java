@@ -6,6 +6,7 @@ import com.lms.domain.users.dto.UserDTO;
 import com.lms.domain.users.dto.request.LoginRequest;
 import com.lms.domain.users.dto.request.SignupRequest;
 import com.lms.domain.users.dto.response.LoginResponse;
+import com.lms.domain.users.dto.response.MyPageResponse;
 import com.lms.domain.users.dto.response.SignupResponse;
 import com.lms.global.common.UserSession;
 import com.lms.global.util.PasswordUtil;
@@ -111,5 +112,28 @@ public class UserService {
         }
 
         UserSession.logout();
+    }
+
+    public MyPageResponse findById() {
+
+        try {
+            Long currentUserId = UserSession.getLoggedInUser().getUserId();
+            UserDTO user = userDAO.findById(currentUserId);
+
+            if (user == null) {
+                throw new IllegalArgumentException("[❌마이페이지 조회 실패❌] 존재하지 않는 유저입니다.");
+            }
+
+            return new MyPageResponse(
+                    user.getName(),
+                    user.getNickname(),
+                    user.getEmail(),
+                    user.getPhoneNumber(),
+                    user.getIntroduction()
+            );
+
+        } catch (SQLException e) {
+            throw new RuntimeException("[🚨] 시스템 오류로 마이페이지를 조회할 수 없습니다. 잠시 후 다시 시도해주세요.", e);
+        }
     }
 }

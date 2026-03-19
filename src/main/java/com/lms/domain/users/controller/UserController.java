@@ -4,6 +4,7 @@ import com.lms.domain.users.dao.UserDAO;
 import com.lms.domain.users.dto.request.LoginRequest;
 import com.lms.domain.users.dto.request.SignupRequest;
 import com.lms.domain.users.dto.response.LoginResponse;
+import com.lms.domain.users.dto.response.MyPageResponse;
 import com.lms.domain.users.dto.response.SignupResponse;
 import com.lms.domain.users.service.UserService;
 
@@ -32,5 +33,10 @@ public class UserController {
 
     public void logout() {
         userService.logout();
+    }
+
+    // 마이페이지 목록 조회
+    public MyPageResponse findById() throws Exception {
+        return userService.findById();
     }
 }

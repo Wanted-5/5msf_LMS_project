@@ -1,12 +1,13 @@
 package com.lms;
 
 import com.lms.global.AppContext.AppContext;
+import com.lms.global.AppContext.AppContext;
+import com.lms.global.AppContext.CommentAppContext;
 import com.lms.global.AppContext.CommentAppContext;
 import com.lms.global.config.JDBCTemplate;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Scanner;
 
 public class Application {
     public static void main(String[] args) {
@@ -17,14 +18,12 @@ public class Application {
             JDBCTemplate.printConnectionStatus();
 
             AppContext appContext = new AppContext(con);
-            appContext.commentAppContext.commentInputView.showInitialMenu();
-            //appContext.userAppContext.userInputView.displayInitialMenu();
+            appContext.userAppContext.userInputView.displayInitialMenu();
+//            appContext.commentAppContext.commentInputView.showInitialMenu();
 
-
-
-            CommentAppContext commentAppContext = new CommentAppContext(con);
-
-
+            // 테스트용
+            // displayMyPageMenu()
+            // displayInitialMenu
 
         } catch (SQLException e) {
             System.err.println("🚨 데이터 베이스 연결 실패... 🚨");

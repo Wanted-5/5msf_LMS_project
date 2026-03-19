@@ -1,4 +1,4 @@
 package com.lms.domain.section.controller;
 
-public class c {
+public class SectionController {
 }

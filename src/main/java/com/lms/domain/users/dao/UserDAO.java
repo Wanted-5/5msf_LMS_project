@@ -2,8 +2,6 @@ package com.lms.domain.users.dao;
 
 import com.lms.domain.users.constant.UserRole;
 import com.lms.domain.users.dto.UserDTO;
-import com.lms.domain.users.dto.request.LoginRequest;
-import com.lms.domain.users.dto.response.LoginResponse;
 import com.lms.global.util.QueryUtil;
 
 import java.sql.*;
@@ -93,7 +91,22 @@ public class UserDAO {
             if (rs == 0) {
                 throw new SQLException("업데이트된 유저가 없습니다. (존재하지 않는 User ID)");
             }
+        }
+        return findById(userId);
+    }
 
+    public UserDTO updateEmail(Long userId, String newEmail) throws SQLException {
+
+        String query = QueryUtil.getQuery("users.updateEmail");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, newEmail);
+            pstmt.setLong(2, userId);
+
+            int rs = pstmt.executeUpdate();
+            if (rs == 0) {
+                throw new SQLException("업데이트된 유저가 없습니다. (존재하지 않는 User ID)");
+            }
         }
         return findById(userId);
     }

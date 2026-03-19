@@ -44,7 +44,8 @@ public class UserController {
     public void updatePasswordProcess() {
     }
 
-    public void updateEmailProcess() {
+    public MyPageUpdateResponse updateEmailProcess(String newEmail) throws Exception{
+        return userService.updateEmail(newEmail);
     }
 
     public MyPageUpdateResponse updateNicknameProcess(String newNickname) throws Exception {

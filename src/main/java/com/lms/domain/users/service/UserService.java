@@ -161,4 +161,31 @@ public class UserService {
         }
 
     }
+
+    public MyPageUpdateResponse updateEmail(String newEmail) {
+
+        try {
+            LoginResponse currentUser = UserSession.getLoggedInUser();
+            UserDTO existingUser = userDAO.findById(currentUser.getUserId());
+
+            // 유저 정보 조회
+            if (existingUser == null) {
+                throw new IllegalStateException("유저 정보를 찾을 수 없습니다.");
+            }
+
+            if (existingUser.getEmail().equals(newEmail)) {
+                throw new IllegalArgumentException("기존과 동일한 이메일입니다. 다른 이메일을 작성해 주세요.");
+            }
+
+            UserDTO updatedUser = userDAO.updateEmail(currentUser.getUserId(), newEmail);
+
+            return new MyPageUpdateResponse(
+                    updatedUser.getEmail(),
+                    "이메일(연락처)이 성공적으로 변경되었습니다."
+            );
+
+        } catch (SQLException e) {
+            throw new RuntimeException("이메일 변경 중 시스템 오류가 발생했습니다.", e);
+        }
+    }
 }

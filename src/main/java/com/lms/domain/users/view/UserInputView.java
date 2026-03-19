@@ -284,7 +284,20 @@ public class UserInputView {
     }
 
     private void updateEmailProcess() {
-        userController.updateEmailProcess();
+
+        try {
+            System.out.println("\n  [ 시스템 ] 새로운 연락처를 적을 수첩을 준비합니다.");
+            System.out.print("  ▶ 새롭게 적고 싶은 이메일을 입력하세요: ");
+            String newEmail = sc.nextLine();
+
+           MyPageUpdateResponse response =userController.updateEmailProcess(newEmail);
+
+           userOutputView.displayUpdateSuccess(response);
+        } catch (Exception e) {
+            // [❌개발 중 삭제 금지] 병합 중에도 추가하기, 디버깅용
+            e.printStackTrace();
+            userOutputView.displayUpdateFailure(e.getMessage());
+        }
     }
 
     private void updateNicknameProcess() {
@@ -311,6 +324,8 @@ public class UserInputView {
             userOutputView.displayMyPageSuccess(response);
 
         } catch (Exception e) {
+            // [❌개발 중 삭제 금지] 병합 중에도 추가하기, 디버깅용
+            e.printStackTrace();
             userOutputView.displayMyPageFailure(e.getMessage());
         }
     }

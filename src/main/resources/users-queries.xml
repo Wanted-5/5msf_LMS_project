@@ -11,4 +11,8 @@
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     </query>
 
+    <query key="users.findById">
+        SELECT * FROM Users WHERE user_id = ?
+    </query>
+
 </properties>

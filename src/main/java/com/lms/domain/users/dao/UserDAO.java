@@ -16,6 +16,23 @@ public class UserDAO {
         this.connection = connection;
     }
 
+    //
+    public UserDTO findById(Long userId) throws SQLException {
+
+        String query = QueryUtil.getQuery("users.findById");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, userId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return convertToDTO(rs);
+                }
+            }
+        }
+        return null;
+    }
+
     public Long insertUser(UserDTO newUser) throws SQLException {
 
         String query = QueryUtil.getQuery("users.insertUser");

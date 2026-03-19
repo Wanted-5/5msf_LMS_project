@@ -18,7 +18,6 @@ public class CommentAppContext {
         CommentOutputView commentOutputView = new CommentOutputView();
 
         this.commentInputView = new CommentInputView(commentController, commentOutputView);
-        commentInputView.showInitialMenu();
     }
 
 }

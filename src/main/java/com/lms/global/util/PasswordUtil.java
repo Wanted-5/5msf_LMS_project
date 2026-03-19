@@ -44,4 +44,13 @@ public class PasswordUtil {
             throw new RuntimeException("해싱 알고리즘을 찾을 수 없습니다.", e);
         }
     }
+
+    public static boolean checkPassword(String plainPassword, String hashedPassword) {
+
+        // 평문 패스워드를 -> 암호화 하기, 즉 사용자 입력 값을 암호화하여 담음
+        String plainToHashed = hash(plainPassword);
+
+        // 검증
+        return plainToHashed.equals(hashedPassword);
+    }
 }

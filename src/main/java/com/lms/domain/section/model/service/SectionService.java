@@ -23,4 +23,8 @@ public class SectionService {
     public SectionDTO findSectionById(long sectionId) {
         return sectionDAO.findSectionById(con, sectionId);
     }
+
+    public SectionDTO findSectionByVillageIdAndSectionId(long villageId, long sectionId) {
+        return sectionDAO.findSectionByVillageIdAndSectionId(con, villageId, sectionId);
+    }
 }

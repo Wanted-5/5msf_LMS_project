@@ -30,4 +30,13 @@ public class SectionController {
             return null;
         }
     }
+
+    public SectionDTO getSectionByVillageIdAndSectionId(long villageId, long sectionId) {
+        try {
+            return sectionService.findSectionByVillageIdAndSectionId(villageId, sectionId);
+        } catch (Exception e) {
+            System.out.println("강의 조회 중 오류: " + e.getMessage());
+            return null;
+        }
+    }
 }

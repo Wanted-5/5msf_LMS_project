@@ -163,9 +163,8 @@ public class UserService {
     }
 
     public MyPageUpdateResponse updateEmail(String newEmail) {
-
+        LoginResponse currentUser = UserSession.getLoggedInUser();
         try {
-            LoginResponse currentUser = UserSession.getLoggedInUser();
             UserDTO existingUser = userDAO.findById(currentUser.getUserId());
 
             // 유저 정보 조회
@@ -186,6 +185,37 @@ public class UserService {
 
         } catch (SQLException e) {
             throw new RuntimeException("이메일 변경 중 시스템 오류가 발생했습니다.", e);
+        }
+    }
+
+    public void updatePassword(String currentPassword, String newPassword) {
+        LoginResponse currentUser = UserSession.getLoggedInUser();
+        try {
+            UserDTO existingUser = userDAO.findById(currentUser.getUserId());
+
+            if (existingUser == null) {
+                throw new IllegalStateException("유저 정보를 찾을 수 없습니다.");
+            }
+
+            // 비밀번호 1차 검증
+            if (!PasswordUtil.checkPassword(currentPassword, existingUser.getPassword())) {
+                throw new IllegalArgumentException("현재 비밀번호와 일치하지 않습니다.");
+            }
+
+            // 이전과 같은 비번 검증
+            if (PasswordUtil.checkPassword(newPassword, existingUser.getPassword())) {
+                throw new IllegalArgumentException("동일한 비밀번호를 사용할 수 없습니다.");
+            }
+
+            String hashedNewPassword = PasswordUtil.hash(newPassword);
+
+            userDAO.updatePassword(currentUser.getUserId(), hashedNewPassword);
+
+            // 비밀번호 변경 후 로그아웃 진행
+            UserSession.logout();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("비밀번호 변경 중 시스템 오류가 발생했습니다.", e);
         }
     }
 }

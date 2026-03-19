@@ -1,6 +1,5 @@
 package com.lms.domain.users.controller;
 
-import com.lms.domain.users.dao.UserDAO;
 import com.lms.domain.users.dto.request.LoginRequest;
 import com.lms.domain.users.dto.request.SignupRequest;
 import com.lms.domain.users.dto.response.LoginResponse;
@@ -8,9 +7,6 @@ import com.lms.domain.users.dto.response.MyPageResponse;
 import com.lms.domain.users.dto.response.MyPageUpdateResponse;
 import com.lms.domain.users.dto.response.SignupResponse;
 import com.lms.domain.users.service.UserService;
-
-import java.sql.Connection;
-import java.sql.SQLException;
 
 public class UserController {
 
@@ -41,7 +37,8 @@ public class UserController {
         return userService.findById();
     }
 
-    public void updatePasswordProcess() {
+    public void updatePasswordProcess(String currentPassword, String newPassword) throws Exception{
+        userService.updatePassword(currentPassword, newPassword);
     }
 
     public MyPageUpdateResponse updateEmailProcess(String newEmail) throws Exception{

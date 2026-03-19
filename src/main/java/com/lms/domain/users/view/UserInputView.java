@@ -205,6 +205,10 @@ public class UserInputView {
 
         // 숙소 내부 모션
         while (true) {
+            // 콘솔 출력 전에 세션값 존재 여부 검증하는 코드
+            if (UserSession.getLoggedInUser() == null) {
+                return;
+            }
             System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
             System.out.println("║                    🏡 나의 편안한 숙소                         ║");
             System.out.println("╚══════════════════════════════════════════════════════════════╝");
@@ -233,7 +237,7 @@ public class UserInputView {
                     break;
                 case "0":
                     System.out.println("\n  🚪 문을 열고 다시 활기찬 마을(메인페이지)로 나섭니다...");
-                    // 🌟 return을 사용하면 이 메서드가 종료되고,
+                    // return을 사용하면 이 메서드가 종료되고,
                     // 나를 호출했던 이전 루프(메인페이지 루프)로 자연스럽게 돌아갑니다!
                     return;
                 default:
@@ -244,8 +248,13 @@ public class UserInputView {
 
     private void displayEditInfoMenu() {
         while (true) {
+            // 콘솔 출력 전에 세션값 존재 여부 검증하는 코드
+            if (UserSession.getLoggedInUser() == null) {
+                return;
+            }
+
             System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
-            System.out.println("║                    👗 옷장 정리 (정보 수정)                  ║");
+            System.out.println("║                    👗 옷장 정리 (정보 수정)                     ║");
             System.out.println("╚══════════════════════════════════════════════════════════════╝");
             System.out.println("      [ 1 ] 닉네임 변경 (새로운 명찰 달기)");
             System.out.println("      [ 2 ] 이메일 변경 (연락처 갱신)");
@@ -280,17 +289,33 @@ public class UserInputView {
     }
 
     private void updatePasswordProcess() {
-        userController.updatePasswordProcess();
+        System.out.println("\n  [ 시스템 ] 안전을 위해 자물쇠를 교체합니다.");
+
+        System.out.print("  ▶ 현재 비밀번호 입력: ");
+        String currentPassword = sc.nextLine();
+
+        System.out.print("  ▶ 새로운 비밀번호 입력: ");
+        String newPassword = sc.nextLine();
+
+        try {
+            userController.updatePasswordProcess(currentPassword, newPassword);
+
+            System.out.println("\n🎉 비밀번호가 안전하게 변경되었습니다!");
+            System.out.println("보안을 위해 자동 로그아웃됩니다. 새로운 비밀번호로 다시 로그인해 주세요.\n");
+
+        } catch (Exception e) {
+            // [❌개발 중 삭제 금지] 병합 중에도 추가하기, 디버깅용
+            e.printStackTrace();
+            userOutputView.displayUpdateFailure(e.getMessage());
+        }
     }
 
     private void updateEmailProcess() {
-
+        System.out.println("\n  [ 시스템 ] 새로운 연락처를 적을 수첩을 준비합니다.");
+        System.out.print("  ▶ 새롭게 적고 싶은 이메일을 입력하세요: ");
+        String newEmail = sc.nextLine();
         try {
-            System.out.println("\n  [ 시스템 ] 새로운 연락처를 적을 수첩을 준비합니다.");
-            System.out.print("  ▶ 새롭게 적고 싶은 이메일을 입력하세요: ");
-            String newEmail = sc.nextLine();
-
-           MyPageUpdateResponse response =userController.updateEmailProcess(newEmail);
+            MyPageUpdateResponse response =userController.updateEmailProcess(newEmail);
 
            userOutputView.displayUpdateSuccess(response);
         } catch (Exception e) {
@@ -301,10 +326,10 @@ public class UserInputView {
     }
 
     private void updateNicknameProcess() {
+        System.out.println("\n  [ 시스템 ] 새로운 명찰을 준비합니다.");
+        System.out.print("  ▶ 새롭게 달고 싶은 닉네임(명찰)을 입력하세요: ");
+        String newNickname = sc.nextLine();
         try {
-            System.out.println("\n  [ 시스템 ] 새로운 명찰을 준비합니다.");
-            System.out.print("  ▶ 새롭게 달고 싶은 닉네임(명찰)을 입력하세요: ");
-            String newNickname = sc.nextLine();
 
             MyPageUpdateResponse response = userController.updateNicknameProcess(newNickname);
 

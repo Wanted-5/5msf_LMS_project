@@ -111,8 +111,24 @@ public class UserDAO {
         return findById(userId);
     }
 
+    public void updatePassword(Long userId, String hashedNewPassword) throws SQLException {
 
-    // ---------- 내부 메서드 ----------------
+        String query = QueryUtil.getQuery("users.updatePassword");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, hashedNewPassword);
+            pstmt.setLong(2, userId);
+
+            int rs = pstmt.executeUpdate();
+
+            if (rs == 0) {
+                throw new SQLException("업데이트된 유저가 없습니다. (존재하지 않는 User ID)");
+            }
+        }
+    }
+
+
+    // ---------- 내부 편의 메서드 ----------------
     private UserDTO convertToDTO(ResultSet rs) throws SQLException {
         return new UserDTO(
                 rs.getLong("user_id"),

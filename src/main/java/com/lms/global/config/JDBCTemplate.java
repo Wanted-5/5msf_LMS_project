@@ -33,7 +33,6 @@ public class JDBCTemplate {
             config.setUsername(prop.getProperty("db.username"));
             config.setPassword(prop.getProperty("db.password"));
 
-            // connection 관련 설정
             config.setMaximumPoolSize(10); // 최대 10개의 커넥션 관리
             config.setMinimumIdle(5); // 최소 5개의 커넥션 유지
             // 커넥션을 사용할 수 있는 최대 시간, 30분 후 새롭게 생성한다.

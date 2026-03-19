@@ -10,12 +10,13 @@ import java.sql.Connection;
 public class AppContext {
 
     public final UserAppContext userAppContext;
-    public final CommentAppContext commentAppContext;
+//       public final CommentAppContext commentAppContext;
+    //public final QuizAppContext quizAppContext;
 
     public AppContext(Connection con) {
         this.userAppContext = new UserAppContext(con);
-        this.commentAppContext = new CommentAppContext(con);
-
+//       this.commentAppContext = new CommentAppContext(con);
+       // this.quizAppContext = new QuizAppContext(con);
     }
 
 }

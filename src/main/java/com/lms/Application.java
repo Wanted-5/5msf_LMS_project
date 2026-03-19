@@ -19,11 +19,10 @@ public class Application {
 
             AppContext appContext = new AppContext(con);
             appContext.userAppContext.userInputView.displayInitialMenu();
+           // appContext.quizAppContext.quizInputView.displayMainMenu();
 //            appContext.commentAppContext.commentInputView.showInitialMenu();
 
-            // 테스트용
-            // displayMyPageMenu()
-            // displayInitialMenu
+
 
         } catch (SQLException e) {
             System.err.println("🚨 데이터 베이스 연결 실패... 🚨");

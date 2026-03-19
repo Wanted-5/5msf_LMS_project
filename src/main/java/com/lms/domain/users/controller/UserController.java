@@ -29,4 +29,8 @@ public class UserController {
 
         return userService.signup(request);
     }
+
+    public void logout() {
+        userService.logout();
+    }
 }

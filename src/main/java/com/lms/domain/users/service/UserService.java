@@ -106,9 +106,10 @@ public class UserService {
     }
 
     public void logout() {
-
         if (!UserSession.isLoggedIn()) {
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException("[❌] 현재 로그인 한 유저가 존재하지 않습니다.");
         }
+
+        UserSession.logout();
     }
 }

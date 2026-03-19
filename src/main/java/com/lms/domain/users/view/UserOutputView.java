@@ -30,4 +30,9 @@ public class UserOutputView {
         System.out.println("  [!] 입력하신 정보를 다시 확인해 주시기 바랍니다.");
         System.out.println("────────────────────────────────────────────────────────────────\n");
     }
+
+    public void displayLogoutSuccess() {
+        System.out.println("\n👋 안전하게 로그아웃 되었습니다. 다음에 또 방문해 주세요!");
+        System.out.println("────────────────────────────────────────────────────────────────\n");
+    }
 }

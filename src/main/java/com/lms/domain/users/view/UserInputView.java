@@ -49,10 +49,10 @@ public class UserInputView {
 
             switch (menu) {
                 case "1":
-                    processLogin();
+                    loginProcess();
                     break;
                 case "2":
-                    processSignup();
+                    signupProcess();
                     break;
                 case "0":
                     System.out.println("\n────────────────────────────────────────────────────────────────");
@@ -68,7 +68,7 @@ public class UserInputView {
 
     }
 
-    private void processLogin() {
+    private void loginProcess() {
         System.out.println("\n[ 🔐 로그인 ]");
         System.out.print("  ▶ 아이디: ");
         String username = sc.nextLine();
@@ -91,7 +91,7 @@ public class UserInputView {
         }
     }
 
-    private void processSignup() {
+    private void signupProcess() {
 
         try {
             System.out.println("\n╔══════════════════════════════════════════════════════════════╗");

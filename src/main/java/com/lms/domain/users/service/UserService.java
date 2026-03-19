@@ -7,6 +7,7 @@ import com.lms.domain.users.dto.request.LoginRequest;
 import com.lms.domain.users.dto.request.SignupRequest;
 import com.lms.domain.users.dto.response.LoginResponse;
 import com.lms.domain.users.dto.response.SignupResponse;
+import com.lms.global.common.UserSession;
 import com.lms.global.util.PasswordUtil;
 
 import java.sql.Connection;
@@ -20,34 +21,6 @@ public class UserService {
     public UserService(Connection connection) {
         this.userDAO = new UserDAO(connection);
         this.connection = connection;
-    }
-
-    public LoginResponse login(LoginRequest request) {
-        UserDTO user = null;
-        try {
-            user = userDAO.findByUsername(request.getUsername());
-
-            if (user == null) {
-                throw new IllegalArgumentException("존재하지 않는 아이디입니다.");
-            }
-
-            // 비밀번호 해싱작업
-            String hashedInputPassword = PasswordUtil.hash(request.getPassword());
-
-            if (!user.getPassword().equals(hashedInputPassword)) {
-                throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-            }
-
-            return new LoginResponse(
-                    user.getUserId(),
-                    user.getName(),
-                    user.getNickname(),
-                    user.getRole()
-            );
-
-        } catch (SQLException e) {
-            throw new RuntimeException("[🚨] 시스템 오류로 로그인할 수 없습니다. 잠시 후 다시 시도해주세요.", e);
-        }
     }
 
     public SignupResponse signup(SignupRequest request) {
@@ -101,6 +74,41 @@ public class UserService {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public LoginResponse login(LoginRequest request) {
+        UserDTO user = null;
+        try {
+            user = userDAO.findByUsername(request.getUsername());
+
+            if (user == null) {
+                throw new IllegalArgumentException("존재하지 않는 아이디입니다.");
+            }
+
+            // 비밀번호 해싱작업
+            String hashedInputPassword = PasswordUtil.hash(request.getPassword());
+
+            if (!user.getPassword().equals(hashedInputPassword)) {
+                throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            }
+
+            return new LoginResponse(
+                    user.getUserId(),
+                    user.getName(),
+                    user.getNickname(),
+                    user.getRole()
+            );
+
+        } catch (SQLException e) {
+            throw new RuntimeException("[🚨] 시스템 오류로 로그인할 수 없습니다. 잠시 후 다시 시도해주세요.", e);
+        }
+    }
+
+    public void logout() {
+
+        if (!UserSession.isLoggedIn()) {
+            throw new IllegalArgumentException("");
         }
     }
 }

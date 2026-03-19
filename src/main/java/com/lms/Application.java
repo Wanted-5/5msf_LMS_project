@@ -1,6 +1,9 @@
 package com.lms;
 
 import com.lms.global.AppContext.AppContext;
+import com.lms.global.AppContext.AppContext;
+import com.lms.global.AppContext.CommentAppContext;
+import com.lms.global.AppContext.CommentAppContext;
 import com.lms.global.config.JDBCTemplate;
 
 import java.sql.Connection;
@@ -15,12 +18,9 @@ public class Application {
             JDBCTemplate.printConnectionStatus();
 
             AppContext appContext = new AppContext(con);
+ //           appContext.userAppContext.userInputView.displayInitialMenu();
             appContext.quizAppContext.quizInputView.displayMainMenu();
-//            appContext.userAppContext(con);
-           // appContext.quizAppContext(con);
-
-
-
+//            appContext.commentAppContext.commentInputView.showInitialMenu();
 
 
 

@@ -1,4 +1,4 @@
 package com.lms.domain.village.controller;
 
-public class d {
+public class VillageController {
 }

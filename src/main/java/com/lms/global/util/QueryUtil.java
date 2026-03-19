@@ -12,24 +12,35 @@ import java.util.Map;
 
 public class QueryUtil {
 
+    // 모든 쿼리를 모아두는 배열
     private static final Map<String, String> queries = new HashMap<>();
+
+    // 팀원 파일 모아둔 배열
+    private static final String[] QUERIES_FILES = {
+            "users-queries.xml",
+            "Comment-querys.xml"
+    };
+
 
     // XML에서 쿼리를 로드하는 정적 블록
     static {
-        loadQueries();
+        for (String file : QUERIES_FILES) {
+            loadQueriesFile(file);
+        }
     }
 
     /**
      * 📌 XML 파일에서 쿼리를 읽어오는 메서드
      */
-    private static void loadQueries() {
+    private static void loadQueriesFile(String fileName) {
         try {
-            // 클래스 로더를 통해 "queries.xml" 파일을 InputStream으로 가져옴
-            InputStream inputStream = QueryUtil.class.getClassLoader().getResourceAsStream("queries.xml");
+            // 클래스 로더를 통해 "users-queries.xml" 파일을 InputStream으로 가져옴
+            InputStream inputStream = QueryUtil.class.getClassLoader().getResourceAsStream(fileName);
 
             // InputStream이 null인 경우, 즉 파일을 찾지 못한 경우 예외 발생
             if (inputStream == null) {
-                throw new RuntimeException("queries.xml 파일을 찾을 수 없습니다.");
+                System.out.println("⚠️ [안내] " + fileName + " 파일이 아직 없어 로딩을 건너뜁니다.");
+                return;
             }
 
             // DocumentBuilderFactory를 사용하여 DocumentBuilder 인스턴스를 생성
@@ -54,6 +65,8 @@ public class QueryUtil {
                 // ID를 키로, SQL 쿼리를 값으로 하여 맵에 저장
                 queries.put(key, sql);
             }
+            System.out.println("✅ " + fileName + " 쿼리 로딩 완료!");
+
         } catch (Exception e) {
             // 예외 발생 시 RuntimeException으로 감싸서 다시 던짐
             throw new RuntimeException("쿼리 로딩 중 오류 발생", e);

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<properties>
+
+    <query key="city.findAll">
+        SELECT * FROM City;
+    </query>
+
+    <query key = "city.insertCity">
+        insert INTO City
+            (city_name, description, creator_id, status)
+        VALUES
+            (?, ?, ?, ?)
+    </query>
+</properties>

@@ -1,20 +1,18 @@
 package com.lms.domain.city.dto.request;
 
 public class CreateCityRequest {
+    private Long creatorId;
     private String cityName;
     private String description;
 
-    public CreateCityRequest(String cityName, String description) {
+    public CreateCityRequest(Long creatorId, String cityName, String description) {
+        this.creatorId = creatorId;
         this.cityName = cityName;
         this.description = description;
     }
 
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public Long getCreatorId() {
+        return creatorId;
     }
 
     public String getCityName() {

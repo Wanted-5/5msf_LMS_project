@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class CityDTO {
 
     private Long cityId;
+    private Long creatorId;
     private String cityName;
     private String description;
     private boolean isActive;
@@ -18,14 +19,24 @@ public class CityDTO {
     public CityDTO() {
     }
 
-    public CityDTO(Long cityId, String cityName, String description, boolean isActive,
-                   LocalDateTime created_at, LocalDateTime updated_at) {
+    public CityDTO(Long cityId, Long creatorId, String cityName,
+                   String description, boolean isActive, LocalDateTime created_at,
+                   LocalDateTime updated_at) {
         this.cityId = cityId;
+        this.creatorId = creatorId;
         this.cityName = cityName;
         this.description = description;
         this.isActive = isActive;
         this.created_at = created_at;
         this.updated_at = updated_at;
+    }
+
+    public Long getCreatorId() {
+        return creatorId;
+    }
+
+    public boolean isActive() {
+        return isActive;
     }
 
     public Long getCityId() {

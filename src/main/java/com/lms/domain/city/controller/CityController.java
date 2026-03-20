@@ -1,8 +1,11 @@
 package com.lms.domain.city.controller;
 
+import com.lms.domain.city.dto.CityDTO;
 import com.lms.domain.city.dto.request.CreateCityRequest;
 import com.lms.domain.city.dto.response.CreateCityResponse;
 import com.lms.domain.city.service.CityService;
+
+import java.util.List;
 
 public class CityController {
 
@@ -12,10 +15,17 @@ public class CityController {
         this.service = service;
     }
 
-    public CreateCityResponse createCityProcess(String cityName, String description) throws Exception{
-
-        CreateCityRequest request = new CreateCityRequest(cityName, description);
+    public CreateCityResponse createCityProcess(CreateCityRequest request) throws Exception{
 
         return service.createCity(request);
     }
+
+    public List<CityDTO> readCityProcess() throws Exception{
+
+        List<CityDTO> cityDTOList = service.findAll();
+
+        return cityDTOList;
+    }
+
+
 }

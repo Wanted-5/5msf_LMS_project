@@ -9,7 +9,7 @@ import java.sql.Connection;
 
 public class CityAppContext {
 
-    private CityInputView cityInputView;
+    public final CityInputView cityInputView;
 
     public CityAppContext(Connection con) {
         CityService cityService = new CityService(con);

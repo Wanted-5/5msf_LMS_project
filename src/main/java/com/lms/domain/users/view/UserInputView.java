@@ -1,5 +1,6 @@
 package com.lms.domain.users.view;
 
+import com.lms.domain.city.view.CityInputView;
 import com.lms.domain.users.constant.UserRole;
 import com.lms.domain.users.controller.UserController;
 import com.lms.domain.users.dto.request.LoginRequest;
@@ -27,6 +28,13 @@ public class UserInputView {
     public void displayInitialMenu() {
 
         while (true) {
+            // 핵심 라우팅 방어막 코드
+            // loginProcess()가 성공적으로 끝나고 세션에 값이 담긴 채로 돌아오면,
+            // 이 방어막에 걸려서 즉시 초기 화면 루프를 탈출하고 광장(main)으로 나간다
+            if (UserSession.getLoggedInUser() != null) {
+                return;
+            }
+
             System.out.println("\n");
             System.out.println("╔══════════════════════════════════════════════════════════════╗");
             System.out.println("║                                                              ║");
@@ -84,25 +92,13 @@ public class UserInputView {
 
             UserSession.setLoggedInUser(response);
 
+//            System.out.println("\n🎉 로그인에 성공했습니다!");
+//            System.out.println("  " + response.getName() + "[" + response.getNickname() + "]님 어서오세요.");
+//            System.out.println("────────────────────────────────────────────────────────────────\n");
+
             userOutputView.displayLoginSuccess(response);
 
-            // TODO: response.getRole()을 확인 후 강사 메뉴 / 학생 메뉴로 이동하는 로직이 추가!
-
-            if (UserSession.getLoggedInUser().getRole() == UserRole.ADMIN) {
-                System.out.println("  [시스템] " + UserSession.getLoggedInUser().getRole().getDescription() + "(ADMIN) 권한으로 접속했습니다.");
-                //TODO: 관리자는 마을을 선택할 수 있게 로직 구현
-
-            } else if (UserSession.getLoggedInUser().getRole() == UserRole.INSTRUCTOR) {
-                System.out.println("  [시스템] " + UserSession.getLoggedInUser().getRole().getDescription() + "(INSTRUCTOR) 권한으로 접속했습니다.");
-                //TODO: 강사 옵션으로 로직 구현
-
-            } else if (UserSession.getLoggedInUser().getRole() == UserRole.STUDENT) {
-                System.out.println("  [시스템] " + UserSession.getLoggedInUser().getRole().getDescription() + "(STUDENT) 권한으로 접속했습니다.");
-                //TODO: 학생 옵션으로 로직 구현
-
-            } else {
-                throw new IllegalStateException("[권한 에러] 일치하는 권한이 없습니다. 다시 실행해주세요.");
-            }
+            return;
 
         } catch (Exception e) {
             userOutputView.displayLoginFailure(e.getMessage());

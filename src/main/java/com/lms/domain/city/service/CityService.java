@@ -5,11 +5,10 @@ import com.lms.domain.city.dao.CityDAO;
 import com.lms.domain.city.dto.CityDTO;
 import com.lms.domain.city.dto.request.CreateCityRequest;
 import com.lms.domain.city.dto.response.CreateCityResponse;
-import com.lms.domain.users.dto.UserDTO;
-import com.lms.global.common.UserSession;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 public class CityService {
 
@@ -39,7 +38,10 @@ public class CityService {
 
         //TODO : 오늘 저녁 여기부터 구현하기
         try {
-            Long newCityId = cityDAO.insertCity(request.getCityName(), request.getDescription());
+            Long newCityId = cityDAO.insertCity(
+                    request.getCreatorId(),
+                    request.getCityName(),
+                    request.getDescription());
 
             return new CreateCityResponse(
                     newCityId,
@@ -48,6 +50,16 @@ public class CityService {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public List<CityDTO> findAll() {
+
+        try {
+            return cityDAO.findAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("[error]데이터 베이스 조회 실패", e);
         }
     }
 }

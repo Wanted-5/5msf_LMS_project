@@ -1,5 +1,6 @@
 package com.lms.global.AppContext;
 
+import com.lms.domain.city.view.CityInputView;
 import com.lms.domain.users.controller.UserController;
 import com.lms.domain.users.service.UserService;
 import com.lms.domain.users.view.UserInputView;

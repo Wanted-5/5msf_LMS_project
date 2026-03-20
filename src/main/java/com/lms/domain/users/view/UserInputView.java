@@ -70,7 +70,6 @@ public class UserInputView {
 
     }
 
-
     private void loginProcess() {
         System.out.println("\n[ 🔐 로그인 ]");
         System.out.print("  ▶ 아이디: ");

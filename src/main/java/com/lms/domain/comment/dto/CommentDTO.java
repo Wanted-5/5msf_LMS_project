@@ -14,6 +14,18 @@ public class CommentDTO {
 
     public CommentDTO(){}
 
+    @Override
+    public String toString() {
+        return "CommentDTO{" +
+                "commentId=" + commentId +
+                ", boardId=" + boardId +
+                ", creatorId=" + creatorId +
+                ", content='" + content + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
+
     public CommentDTO(Long commentId, Long boardId, Long creatorId, String content, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.commentId = commentId;
         this.boardId = boardId;
@@ -30,17 +42,6 @@ public class CommentDTO {
     }
 
     public CommentDTO(long commentId, long boardId, String content, Timestamp createdAt, Timestamp updatedAt) {
-    }
-
-    @Override
-    public String toString() {
-        return "CommentDTO{" +
-                "commentId=" + commentId +
-                ", boardId=" + boardId +
-                ", content='" + content + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
     }
 
     public Long getCommentId() {

@@ -13,13 +13,13 @@ public class AppContext {
     public final UserAppContext userAppContext;
     public final CommentAppContext commentAppContext;
     //public final QuizAppContext quizAppContext;
-// public final VillageAppContext villageAppContext;
+    public final VillageAppContext villageAppContext;
 
     public AppContext(Connection con) {
         this.userAppContext = new UserAppContext(con);
         this.commentAppContext = new CommentAppContext(con);
-       // this.quizAppContext = new QuizAppContext(con);
-// this.villageAppContext = new VillageAppContext(con);
+        this.villageAppContext = new VillageAppContext(con);
+        // this.quizAppContext = new QuizAppContext(con);
     }
 
 }

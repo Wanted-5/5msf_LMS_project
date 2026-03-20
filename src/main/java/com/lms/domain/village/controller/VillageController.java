@@ -1,7 +1,7 @@
 package com.lms.domain.village.controller;
 
-import com.lms.domain.village.model.DTO.VillageDTO;
-import com.lms.domain.village.model.service.VillageService;
+import com.lms.domain.village.dto.VillageDTO;
+import com.lms.domain.village.service.VillageService;
 
 public class VillageController {
 

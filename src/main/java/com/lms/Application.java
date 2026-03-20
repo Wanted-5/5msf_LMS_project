@@ -19,7 +19,7 @@ public class Application {
 
             AppContext appContext = new AppContext(con);
             appContext.userAppContext.userInputView.displayInitialMenu();
-            appContext.commentAppContext.commentInputView.showInitialMenu();
+//            appContext.commentAppContext.commentInputView.showInitialMenu();
 
 
 

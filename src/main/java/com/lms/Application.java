@@ -20,13 +20,9 @@ public class Application {
             AppContext appContext = new AppContext(con);
             appContext.villageAppContext.run();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            appContext.userAppContext.userInputView.displayInitialMenu();
-           // appContext.quizAppContext.quizInputView.displayMainMenu();
+//            appContext.userAppContext.userInputView.displayInitialMenu();
+            // appContext.quizAppContext.quizInputView.displayMainMenu();
 //            appContext.commentAppContext.commentInputView.showInitialMenu();
-
-
 
         } catch (SQLException e) {
             System.err.println("🚨 데이터 베이스 연결 실패... 🚨");

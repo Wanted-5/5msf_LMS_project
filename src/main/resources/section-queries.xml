@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<properties>
+
+
+    <query key="section.findSectionByVillageIdAndSectionId">
+        <![CDATA[
+        SELECT section_id, village_id, chap_no, section_name, content, video_url, status
+        FROM section
+        WHERE village_id = ?
+          AND section_id = ?
+          AND status = 'ACTIVE'
+        ]]>
+    </query>
+
+    <query key="section.findSectionsByVillageId">
+        <![CDATA[
+        SELECT section_id, village_id, chap_no, section_name, content, video_url, status
+        FROM section
+        WHERE village_id = ?
+          AND status = 'ACTIVE'
+        ORDER BY chap_no ASC
+        ]]>
+    </query>
+    <query key="section.findSectionsByStudentId">
+        <![CDATA[
+        SELECT s.section_id, s.village_id, s.chap_no, s.section_name, s.content, s.video_url, s.status
+        FROM student_section ss
+        JOIN section s ON ss.section_id = s.section_id
+        WHERE ss.user_id = ?
+          AND s.status = 'ACTIVE'
+        ORDER BY s.chap_no ASC
+        ]]>
+    </query>
+
+    <query key="section.findSectionById">
+        <![CDATA[
+        SELECT section_id, village_id, chap_no, section_name, content, video_url, status
+        FROM section
+        WHERE section_id = ?
+          AND status = 'ACTIVE'
+        ]]>
+    </query>
+</properties>

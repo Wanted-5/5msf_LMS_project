@@ -5,8 +5,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariPoolMXBean;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 public class JDBCTemplate {
@@ -71,4 +70,28 @@ public class JDBCTemplate {
         System.out.println("🧘 유휴(idle) 커넥션 수 : " + poolMXBean.getIdleConnections());
         System.out.println("=============================================");
     }
+
+
+    // 빌리지, 시티 정현이꺼 수정후 삭제하기
+    public static void close(ResultSet rs) {
+        try {
+            if (rs != null && !rs.isClosed()) {
+                rs.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 빌리지, 시티 정현이꺼 수정후 삭제하기
+    public static void close(PreparedStatement pstmt) {
+        try {
+            if (pstmt != null && !pstmt.isClosed()) {
+                pstmt.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

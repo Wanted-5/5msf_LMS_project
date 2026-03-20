@@ -23,6 +23,10 @@ public class UserSession {
 
     // 현재 로그인 여부 (true면 로그인)
     public static Boolean isLoggedIn() {
-        return loggedInUser != null;
+        if (loggedInUser != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

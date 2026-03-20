@@ -1,6 +1,6 @@
 package com.lms.domain.village.view;
 
-import com.lms.domain.village.model.DTO.VillageDTO;
+import com.lms.domain.village.dto.VillageDTO;
 
 public class VillageOutputView {
 

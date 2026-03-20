@@ -1,7 +1,7 @@
 package com.lms.domain.village.view;
 
 import com.lms.domain.section.view.SectionInputView;
-import com.lms.domain.village.model.DTO.VillageDTO;
+import com.lms.domain.village.dto.VillageDTO;
 
 import java.util.Scanner;
 

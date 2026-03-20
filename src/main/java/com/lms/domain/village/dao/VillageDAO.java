@@ -1,6 +1,6 @@
-package com.lms.domain.village.model.DAO;
+package com.lms.domain.village.dao;
 
-import com.lms.domain.village.model.DTO.VillageDTO;
+import com.lms.domain.village.dto.VillageDTO;
 import com.lms.global.config.JDBCTemplate;
 import com.lms.global.util.QueryUtil;
 

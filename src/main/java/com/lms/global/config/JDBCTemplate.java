@@ -39,10 +39,7 @@ public class JDBCTemplate {
             config.setIdleTimeout(600000); // 10분 MaxLife보다 짧게
             // 커넥션 연결 요청이 2초 이상 지연되면 연결 실패로 인식한다.
             config.setConnectionTimeout(30000);
-<<<<<<< HEAD
-=======
 
->>>>>>> 7cf81797c4116cfe5161e66038702007c50642c2
             // 구성한 환경 설정을 바탕으로 datasource 객체 생성
             datasource = new HikariDataSource(config);
 
@@ -75,6 +72,7 @@ public class JDBCTemplate {
     }
 
 
+    // 빌리지, 시티 정현이꺼 수정후 삭제하기
     public static void close(ResultSet rs) {
         try {
             if (rs != null && !rs.isClosed()) {
@@ -85,6 +83,7 @@ public class JDBCTemplate {
         }
     }
 
+    // 빌리지, 시티 정현이꺼 수정후 삭제하기
     public static void close(PreparedStatement pstmt) {
         try {
             if (pstmt != null && !pstmt.isClosed()) {
@@ -95,23 +94,4 @@ public class JDBCTemplate {
         }
     }
 
-    public static void close(Statement stmt) {
-        try {
-            if (stmt != null && !stmt.isClosed()) {
-                stmt.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void close(Connection con) {
-        try {
-            if (con != null && !con.isClosed()) {
-                con.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

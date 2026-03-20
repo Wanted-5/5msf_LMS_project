@@ -1,5 +1,6 @@
 package com.lms.domain.village.controller;
 
+<<<<<<< HEAD
 import com.lms.domain.village.model.DTO.VillageDTO;
 import com.lms.domain.village.model.service.VillageService;
 
@@ -20,3 +21,7 @@ public class VillageController {
         }
     }
 }
+=======
+public class VillageController {
+}
+>>>>>>> 7cf81797c4116cfe5161e66038702007c50642c2

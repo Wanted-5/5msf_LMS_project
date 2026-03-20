@@ -15,6 +15,7 @@ public class JDBCTemplate {
 
     // static 블록은 정적 코드 블럭으로서
     // 클래스가 로드 될 때 한번만 실행된다.
+
     static {
         Properties prop = new Properties();
         //JDBCTemplate.class.getClassLoader() : 클래스의 메모리에 로드하는 역활을 한다.
@@ -31,7 +32,6 @@ public class JDBCTemplate {
             config.setUsername(prop.getProperty("db.username"));
             config.setPassword(prop.getProperty("db.password"));
 
-            // connection 관련 설정
             config.setMaximumPoolSize(10); // 최대 10개의 커넥션 관리
             config.setMinimumIdle(5); // 최소 5개의 커넥션 유지
             // 커넥션을 사용할 수 있는 최대 시간, 30분 후 새롭게 생성한다.
@@ -39,6 +39,10 @@ public class JDBCTemplate {
             config.setIdleTimeout(600000); // 10분 MaxLife보다 짧게
             // 커넥션 연결 요청이 2초 이상 지연되면 연결 실패로 인식한다.
             config.setConnectionTimeout(30000);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7cf81797c4116cfe5161e66038702007c50642c2
             // 구성한 환경 설정을 바탕으로 datasource 객체 생성
             datasource = new HikariDataSource(config);
 

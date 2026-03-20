@@ -1,5 +1,6 @@
 package com.lms.domain.village.view;
 
+<<<<<<< HEAD
 import com.lms.domain.village.model.DTO.VillageDTO;
 
 public class VillageOutputView {
@@ -13,3 +14,7 @@ public class VillageOutputView {
         System.out.println("마을명: " + village.getVillageName());
     }
 }
+=======
+public class VillageOutputView {
+}
+>>>>>>> 7cf81797c4116cfe5161e66038702007c50642c2

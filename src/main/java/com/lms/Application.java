@@ -1,12 +1,13 @@
 package com.lms;
 
 import com.lms.global.AppContext.AppContext;
+import com.lms.global.AppContext.AppContext;
+import com.lms.global.AppContext.AppContext;
+import com.lms.global.AppContext.CommentAppContext;
 import com.lms.global.AppContext.CommentAppContext;
 import com.lms.global.config.JDBCTemplate;
-
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Scanner;
+import java.sql.Connection;
 
 public class Application {
     public static void main(String[] args) {

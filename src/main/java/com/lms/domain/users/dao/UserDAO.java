@@ -2,8 +2,6 @@ package com.lms.domain.users.dao;
 
 import com.lms.domain.users.constant.UserRole;
 import com.lms.domain.users.dto.UserDTO;
-import com.lms.domain.users.dto.request.LoginRequest;
-import com.lms.domain.users.dto.response.LoginResponse;
 import com.lms.global.util.QueryUtil;
 
 import java.sql.*;
@@ -14,6 +12,23 @@ public class UserDAO {
 
     public UserDAO(Connection connection) {
         this.connection = connection;
+    }
+
+    //
+    public UserDTO findById(Long userId) throws SQLException {
+
+        String query = QueryUtil.getQuery("users.findById");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, userId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return convertToDTO(rs);
+                }
+            }
+        }
+        return null;
     }
 
     public Long insertUser(UserDTO newUser) throws SQLException {
@@ -64,8 +79,56 @@ public class UserDAO {
         return null;
     }
 
+    public UserDTO updateNickname(Long userId, String newNickname) throws SQLException {
 
-    // ---------- 내부 메서드 ----------------
+        String query = QueryUtil.getQuery("users.updateNickname");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, newNickname);
+            pstmt.setLong(2, userId);
+
+            int rs = pstmt.executeUpdate();
+            if (rs == 0) {
+                throw new SQLException("업데이트된 유저가 없습니다. (존재하지 않는 User ID)");
+            }
+        }
+        return findById(userId);
+    }
+
+    public UserDTO updateEmail(Long userId, String newEmail) throws SQLException {
+
+        String query = QueryUtil.getQuery("users.updateEmail");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, newEmail);
+            pstmt.setLong(2, userId);
+
+            int rs = pstmt.executeUpdate();
+            if (rs == 0) {
+                throw new SQLException("업데이트된 유저가 없습니다. (존재하지 않는 User ID)");
+            }
+        }
+        return findById(userId);
+    }
+
+    public void updatePassword(Long userId, String hashedNewPassword) throws SQLException {
+
+        String query = QueryUtil.getQuery("users.updatePassword");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, hashedNewPassword);
+            pstmt.setLong(2, userId);
+
+            int rs = pstmt.executeUpdate();
+
+            if (rs == 0) {
+                throw new SQLException("업데이트된 유저가 없습니다. (존재하지 않는 User ID)");
+            }
+        }
+    }
+
+
+    // ---------- 내부 편의 메서드 ----------------
     private UserDTO convertToDTO(ResultSet rs) throws SQLException {
         return new UserDTO(
                 rs.getLong("user_id"),

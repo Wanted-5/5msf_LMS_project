@@ -15,6 +15,22 @@ public class LoginResponse {
         this.role = role;
     }
 
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
     public Long getUserId() {
         return userId;
     }

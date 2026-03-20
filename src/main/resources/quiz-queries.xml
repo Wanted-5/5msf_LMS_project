@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<properties>
+    <query key = "quiz.todayQuiz" >
+        SELECT * FROM quizzes
+        WHERE DATE(created_at) = CURDATE()
+        ORDER BY created_at DESC
+        LIMIT 1;
+    </query>
+
+    <query key = "quiz.findAll">
+        select
+        content, mafia_Id, quiz_title, quiz_Id
+        from quizzes
+    </query>
+
+    <query key = "quiz.findById">
+        select
+            content, mafia_id, quiz_title, quiz_id
+        from quizzes
+        where quiz_id = ?
+    </query>
+
+</properties>

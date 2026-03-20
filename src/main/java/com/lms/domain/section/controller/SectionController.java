@@ -1,6 +1,6 @@
 package com.lms.domain.section.controller;
 
-<<<<<<< HEAD
+
 import com.lms.domain.section.model.DTO.SectionDTO;
 import com.lms.domain.section.model.service.SectionService;
 
@@ -41,7 +41,4 @@ public class SectionController {
         }
     }
 }
-=======
-public class SectionController {
-}
->>>>>>> 7cf81797c4116cfe5161e66038702007c50642c2
+

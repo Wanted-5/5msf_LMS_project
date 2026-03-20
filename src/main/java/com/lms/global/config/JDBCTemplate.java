@@ -72,6 +72,7 @@ public class JDBCTemplate {
     }
 
 
+    // 빌리지, 시티 정현이꺼 수정후 삭제하기
     public static void close(ResultSet rs) {
         try {
             if (rs != null && !rs.isClosed()) {
@@ -82,6 +83,7 @@ public class JDBCTemplate {
         }
     }
 
+    // 빌리지, 시티 정현이꺼 수정후 삭제하기
     public static void close(PreparedStatement pstmt) {
         try {
             if (pstmt != null && !pstmt.isClosed()) {

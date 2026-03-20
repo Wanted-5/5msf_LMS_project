@@ -14,15 +14,16 @@ public class Application {
     public static void main(String[] args) {
 
         try (Connection con = JDBCTemplate.getConnection()) {
+
             System.out.println("✅ 데이터베이스 연결 성공!!!");
             JDBCTemplate.printConnectionStatus();
 
             AppContext appContext = new AppContext(con);
-            appContext.villageAppContext.run();
-
-//            appContext.userAppContext.userInputView.displayInitialMenu();
-            // appContext.quizAppContext.quizInputView.displayMainMenu();
+            appContext.userAppContext.userInputView.displayInitialMenu();
+           // appContext.quizAppContext.quizInputView.displayMainMenu();
 //            appContext.commentAppContext.commentInputView.showInitialMenu();
+            // appContext.villageAppContext.villageInputView.displayLoginMenu();
+
 
         } catch (SQLException e) {
             System.err.println("🚨 데이터 베이스 연결 실패... 🚨");

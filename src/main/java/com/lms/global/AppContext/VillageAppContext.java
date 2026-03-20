@@ -15,14 +15,8 @@ public class VillageAppContext {
     public VillageAppContext(Connection con) {
         SectionService sectionService = new SectionService(con);
         SectionController sectionController = new SectionController(sectionService);
-
         VillageOutputView villageOutputView = new VillageOutputView();
         SectionInputView sectionInputView = new SectionInputView(sectionController);
-
         this.villageInputView = new VillageInputView(villageOutputView, sectionInputView);
-    }
-
-    public void run() {
-        villageInputView.displayLoginMenu();
     }
 }

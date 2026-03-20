@@ -10,8 +10,6 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class JDBCTemplate {
-
-
     private static final HikariDataSource datasource;
 
     // static 블록은 정적 코드 블럭으로서
@@ -36,9 +34,10 @@ public class JDBCTemplate {
             config.setMaximumPoolSize(10); // 최대 10개의 커넥션 관리
             config.setMinimumIdle(5); // 최소 5개의 커넥션 유지
             // 커넥션을 사용할 수 있는 최대 시간, 30분 후 새롭게 생성한다.
-            config.setMaxLifetime(180000);
+            config.setMaxLifetime(1800000); // 30분
+            config.setIdleTimeout(600000); // 10분 MaxLife보다 짧게
             // 커넥션 연결 요청이 2초 이상 지연되면 연결 실패로 인식한다.
-            config.setConnectionTimeout(2000);
+            config.setConnectionTimeout(30000);
 
             // 구성한 환경 설정을 바탕으로 datasource 객체 생성
             datasource = new HikariDataSource(config);

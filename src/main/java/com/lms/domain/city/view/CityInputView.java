@@ -10,13 +10,13 @@ import java.util.Scanner;
 public class CityInputView {
 
     private final CityController controller;
-    private final CityOutputView outputView;
+    private final CityOutputView cityOutputView;
 
     Scanner sc = new Scanner(System.in);
 
-    public CityInputView(CityController controller, CityOutputView outputView) {
+    public CityInputView(CityController controller, CityOutputView cityOutputView) {
         this.controller = controller;
-        this.outputView = outputView;
+        this.cityOutputView = cityOutputView;
     }
 
     public void displayCityAdminMenu() {
@@ -75,7 +75,16 @@ public class CityInputView {
         System.out.println("새로운 도시 설명 입력 : ");
         String description = sc.nextLine();
 
-        CreateCityResponse response = controller.createCityProcess(cityName, description);
+
+        try {
+            CreateCityResponse response = controller.createCityProcess(cityName, description);
+
+            cityOutputView.displayCreateSuccess(response);
+
+        } catch (Exception e) {
+            cityOutputView.displayFailure(e.getMessage());
+        }
+
 
     }
 }

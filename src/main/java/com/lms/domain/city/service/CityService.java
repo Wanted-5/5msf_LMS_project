@@ -9,6 +9,7 @@ import com.lms.domain.users.dto.UserDTO;
 import com.lms.global.common.UserSession;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class CityService {
 
@@ -37,8 +38,16 @@ public class CityService {
         }
 
         //TODO : 오늘 저녁 여기부터 구현하기
-        int result = cityDAO.insertCity(request.getCityName(), request.getDescription());
+        try {
+            Long newCityId = cityDAO.insertCity(request.getCityName(), request.getDescription());
 
-        return null;
+            return new CreateCityResponse(
+                    newCityId,
+                    request.getCityName()
+            );
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

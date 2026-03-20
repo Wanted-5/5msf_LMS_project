@@ -12,7 +12,7 @@ public class CityController {
         this.service = service;
     }
 
-    public CreateCityResponse createCityProcess(String cityName, String description) {
+    public CreateCityResponse createCityProcess(String cityName, String description) throws Exception{
 
         CreateCityRequest request = new CreateCityRequest(cityName, description);
 

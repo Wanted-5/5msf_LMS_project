@@ -17,7 +17,7 @@ public class Application {
             JDBCTemplate.printConnectionStatus();
 
             AppContext appContext = new AppContext(con);
-            //appContext.userAppContext.userInputView.displayInitialMenu();
+            appContext.userAppContext.userInputView.displayInitialMenu();
             appContext.commentAppContext.commentInputView.showInitialMenu();
 
 

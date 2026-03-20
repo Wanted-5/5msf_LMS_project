@@ -1,5 +1,7 @@
 package com.lms.domain.users.view;
 
+import com.lms.domain.comment.view.CommentInputView;
+import com.lms.domain.comment.view.CommentOutputView;
 import com.lms.domain.users.controller.UserController;
 import com.lms.domain.users.dto.request.LoginRequest;
 import com.lms.domain.users.dto.request.SignupRequest;
@@ -82,8 +84,8 @@ public class UserInputView {
             UserSession.setLoggedInUser(response);
 
             userOutputView.displayLoginSuccess(response);
-//이자리에 메서드 넣어 테스트
-            // TODO: response.getRole()을 확인 후 강사 메뉴 / 학생 메뉴로 이동하는 로직이 추가!
+
+        // TODO: response.getRole()을 확인 후 강사 메뉴 / 학생 메뉴로 이동하는 로직이 추가!
 
 
         } catch (Exception e) {

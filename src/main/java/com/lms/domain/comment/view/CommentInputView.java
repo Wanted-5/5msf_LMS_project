@@ -19,6 +19,8 @@ public class CommentInputView {
 
     Scanner sc = new Scanner(System.in);
 
+
+
     public void showInitialMenu() {
         System.out.print("이동할 게시글 번호를 입력하세요: ");
         long boardId = Long.parseLong(sc.nextLine());

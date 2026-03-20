@@ -1,6 +1,5 @@
 package com.lms.domain.section.view;
 
-<<<<<<< HEAD
 import com.lms.domain.section.controller.SectionController;
 import com.lms.domain.section.model.DTO.SectionDTO;
 import com.lms.domain.village.model.DTO.VillageDTO;
@@ -172,7 +171,3 @@ public class SectionInputView {
         System.out.println("]");
     }
 }
-=======
-public class SectionInputView {
-}
->>>>>>> 7cf81797c4116cfe5161e66038702007c50642c2

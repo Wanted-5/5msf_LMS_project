@@ -15,7 +15,6 @@ public class UserAppContext {
         UserService userService = new UserService(con);
         UserController userController = new UserController(userService);
         UserOutputView userOutputView = new UserOutputView();
-
         this.userInputView = new UserInputView(userController, userOutputView);
     }
 }

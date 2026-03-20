@@ -1,7 +1,5 @@
 package com.lms;
 
-<<<<<<< HEAD
-
 import com.lms.global.AppContext.AppContext;
 import com.lms.global.AppContext.AppContext;
 import com.lms.global.AppContext.AppContext;

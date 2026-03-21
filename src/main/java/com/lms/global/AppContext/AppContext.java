@@ -12,12 +12,15 @@ public class AppContext {
 
     public final UserAppContext userAppContext;
     public final CommentAppContext commentAppContext;
+    public final AttendAppContext attendAppContext;
     //public final QuizAppContext quizAppContext;
 // public final VillageAppContext villageAppContext;
+
 
     public AppContext(Connection con) {
         this.userAppContext = new UserAppContext(con);
         this.commentAppContext = new CommentAppContext(con);
+        this.attendAppContext = new AttendAppContext(con);
        // this.quizAppContext = new QuizAppContext(con);
 // this.villageAppContext = new VillageAppContext(con);
     }

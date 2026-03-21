@@ -1,4 +1,4 @@
-package com.lms.domain.village.model.DTO;
+package com.lms.domain.village.DTO;
 
 public class VillageDTO {
 

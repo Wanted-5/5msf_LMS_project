@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<properties>
+    <query key="insert_Attend">
+    insert into attendance (attendance_id, village_id, user_id, status)
+    values (?, ?, ?, ?)
+    </query>
+    <query key="select_Attend">
+        select *
+        from attendance
+        where user_id = ?
+        order by created_at desc;
+    </query>
+    <query key="select_AttendAll">
+        select *
+        from attendance
+        order by created_at desc;
+    </query>
+    <query key="select_dateAttend">
+        select *
+        from attendance
+        where DATE(created_at) = ?
+        order by created_at desc;
+    </query>
+    <query key="update_Attendance">
+        UPDATE attendance
+        SET status = ?
+        WHERE attendance_id = ?
+    </query>
+    <query key="delete_Attendance">
+        DELETE FROM attendance
+        WHERE attendance_id = ?
+    </query>
+</properties>

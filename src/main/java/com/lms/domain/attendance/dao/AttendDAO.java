@@ -1,12 +1,13 @@
-//package com.lms.domain.attendance.dao;
-//
+package com.lms.domain.attendance.dao;
 
-//
-//public class AttendDAO {
-//
-//    private final Connection connection;
-//
-//    public AttendDAO(Connection connection) {
-//        this.connection = connection;
-//    }
-//}
+import java.sql.Connection;
+
+public class AttendDAO {
+    private final Connection connection;
+
+    public AttendDAO(Connection connection) {this.connection = connection;}
+
+
+
+}
+

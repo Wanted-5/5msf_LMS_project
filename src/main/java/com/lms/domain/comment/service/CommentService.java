@@ -3,9 +3,14 @@ package com.lms.domain.comment.service;
 
 import com.lms.domain.comment.dao.CommentDAO;
 import com.lms.domain.comment.dto.CommentDTO;
+import com.lms.domain.users.constant.UserRole;
+import com.lms.domain.users.dto.UserDTO;
+import com.lms.domain.users.dto.response.LoginResponse;
+import com.lms.global.common.UserSession;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommentService {
@@ -31,6 +36,53 @@ public class CommentService {
             return false;
         }
     }
+    public List<CommentDTO> findCommentAll(long boardId) {
 
+        try {
+            return commentDAO.findCommentAll(boardId);
+        } catch (SQLException e) {
+            throw new RuntimeException("강의 전체 조회 중 Error 발생!! 🚨🚨" + e);
+        }
+    }
+    public List<CommentDTO> getCommentsForBoard(long boardId) throws SQLException {
+   //   지우면 안되는 주석 ( 권한 검증 로직)
+        if (!UserSession.isLoggedIn()) {
+            System.out.println("🚨 [시스템] 로그인이 필요한 기능입니다. 먼저 로그인을 해주세요.");
+
+            return new ArrayList<>();
+        }
+
+        LoginResponse loginUser = UserSession.getLoggedInUser();
+
+        if (loginUser.getRole() == UserRole.ADMIN || loginUser.getRole() == UserRole.INSTRUCTOR) {
+            return commentDAO.findCommentAll(boardId);
+        } else {
+            return commentDAO.findUserCommentAll(boardId, loginUser.getUserId());
+        }
+    }
+
+    public boolean updateComment(CommentDTO updateDto) {
+        try {
+
+            int result = commentDAO.updateComment(updateDto);
+
+
+            return result > 0;
+
+        } catch (SQLException e) {
+
+            System.out.println("🚨 [Service] 댓글 수정 중 DB 오류: " + e.getMessage());
+            return false;
+        }
+    }
+    public boolean deleteComment(long commentId) {
+        try {
+            int result = commentDAO.deleteComment(commentId);
+            return result > 0;
+        } catch (SQLException e) {
+            System.out.println("🚨 [Service] 댓글 삭제 중 DB 오류: " + e.getMessage());
+            return false;
+        }
+    }
 
 }

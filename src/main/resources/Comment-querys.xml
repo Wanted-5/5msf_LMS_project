@@ -2,15 +2,29 @@
 <properties>
 
     <query key="comment.target">
-        INSERT INTO Comments (board_id, creator_id, content) VALUES (?, ?, ?)
+        INSERT INTO comments (board_id, creator_id, content)
+        VALUES (?, ?, ?)
     </query>
-    <query key ="comment.adminselect">
+
+    <query key="comment.adminselect">
         SELECT * FROM comments
         WHERE board_id = ?
     </query>
-    <query key ="comment.userselect">
+
+    <query key="comment.userselect">
         SELECT * FROM comments
-        WHERE board_id = ?, user_id = ?
+        WHERE board_id = ? AND creator_id = ?
+    </query>
+
+    <query key="comment.update">
+        UPDATE comments
+        SET content = ?
+        WHERE comment_id = ?
+    </query>
+
+    <query key="comment.delete">
+        DELETE FROM comments
+        WHERE comment_id = ?
     </query>
 
 </properties>

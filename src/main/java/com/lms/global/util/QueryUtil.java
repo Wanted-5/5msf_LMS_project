@@ -18,6 +18,8 @@ public class QueryUtil {
     // 팀원 파일 모아둔 배열
     private static final String[] QUERIES_FILES = {
             "users-queries.xml",
+            "city-queries.xml",
+            "section-queries.xml",
             "Comment-querys.xml",
             "quiz-queries.xml",
             "mafia-queries.xml"

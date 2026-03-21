@@ -19,9 +19,10 @@ public class QueryUtil {
     private static final String[] QUERIES_FILES = {
             "users-queries.xml",
             "city-queries.xml",
+            "village-queries.xml",
             "section-queries.xml",
             "Comment-querys.xml",
-            "quiz-queries.xml",
+            "quiz-queries.xml"
     };
 
 

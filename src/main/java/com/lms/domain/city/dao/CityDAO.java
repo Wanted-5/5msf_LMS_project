@@ -1,7 +1,7 @@
 package com.lms.domain.city.dao;
 
 import com.lms.domain.city.dto.CityDTO;
-import com.lms.domain.city.dto.request.CreateCityRequest;
+import com.lms.domain.city.dto.request.UpdateCityRequest;
 import com.lms.global.util.QueryUtil;
 
 import java.sql.*;
@@ -14,6 +14,23 @@ public class CityDAO {
 
     public CityDAO(Connection connection) {
         this.connection = connection;
+    }
+
+
+    public CityDTO findById(Long cityId) throws SQLException {
+
+        String query = QueryUtil.getQuery("city.findById");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, cityId);
+
+            ResultSet rset = pstmt.executeQuery();
+
+            if (rset.next()) {
+                return convertToDTO(rset);
+            }
+        }
+        return null;
     }
 
 
@@ -57,6 +74,24 @@ public class CityDAO {
             }
         }
         return cityDTOList;
+    }
+
+    public CityDTO updateCity(UpdateCityRequest request) throws SQLException {
+        String query = QueryUtil.getQuery("city.updateCity");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, request.getCityName());
+            pstmt.setString(2, request.getDescription());
+            pstmt.setLong(3, request.getCityId());
+
+            int updatedRows = pstmt.executeUpdate();
+
+            if (updatedRows == 0) {
+                throw new SQLException("[❌] 도시 수정에 실패했습니다. (존재하지 않는 행정 코드)");
+            }
+
+            return findById(request.getCityId());
+        }
     }
 
     // ============= 내부 편의 메서드 =======================

@@ -5,10 +5,22 @@
         SELECT * FROM City;
     </query>
 
+    <query key="city.findById">
+        SELECT * FROM City WHERE city_id = ?
+    </query>
+
     <query key = "city.insertCity">
         insert INTO City
             (city_name, description, creator_id, status)
         VALUES
             (?, ?, ?, ?)
     </query>
+
+    <query key="city.updateCity">
+        UPDATE City
+        set city_name = ?,
+            description = ?
+        WHERE city_id = ?
+    </query>
+
 </properties>

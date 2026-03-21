@@ -7,6 +7,7 @@ import com.lms.global.util.QueryUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -163,5 +164,26 @@ public class SectionDAO {
         }
 
         return list;
+    }
+    public int insertSection(Connection con, Long villageId, int chapNo, String sectionName, String content, String videoUrl) {
+        PreparedStatement pstmt = null;
+        int result = 0;
+        String query = QueryUtil.getQuery("section.insertSection");
+
+        try {
+            pstmt = con.prepareStatement(query);
+            pstmt.setLong(1, villageId);
+            pstmt.setInt(2, chapNo);
+            pstmt.setString(3, sectionName);
+            pstmt.setString(4, content);
+            pstmt.setString(5, videoUrl);
+            result = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("섹션 INSERT 실패", e);
+        } finally {
+            JDBCTemplate.close(pstmt);
+        }
+
+        return result;
     }
 }

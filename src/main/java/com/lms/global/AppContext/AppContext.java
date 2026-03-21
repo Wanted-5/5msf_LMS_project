@@ -1,6 +1,6 @@
 package com.lms.global.AppContext;
 
-import com.lms.global.common.VillageAppContext;
+
 import com.lms.domain.users.controller.UserController;
 import com.lms.domain.users.service.UserService;
 import com.lms.domain.users.view.UserInputView;
@@ -17,6 +17,7 @@ public class AppContext {
     public final CommentAppContext commentAppContext;
     public final QuizAppContext quizAppContext;
     public final VillageAppContext villageAppContext;
+    public SectionAppContext sectionAppContext;
 
     public AppContext(Connection con) {
         this.userAppContext = new UserAppContext(con);
@@ -24,6 +25,7 @@ public class AppContext {
         this.commentAppContext = new CommentAppContext(con);
         this.villageAppContext = new VillageAppContext(con);
         this.quizAppContext = new QuizAppContext(con);
+        this.sectionAppContext = new SectionAppContext(con);
     }
 
     // 최초에 한 번 세팅하는 메서드

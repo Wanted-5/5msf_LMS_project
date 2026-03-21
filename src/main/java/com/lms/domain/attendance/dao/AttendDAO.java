@@ -25,7 +25,7 @@ public class AttendDAO {
             pstmt.setLong(2, dto.getVillageId());
             pstmt.setLong(3, dto.getUserId());
             pstmt.setString(4, dto.getStatus().toString());
-
+            pstmt.setDate(5, java.sql.Date.valueOf(java.time.LocalDate.now()));
             return pstmt.executeUpdate();
         }
 
@@ -48,7 +48,8 @@ public class AttendDAO {
                         rset.getLong("user_id"),
                         AttendStatus.valueOf(rset.getString("status")),
                         rset.getTimestamp("created_at").toLocalDateTime(),
-                        rset.getTimestamp("attendance_date").toLocalDateTime()
+                        rset.getTimestamp("attendance_date").toLocalDateTime(),
+                        rset.getString("user_name")
                 ));
             }
         }
@@ -69,7 +70,8 @@ public class AttendDAO {
                         rset.getLong("user_id"),
                         AttendStatus.valueOf(rset.getString("status")),
                         rset.getTimestamp("created_at").toLocalDateTime(),
-                        rset.getTimestamp("attendance_date").toLocalDateTime()
+                        rset.getTimestamp("attendance_date").toLocalDateTime(),
+                        rset.getString("user_name")
                 ));
             }
         }
@@ -93,7 +95,8 @@ public class AttendDAO {
                             rset.getLong("user_id"),
                             AttendStatus.valueOf(rset.getString("status")),
                             rset.getTimestamp("created_at").toLocalDateTime(),
-                            rset.getTimestamp("attendance_date").toLocalDateTime()
+                            rset.getTimestamp("attendance_date").toLocalDateTime(),
+                            rset.getString("user_name")
                     ));
                 }
             }

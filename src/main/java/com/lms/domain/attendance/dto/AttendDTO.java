@@ -10,8 +10,21 @@ public class AttendDTO {
     private AttendStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime attendanceDate;
+    private String userName;
 
-    public AttendDTO(){
+    public AttendDTO(){}
+
+    @Override
+    public String toString() {
+        return "AttendDTO{" +
+                "attendanceId=" + attendanceId +
+                ", villageId=" + villageId +
+                ", userId=" + userId +
+                ", status=" + status +
+                ", createdAt=" + createdAt +
+                ", attendanceDate=" + attendanceDate +
+                ", userName='" + userName + '\'' +
+                '}';
     }
 
     public Long getAttendanceId() {
@@ -62,24 +75,21 @@ public class AttendDTO {
         this.attendanceDate = attendanceDate;
     }
 
-    public AttendDTO(Long attendanceId, Long villageId, Long userId, AttendStatus status, LocalDateTime createdAt, LocalDateTime attendanceDate) {
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public AttendDTO(Long attendanceId, Long villageId, Long userId, AttendStatus status, LocalDateTime createdAt, LocalDateTime attendanceDate, String userName) {
         this.attendanceId = attendanceId;
         this.villageId = villageId;
         this.userId = userId;
         this.status = status;
         this.createdAt = createdAt;
         this.attendanceDate = attendanceDate;
-    }
-
-    @Override
-    public String toString() {
-        return "AttendDTO{" +
-                "attendanceId=" + attendanceId +
-                ", villageId=" + villageId +
-                ", userId=" + userId +
-                ", status=" + status +
-                ", createdAt=" + createdAt +
-                ", attendanceDate=" + attendanceDate +
-                '}';
+        this.userName = userName;
     }
 }

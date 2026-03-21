@@ -23,35 +23,34 @@ public class AttendService {
 
     public boolean checkAttendance(AttendDTO attendDTO) {
         try {
-
             LocalTime now = LocalTime.now();
-
-
             LocalTime late = LocalTime.of(9, 30);
             LocalTime absent = LocalTime.of(10, 0);
 
-
             if (!now.isAfter(late)) {
-                // 9시 30분 이전이거나 정확히 9시 30분일 때 (정상출석)
                 attendDTO.setStatus(AttendStatus.PRESENT);
-                System.out.println("정상 출석 처리되었습니다. (현재시간: " + now + ")");
-
             } else if (!now.isAfter(absent)) {
-                // 9시 30분 초과 ~ 10시 00분 이하일 때 (지각)
                 attendDTO.setStatus(AttendStatus.LATE);
-                System.out.println("지각 처리되었습니다. (현재시간: " + now + ")");
-
             } else {
-                // 10시 00분 초과일 때 (결석)
                 attendDTO.setStatus(AttendStatus.ABSENT);
-                System.out.println("결석 처리되었습니다. (현재시간: " + now + ")");
             }
 
             int result = attendDAO.attendInsert(attendDTO);
-            return result > 0;
+
+            if (result > 0) {
+                System.out.println("🎉 [" + attendDTO.getStatus().getDescription() + "] 처리가 완료되었습니다. (현재시간: " + now + ")");
+                return true;
+            }
+
+            return false;
 
         } catch (SQLException e) {
-            System.out.println("출석 체크 중 DB 오류: " + e.getMessage());
+            // MySQL 에러 코드 1062는 Unique 제약 조건 위반
+            if (e.getErrorCode() == 1062) {
+                System.out.println("⚠️ [안내] 오늘은 이미 출석 체크를 완료하셨습니다.");
+            } else {
+                System.out.println("🚨 출석 체크 중 DB 오류 발생: " + e.getMessage());
+            }
             return false;
         }
     }

@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <properties>
     <query key="insert_Attend">
-    insert into attendance (attendance_id, village_id, user_id, status)
-    values (?, ?, ?, ?)
+    insert into attendance (attendance_id, village_id, user_id, status, attendance_date)
+    values (?, ?, ?, ?, ?)
     </query>
     <query key="select_Attend">
-        select *
-        from attendance
-        where user_id = ?
-        order by created_at desc;
+        SELECT a.*, u.name as user_name
+        FROM attendance a
+        JOIN users u ON a.user_id = u.user_id
+        WHERE a.user_id = ?
+        ORDER BY a.created_at DESC;
     </query>
     <query key="select_AttendAll">
-        select *
-        from attendance
-        order by created_at desc;
+        SELECT a.*, u.name as user_name
+        FROM attendance a
+        JOIN users u ON a.user_id = u.user_id
+        ORDER BY a.created_at DESC;
     </query>
     <query key="select_dateAttend">
-        select *
-        from attendance
-        where DATE(created_at) = ?
-        order by created_at desc;
+        SELECT a.*, u.name as user_name
+        FROM attendance a
+        JOIN users u ON a.user_id = u.user_id
+        WHERE a.attendance_date = ?
+        ORDER BY a.created_at DESC;
     </query>
     <query key="update_Attendance">
         UPDATE attendance

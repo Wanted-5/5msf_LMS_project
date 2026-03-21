@@ -53,6 +53,7 @@ public class AttendInputView {
                         newAttend.setAttendanceId(System.currentTimeMillis());
                         newAttend.setVillageId(1L);
                         newAttend.setUserId(loginUser.getUserId());
+                        newAttend.setAttendanceDate(java.time.LocalDateTime.now());
                         attendController.processAttendanceCheck(newAttend);
                         break;
                     case 2:
@@ -122,10 +123,14 @@ public class AttendInputView {
                 }
 
                 attendOutputView.printAttendanceList(list);
-                System.out.print("관리할 출결 번호(attendance_id)를 입력하세요 : ");
-                long targetId = Long.parseLong(sc.nextLine());
+                System.out.print("관리할 순번( [ ] 안의 번호)을 입력하세요 : ");
+                int selectNum = Integer.parseInt(sc.nextLine());
 
-                System.out.println("\n무엇을 하시겠습니까?");
+                AttendDTO selectedAttend = list.get(selectNum - 1);
+                long targetId = selectedAttend.getAttendanceId();
+
+                System.out.println("\n선택된 기록: [" + selectedAttend.getUserName() + "] " + selectedAttend.getStatus().getDescription());
+                System.out.println("무엇을 하시겠습니까?");
                 System.out.println("1. 상태 수정하기  |  2. 기록 삭제하기  |  3. 취소");
                 System.out.print("선택 : ");
                 int action = Integer.parseInt(sc.nextLine());
@@ -138,6 +143,8 @@ public class AttendInputView {
 
                     if (isSuccess) {
                         attendOutputView.printSuccess("출결 상태가 성공적으로 수정되었습니다.");
+                        List<AttendDTO> updatedList = attendController.viewAttendanceByDate(targetDate);
+                        attendOutputView.printAttendanceList(updatedList);
                     } else {
                         attendOutputView.printError("출결 상태 수정에 실패했습니다. 상태명을 정확히 입력해주세요.");
                     }

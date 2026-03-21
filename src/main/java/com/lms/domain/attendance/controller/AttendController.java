@@ -37,9 +37,9 @@ public class AttendController {
         return attendService.getAttendanceByDate(targetDate);
     }
     //discription5는 enum의 5가지 discription
-    public boolean updateAttendStatus(long targetId, String discription5) {
+    public boolean updateAttendStatus(long targetId, String description5) {
 
-        AttendStatus targetStatus = AttendStatus.fromDescription(discription5);
+        AttendStatus targetStatus = AttendStatus.fromDescription(description5);
 
         if (targetStatus == null) {
             System.out.println("🚨 존재하지 않는 출결 상태입니다. (오타 확인)");

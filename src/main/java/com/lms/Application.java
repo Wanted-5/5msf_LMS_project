@@ -24,7 +24,6 @@ public class Application {
 //            appContext.commentAppContext.commentInputView.showInitialMenu();
             // appContext.villageAppContext.villageInputView.displayLoginMenu();
 
-
         } catch (SQLException e) {
             System.err.println("🚨 데이터 베이스 연결 실패... 🚨");
         } finally {

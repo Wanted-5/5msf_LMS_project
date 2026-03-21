@@ -1,7 +1,6 @@
 package com.lms.domain.users.view;
 
 import com.lms.domain.users.controller.UserController;
-import com.lms.domain.users.dto.request.LoginRequest;
 import com.lms.domain.users.dto.request.SignupRequest;
 import com.lms.domain.users.dto.response.LoginResponse;
 import com.lms.domain.users.dto.response.MyPageResponse;
@@ -10,7 +9,6 @@ import com.lms.domain.users.dto.response.SignupResponse;
 import com.lms.global.AppContext.AppContext;
 import com.lms.global.common.UserSession;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class UserInputView {
@@ -27,6 +25,13 @@ public class UserInputView {
     public void displayInitialMenu() {
 
         while (true) {
+            // 핵심 라우팅 방어막 코드
+            // loginProcess()가 성공적으로 끝나고 세션에 값이 담긴 채로 돌아오면,
+            // 이 방어막에 걸려서 즉시 초기 화면 루프를 탈출하고 광장(main)으로 나간다
+            if (UserSession.getLoggedInUser() != null) {
+                return;
+            }
+
             System.out.println("\n");
             System.out.println("╔══════════════════════════════════════════════════════════════╗");
             System.out.println("║                                                              ║");
@@ -84,12 +89,13 @@ public class UserInputView {
 
             UserSession.setLoggedInUser(response);
 
+//            System.out.println("\n🎉 로그인에 성공했습니다!");
+//            System.out.println("  " + response.getName() + "[" + response.getNickname() + "]님 어서오세요.");
+//            System.out.println("────────────────────────────────────────────────────────────────\n");
+
             userOutputView.displayLoginSuccess(response);
 
-            displayMyPageMenu();
-
-            // TODO: response.getRole()을 확인 후 강사 메뉴 / 학생 메뉴로 이동하는 로직이 추가!
-
+            return;
 
         } catch (Exception e) {
             userOutputView.displayLoginFailure(e.getMessage());

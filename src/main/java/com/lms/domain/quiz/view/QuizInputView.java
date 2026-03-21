@@ -53,6 +53,8 @@ public class QuizInputView {
                 case 1:
                     backMain();
                     break;
+                case 2:
+                    createQuiz();
             }
         }
 
@@ -101,6 +103,26 @@ public class QuizInputView {
             } else {
                 System.out.println("잘못된 입력입니다. 1번이나 2번만 눌러주세요");
             }
+
+    }
+
+    public void createQuiz() {
+        System.out.println("퀴즈제목을 입력해주세요 : ");
+        String title = sc.nextLine();
+
+        System.out.println("퀴즈 내용을 입력해주새요 : ");
+        String content = sc.nextLine();
+
+        System.out.println("정답을 설정 해주세요 : ");
+        String answer = sc.nextLine();
+
+        Long result =  quizController.createQuiz(title, content, answer);
+
+        if(result != null && result>0) {
+            quizOutputview.printSuccess("퀴즈 등록 성공 등록된 퀴즈 ID : " + result);
+        } else {
+            quizOutputview.printError("과정 등록 실패");
+        }
 
     }
 

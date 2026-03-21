@@ -2,7 +2,7 @@ package com.lms.domain.attendance.view;
 
 import com.lms.domain.attendance.controller.AttendController;
 import com.lms.domain.attendance.dto.AttendDTO;
-import com.lms.domain.users.constant.UserRole;
+import com.lms.domain.users.dto.UserRole;
 import com.lms.domain.users.dto.response.LoginResponse;
 import com.lms.global.common.UserSession;
 

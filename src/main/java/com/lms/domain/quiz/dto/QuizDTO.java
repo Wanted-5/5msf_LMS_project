@@ -4,13 +4,20 @@ import java.time.LocalDateTime;
 
 public class QuizDTO {
 
-    private int quizId;
+    private Integer quizId;
     private String title;
     private int mafiaId;
     private String content;
     private String answer;
     private LocalDateTime createdAt;
 
+    public QuizDTO(Integer quizId, Integer mafiaId, String title, String content, String answer) {
+        this.quizId = quizId;
+        this.mafiaId = mafiaId;
+        this.title = title;
+        this.content = content;
+        this.answer = answer;
+    }
 
     public QuizDTO(int quizId, String title, int mafiaId, String content, String answer, LocalDateTime createdAt) {
         this.quizId = quizId;

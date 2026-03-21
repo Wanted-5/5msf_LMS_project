@@ -1,5 +1,6 @@
 package com.lms.global.AppContext;
 
+import com.lms.domain.mafia.service.MafiaService;
 import com.lms.domain.quiz.controller.QuizController;
 import com.lms.domain.quiz.service.QuizService;
 import com.lms.domain.quiz.view.QuizInputView;
@@ -15,7 +16,8 @@ public class QuizAppContext {
     public QuizAppContext(Connection con) {
 
         QuizService quizService = new QuizService(con);
-        QuizController quizController = new QuizController(quizService);
+        MafiaService mafiaService = new MafiaService(con);
+        QuizController quizController = new QuizController(quizService, mafiaService);
         QuizOutputview quizOutputView = new QuizOutputview();
 
         this.quizInputView =  new QuizInputView(quizController, quizOutputView);

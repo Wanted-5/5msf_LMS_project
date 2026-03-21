@@ -1,9 +1,8 @@
 package com.lms.domain.section.view;
 
-
 import com.lms.domain.section.controller.SectionController;
 import com.lms.domain.section.model.DTO.SectionDTO;
-import com.lms.domain.village.DTO.VillageDTO;
+import com.lms.domain.village.dto.VillageDTO;
 
 import java.util.HashSet;
 import java.util.List;

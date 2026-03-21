@@ -1,7 +1,8 @@
 package com.lms.domain.village.controller;
 
-
-import com.lms.domain.village.DTO.VillageDTO;
+import com.lms.domain.village.dto.VillageDTO;
+import com.lms.domain.village.dto.request.CreateVillageRequest;
+import com.lms.domain.village.dto.response.CreateVillageResponse;
 import com.lms.domain.village.service.VillageService;
 
 public class VillageController {
@@ -12,6 +13,7 @@ public class VillageController {
         this.villageService = villageService;
     }
 
+    // TODO : 코드 사용하는지 확인하기.
     public VillageDTO enterVillage(String inviteCode) {
         try {
             return villageService.enterVillageByInviteCode(inviteCode);
@@ -20,5 +22,8 @@ public class VillageController {
             return null;
         }
     }
-}
 
+    public CreateVillageResponse createVillageProcess(CreateVillageRequest request) throws Exception{
+        return villageService.createVillage(request);
+    }
+}

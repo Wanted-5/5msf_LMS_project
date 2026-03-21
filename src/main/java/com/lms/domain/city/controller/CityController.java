@@ -2,7 +2,9 @@ package com.lms.domain.city.controller;
 
 import com.lms.domain.city.dto.CityDTO;
 import com.lms.domain.city.dto.request.CreateCityRequest;
+import com.lms.domain.city.dto.request.UpdateCityRequest;
 import com.lms.domain.city.dto.response.CreateCityResponse;
+import com.lms.domain.city.dto.response.UpdateCityResponse;
 import com.lms.domain.city.service.CityService;
 
 import java.util.List;
@@ -28,4 +30,7 @@ public class CityController {
     }
 
 
+    public UpdateCityResponse updateCityProcess(UpdateCityRequest request) throws Exception{
+        return service.updateCity(request);
+    }
 }

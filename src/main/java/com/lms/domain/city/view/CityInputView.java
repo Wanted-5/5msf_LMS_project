@@ -3,13 +3,16 @@ package com.lms.domain.city.view;
 import com.lms.domain.city.controller.CityController;
 import com.lms.domain.city.dto.CityDTO;
 import com.lms.domain.city.dto.request.CreateCityRequest;
+import com.lms.domain.city.dto.request.UpdateCityRequest;
 import com.lms.domain.city.dto.response.CreateCityResponse;
+import com.lms.domain.city.dto.response.UpdateCityResponse;
 import com.lms.domain.users.constant.UserRole;
 import com.lms.global.common.UserSession;
 
 import java.util.List;
 import java.util.Scanner;
 
+//TODO : 비활성화 시키기는 추후 구현
 public class CityInputView {
 
     private final CityController controller;
@@ -53,16 +56,16 @@ public class CityInputView {
                     break;
                 case "2":
                     System.out.println("\n  [ 시스템 ] 전체 도시의 조감도를 불러옵니다...");
-                    // TODO: 조감도 확인 로직 (readCityProcess)
                     readCityProcess();
                     break;
                 case "3":
                     System.out.println("\n  [ 시스템 ] 도시 재건축 프로세스를 가동합니다...");
-                    // TODO: 정보 수정 로직 (updateCityProcess)
+                    updateCityProcess();
                     break;
                 case "4":
                     System.out.println("\n  [ 시스템 ] 철거 장비를 준비합니다...");
                     // TODO: 삭제 로직 (deleteCityProcess)
+                    deleteCityProcess();
                     break;
                 case "5":
                     System.out.println("\n  [ 시스템 ] 마을에 입장합니다...");
@@ -78,22 +81,7 @@ public class CityInputView {
         }
     }
 
-    private void readCityProcess() {
-        List<CityDTO> cityList = null;
-        try {
-            cityList = controller.readCityProcess();
-
-            if (cityList == null || cityList.isEmpty()) {
-                System.out.println("\n  [ 시스템 ] 현재 건설된 도시가 하나도 없습니다.");
-                return;
-            }
-
-            cityOutputView.displaySelectSuccess(cityList);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
+    // 도시 생성
     private void createCityProcess() {
         System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
         System.out.println("║                 🏗️ 신규 도시 건설 프로젝트 기안                  ║");
@@ -125,5 +113,88 @@ public class CityInputView {
         }
 
 
+    }
+
+    // 도시 전체 조회
+    private void readCityProcess() {
+        List<CityDTO> cityList = null;
+        try {
+            cityList = controller.readCityProcess();
+
+            if (cityList == null || cityList.isEmpty()) {
+                System.out.println("\n  [ 시스템 ] 현재 건설된 도시가 하나도 없습니다.");
+                return;
+            }
+
+            cityOutputView.displaySelectSuccess(cityList);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // 도시 수정
+    private void updateCityProcess() {
+        System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
+        System.out.println("║                 🏗️ 도시 정보 재건축 프로세스                     ║");
+        System.out.println("╚══════════════════════════════════════════════════════════════╝");
+        System.out.println("  [ 시스템 ] 기존 도시의 인프라와 행정 정보를 새롭게 단장합니다.");
+        System.out.println("────────────────────────────────────────────────────────────────");
+
+        // 도시 전체 조회
+        System.out.println("  [ 시스템 ] 먼저 현재 건설된 도시 목록을 불러옵니다...");
+        readCityProcess(); // 앞서 만든 전체 조회 메서드 재활용!
+
+        System.out.println("────────────────────────────────────────────────────────────────");
+        System.out.print("  ▶ 재건축(수정)할 도시의 행정 코드(ID)를 입력하세요 : ");
+        long cityId;
+        try {
+            // 문자열로 받고 -> 공백 제거 -> long타입으로 변경
+            String input =  sc.nextLine().trim();
+            cityId = Long.parseLong(input);
+        } catch (NumberFormatException e) {
+            System.out.println("\n🚨 [오류] 행정 코드(ID)는 숫자만 입력 가능합니다.");
+            return;
+        }
+
+        System.out.print("  ▶ 리모델링할 새로운 도시 이름 : ");
+        String newCityName = sc.nextLine();
+
+        System.out.print("  ▶ 변경할 새로운 상세 설명 : ");
+        String newDescription = sc.nextLine();
+
+        System.out.println("\n  [ 시스템 ] 안전모를 착용하고 재건축 공사를 시작합니다...");
+
+        UpdateCityRequest request = new UpdateCityRequest(cityId, newCityName, newDescription);
+        try {
+            UpdateCityResponse response = controller.updateCityProcess(request);
+
+            cityOutputView.displayUpdateSuccress(response);
+        } catch (Exception e) {
+            cityOutputView.displayFailure(e.getMessage());
+        }
+
+    }
+
+    private void deleteCityProcess() {
+        System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
+        System.out.println("║                 🧨 도시 철거 및 폐쇄 프로세스                     ║");
+        System.out.println("╚══════════════════════════════════════════════════════════════╝");
+        System.out.println("  [ 시스템 ] 철거된 도시는 복구하기 어려울 수 있습니다. 주의 바랍니다.");
+        System.out.println("────────────────────────────────────────────────────────────────");
+
+        System.out.println("  [ 시스템 ] 현재 관할 중인 도시 목록을 불러옵니다...");
+        readCityProcess();
+
+        System.out.println("────────────────────────────────────────────────────────────────");
+        System.out.print("  ▶ 철거를 집행할 도시의 행정 코드(ID)를 입력하세요 : ");
+        long cityId;
+
+        try {
+            String input = sc.nextLine().trim();
+            cityId = Long.parseLong(input);
+        } catch (NumberFormatException e) {
+            System.out.println("\n🚨 [오류] 행정 코드(ID)는 숫자만 입력 가능합니다.");
+            return;
+        }
     }
 }

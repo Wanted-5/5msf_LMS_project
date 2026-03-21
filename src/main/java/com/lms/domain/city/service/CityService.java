@@ -94,4 +94,23 @@ public class CityService {
             throw new RuntimeException(e);
         }
     }
+
+    public Boolean deactivateCity(long cityId) {
+        try {
+            CityDTO existingCity = cityDAO.findById(cityId);
+
+            if (existingCity == null) {
+                throw new IllegalStateException("[error] 행정코드: " + cityId + "번 도시는 존재하지 않습니다.");
+            }
+
+            boolean newStatus = !existingCity.getIsActive();
+
+            cityDAO.updateStatus(newStatus, cityId);
+
+            return newStatus;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -33,4 +33,8 @@ public class CityController {
     public UpdateCityResponse updateCityProcess(UpdateCityRequest request) throws Exception{
         return service.updateCity(request);
     }
+
+    public Boolean deactivateCityProcess(long cityId) {
+       return service.deactivateCity(cityId);
+    }
 }

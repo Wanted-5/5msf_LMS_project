@@ -23,4 +23,10 @@
         WHERE city_id = ?
     </query>
 
+    <query key="city.updateStatus">
+        UPDATE City
+        set status = ?
+        WHERE city_id = ?
+    </query>
+
 </properties>

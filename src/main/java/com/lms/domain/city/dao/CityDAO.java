@@ -94,6 +94,21 @@ public class CityDAO {
         }
     }
 
+    public void updateStatus(boolean newStatus, long cityId) throws SQLException {
+        String query = QueryUtil.getQuery("city.updateStatus");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setBoolean(1, newStatus);
+            pstmt.setLong(2, cityId);
+
+            int updatedRows = pstmt.executeUpdate();
+
+            if (updatedRows == 0) {
+                throw new SQLException("[❌] 도시 비활성화에 실패했습니다. (존재하지 않는 행정 코드)");
+            }
+        }
+    }
+
     // ============= 내부 편의 메서드 =======================
 
     private CityDTO convertToDTO (ResultSet rset) {

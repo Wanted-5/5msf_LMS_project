@@ -41,8 +41,8 @@ public class CityInputView {
             System.out.println("      [ 1 ] 새로운 도시 건설");
             System.out.println("      [ 2 ] 전체 도시 조감도 확인");
             System.out.println("      [ 3 ] 도시 정보 재건축");
-            System.out.println("      [ 4 ] 도시 철거");
-            System.out.println("      [ 5 ] 관할 마을 현장 시찰 (마을 입장)"); // 🌟 새로 추가된 메뉴!
+            System.out.println("      [ 4 ] 도시 상태 변경 (활성화 ↔ 비활성화 토글)");
+            System.out.println("      [ 5 ] 관할 마을 현장 시찰 (마을 입장)");
             System.out.println("      [ 0 ] 관리자 시스템 로그아웃");
             System.out.println("────────────────────────────────────────────────────────────────");
             System.out.print("  ▶ 원하시는 행정 업무의 번호를 입력해주세요 : ");
@@ -63,9 +63,8 @@ public class CityInputView {
                     updateCityProcess();
                     break;
                 case "4":
-                    System.out.println("\n  [ 시스템 ] 철거 장비를 준비합니다...");
-                    // TODO: 삭제 로직 (deleteCityProcess)
-                    deleteCityProcess();
+                    System.out.println("\n  [ 시스템 ] 도시 상태 토글 프로세스를 준비합니다...");
+                    deactivateCityProcess();
                     break;
                 case "5":
                     System.out.println("\n  [ 시스템 ] 마을에 입장합니다...");
@@ -175,18 +174,18 @@ public class CityInputView {
 
     }
 
-    private void deleteCityProcess() {
+    private void deactivateCityProcess() {
         System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
-        System.out.println("║                 🧨 도시 철거 및 폐쇄 프로세스                     ║");
+        System.out.println("║                 ✅ 🔄 ❌ 도시 상태 변경 (토글) 프로세스          ║");
         System.out.println("╚══════════════════════════════════════════════════════════════╝");
-        System.out.println("  [ 시스템 ] 철거된 도시는 복구하기 어려울 수 있습니다. 주의 바랍니다.");
+        System.out.println("  [ 시스템 ] 비활성화된 도시는 조감도에서 숨겨지며 학생 신규 등록이 제한됩니다.");
         System.out.println("────────────────────────────────────────────────────────────────");
 
-        System.out.println("  [ 시스템 ] 현재 관할 중인 도시 목록을 불러옵니다...");
+        System.out.println("  [ 시스템 ] 현재 관할 중인 활성 도시 목록을 불러옵니다...");
         readCityProcess();
 
         System.out.println("────────────────────────────────────────────────────────────────");
-        System.out.print("  ▶ 철거를 집행할 도시의 행정 코드(ID)를 입력하세요 : ");
+        System.out.print("  ▶ 상태를 변경할 도시의 행정 코드(ID)를 입력하세요 : ");
         long cityId;
 
         try {
@@ -195,6 +194,25 @@ public class CityInputView {
         } catch (NumberFormatException e) {
             System.out.println("\n🚨 [오류] 행정 코드(ID)는 숫자만 입력 가능합니다.");
             return;
+        }
+
+        System.out.println("\n  🚨 [확인] 해당 도시의 활성화/비활성화 상태를 반전시키겠습니까?");
+        System.out.print("  ▶ 동의하시면 'Y' / 'y'를 입력해 주세요 (취소는 아무 키) : ");
+        String confirm = sc.nextLine();
+
+        if (!(confirm.equals("Y") || confirm.equals("y"))) {
+            System.out.println("\n  [ 시스템 ] 철거 명령이 취소되었습니다. 관제센터로 돌아갑니다.");
+            return;
+        }
+
+        System.out.println("\n  [ 시스템 ] 도시 출입 통제망을 가동합니다. 도시를 비활성화합니다...");
+
+        try {
+            Boolean finalStatus = controller.deactivateCityProcess(cityId);
+
+            cityOutputView.displayUpdateStatusSuccess(finalStatus, cityId);
+        } catch (Exception e) {
+            cityOutputView.displayFailure(e.getMessage());
         }
     }
 }

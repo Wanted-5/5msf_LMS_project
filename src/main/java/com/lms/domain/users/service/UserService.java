@@ -1,6 +1,6 @@
 package com.lms.domain.users.service;
 
-import com.lms.domain.users.constant.UserRole;
+import com.lms.domain.users.dto.UserRole;
 import com.lms.domain.users.dao.UserDAO;
 import com.lms.domain.users.dto.UserDTO;
 import com.lms.domain.users.dto.request.LoginRequest;

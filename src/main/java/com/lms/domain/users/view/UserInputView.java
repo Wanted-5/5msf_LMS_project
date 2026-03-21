@@ -1,9 +1,6 @@
 package com.lms.domain.users.view;
 
-import com.lms.domain.city.view.CityInputView;
-import com.lms.domain.users.constant.UserRole;
 import com.lms.domain.users.controller.UserController;
-import com.lms.domain.users.dto.request.LoginRequest;
 import com.lms.domain.users.dto.request.SignupRequest;
 import com.lms.domain.users.dto.response.LoginResponse;
 import com.lms.domain.users.dto.response.MyPageResponse;
@@ -11,7 +8,6 @@ import com.lms.domain.users.dto.response.MyPageUpdateResponse;
 import com.lms.domain.users.dto.response.SignupResponse;
 import com.lms.global.common.UserSession;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class UserInputView {

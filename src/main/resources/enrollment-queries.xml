@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<properties>
+    <query key = "enrollment.insert">
+        INSERT INTO enrollment
+        (village_id, user_id, status)
+        VALUES
+        (?, ?, ?)
+    </query>
+</properties>

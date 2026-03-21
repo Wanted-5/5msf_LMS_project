@@ -1,10 +1,6 @@
 package com.lms.domain.city.dto;
 
-import com.lms.domain.users.constant.UserRole;
-import com.lms.global.common.UserSession;
-
 import java.time.LocalDateTime;
-import java.util.Scanner;
 
 public class CityDTO {
 

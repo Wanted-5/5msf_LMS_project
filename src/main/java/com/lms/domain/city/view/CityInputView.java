@@ -6,7 +6,7 @@ import com.lms.domain.city.dto.request.CreateCityRequest;
 import com.lms.domain.city.dto.request.UpdateCityRequest;
 import com.lms.domain.city.dto.response.CreateCityResponse;
 import com.lms.domain.city.dto.response.UpdateCityResponse;
-import com.lms.domain.users.constant.UserRole;
+import com.lms.domain.users.dto.UserRole;
 import com.lms.global.AppContext.AppContext;
 import com.lms.global.common.UserSession;
 

@@ -10,6 +10,7 @@ public class AppContext {
     public final CommentAppContext commentAppContext;
     public final QuizAppContext quizAppContext;
     public final VillageAppContext villageAppContext;
+    public final EnrollmentAppContext enrollmentAppContext;
 
     public AppContext(Connection con) {
         this.userAppContext = new UserAppContext(con);
@@ -17,6 +18,7 @@ public class AppContext {
         this.commentAppContext = new CommentAppContext(con);
         this.villageAppContext = new VillageAppContext(con);
         this.quizAppContext = new QuizAppContext(con);
+        this.enrollmentAppContext = new EnrollmentAppContext(con);
     }
 
     // 최초에 한 번 세팅하는 메서드

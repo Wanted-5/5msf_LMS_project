@@ -1,12 +1,8 @@
 package com.lms;
 
-import com.lms.domain.users.constant.UserRole;
+import com.lms.domain.users.dto.UserRole;
 import com.lms.domain.users.dto.response.LoginResponse;
 import com.lms.global.AppContext.AppContext;
-import com.lms.global.AppContext.AppContext;
-import com.lms.global.AppContext.AppContext;
-import com.lms.global.AppContext.CommentAppContext;
-import com.lms.global.AppContext.CommentAppContext;
 import com.lms.global.common.UserSession;
 import com.lms.global.config.JDBCTemplate;
 import java.sql.SQLException;
@@ -43,7 +39,7 @@ public class Application {
 
                     } else if (role == UserRole.STUDENT) {
                         System.out.println("  [시스템] " + UserSession.getLoggedInUser().getRole().getDescription() + "(STUDENT) 권한으로 접속했습니다.");
-//                        appContext.villageAppContext.villageInputView.showVillageMainMenu();
+                        appContext.enrollmentAppContext.enrollmentInputView.displayEnrollMainMenu();
                         //TODO: 학생 옵션으로 로직 구현
 
                     }

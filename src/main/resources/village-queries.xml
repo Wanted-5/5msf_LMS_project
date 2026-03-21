@@ -9,4 +9,9 @@
         (?, ?, ? ,?, ?, ?)
     </query>
 
+    <query key="village.findByInviteCode">
+        SELECT * from Village
+        WHERE invite_code = ?
+    </query>
+
 </properties>

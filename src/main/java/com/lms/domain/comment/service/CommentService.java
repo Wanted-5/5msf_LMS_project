@@ -3,8 +3,7 @@ package com.lms.domain.comment.service;
 
 import com.lms.domain.comment.dao.CommentDAO;
 import com.lms.domain.comment.dto.CommentDTO;
-import com.lms.domain.users.constant.UserRole;
-import com.lms.domain.users.dto.UserDTO;
+import com.lms.domain.users.dto.UserRole;
 import com.lms.domain.users.dto.response.LoginResponse;
 import com.lms.global.common.UserSession;
 

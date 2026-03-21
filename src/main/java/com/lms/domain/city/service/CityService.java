@@ -39,7 +39,6 @@ public class CityService {
             throw new IllegalArgumentException("도시 설명이 너무 깁니다. 200자 이내로 작성해 주세요.");
         }
 
-        //TODO : 오늘 저녁 여기부터 구현하기
         try {
             Long newCityId = cityDAO.insertCity(
                     request.getCreatorId(),

@@ -1,6 +1,6 @@
 package com.lms.domain.users.dto.response;
 
-import com.lms.domain.users.constant.UserRole;
+import com.lms.domain.users.dto.UserRole;
 
 public class LoginResponse {
     private Long userId;        // 다음 로직 처리를 위한 식별자

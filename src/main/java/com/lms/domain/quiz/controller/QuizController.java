@@ -1,5 +1,6 @@
 package com.lms.domain.quiz.controller;
 
+import com.lms.domain.mafia.service.MafiaService;
 import com.lms.domain.quiz.dto.QuizDTO;
 import com.lms.domain.quiz.service.QuizService;
 
@@ -8,9 +9,11 @@ import java.util.List;
 public class QuizController {
 
     private final QuizService quizService;
+    private final MafiaService mafiaService;
 
-    public QuizController(QuizService quizService) {
+    public QuizController(QuizService quizService, MafiaService mafiaService) {
         this.quizService = quizService;
+        this.mafiaService = mafiaService;
     }
 
     public List<QuizDTO> findAllQuiz() {
@@ -24,4 +27,12 @@ public class QuizController {
         return quizService.findByQuizId(id);
     }
 
+    public Long createQuiz(String title, String content, String answer) {
+        int userId = 10;  // 더미 user_id (오늘 마피아로 뽑힌 사람)
+        int mafiaId = mafiaService.selectTodayMafiaId(userId);
+
+
+        QuizDTO newQuiz = new QuizDTO(null, mafiaId, title, content, answer);
+        return quizService.createQuiz(newQuiz);
+    }
 }

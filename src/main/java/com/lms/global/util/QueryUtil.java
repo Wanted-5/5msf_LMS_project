@@ -19,7 +19,8 @@ public class QueryUtil {
     private static final String[] QUERIES_FILES = {
             "users-queries.xml",
             "Comment-querys.xml",
-            "quiz-queries.xml"
+            "quiz-queries.xml",
+            "mafia-queries.xml"
     };
 
 

@@ -20,4 +20,13 @@
         where quiz_id = ?
     </query>
 
+    <query key = "quiz.create">
+        INSERT INTO quizzes (quiz_id, mafia_id, quiz_title, content, answer, created_at)
+        VALUES (?, ?, ?, ?, ?, NOW())
+    </query>
+
+    <query key="quiz.selectNextQuizId">
+    SELECT IFNULL(MAX(quiz_id), 0) + 1 FROM quizzes
+    </query>
+
 </properties>

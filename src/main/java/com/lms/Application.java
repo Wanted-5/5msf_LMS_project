@@ -18,9 +18,11 @@ public class Application {
             JDBCTemplate.printConnectionStatus();
 
             AppContext appContext = new AppContext(con);
-            appContext.userAppContext.userInputView.displayInitialMenu();
-           // appContext.quizAppContext.quizInputView.displayMainMenu();
+//            appContext.userAppContext.userInputView.displayInitialMenu();
+            appContext.mafiaAppContext.mafiaInputView.mafiaTest();
+            appContext.quizAppContext.quizInputView.displayMainMenu();
 //            appContext.commentAppContext.commentInputView.showInitialMenu();
+
 
 
 

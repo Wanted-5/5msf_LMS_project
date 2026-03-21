@@ -6,6 +6,7 @@ import com.lms.domain.users.dto.response.LoginResponse;
 import com.lms.domain.users.dto.response.MyPageResponse;
 import com.lms.domain.users.dto.response.MyPageUpdateResponse;
 import com.lms.domain.users.dto.response.SignupResponse;
+import com.lms.global.AppContext.AppContext;
 import com.lms.global.common.UserSession;
 
 import java.util.Scanner;

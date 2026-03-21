@@ -2,7 +2,6 @@ package com.lms.domain.enrollment.controller;
 
 import com.lms.domain.enrollment.dto.Response.VerifyInviteCodeResponse;
 import com.lms.domain.enrollment.service.EnrollmentService;
-import com.lms.domain.village.dto.VillageDTO;
 
 public class EnrollmentController {
 

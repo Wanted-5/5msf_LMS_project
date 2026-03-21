@@ -21,6 +21,5 @@ public class AttendAppContext {
         AttendOutputView attendOutputView = new AttendOutputView();
 
         this.attendInputView = new AttendInputView(attendController, attendOutputView);
-        attendInputView.attenedStart();
     }
 }

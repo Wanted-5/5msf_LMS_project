@@ -9,6 +9,7 @@ public class AppContext {
     public final CityAppContext cityAppContext;
     public final CommentAppContext commentAppContext;
     public final QuizAppContext quizAppContext;
+    public final MafiaAppContext mafiaAppContext;
     public final VillageAppContext villageAppContext;
     public final EnrollmentAppContext enrollmentAppContext;
 
@@ -16,6 +17,7 @@ public class AppContext {
         this.userAppContext = new UserAppContext(con);
         this.cityAppContext = new CityAppContext(con);
         this.commentAppContext = new CommentAppContext(con);
+        this.mafiaAppContext = new MafiaAppContext(con);
         this.villageAppContext = new VillageAppContext(con);
         this.quizAppContext = new QuizAppContext(con);
         this.enrollmentAppContext = new EnrollmentAppContext(con);

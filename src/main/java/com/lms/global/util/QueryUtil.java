@@ -23,7 +23,9 @@ public class QueryUtil {
             "enrollment-queries.xml",
             "section-queries.xml",
             "Comment-querys.xml",
-            "quiz-queries.xml"
+            "quiz-queries.xml",
+            "quiz-queries.xml",
+            "mafia-queries.xml"
     };
 
 

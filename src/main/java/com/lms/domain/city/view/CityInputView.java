@@ -6,7 +6,8 @@ import com.lms.domain.city.dto.request.CreateCityRequest;
 import com.lms.domain.city.dto.request.UpdateCityRequest;
 import com.lms.domain.city.dto.response.CreateCityResponse;
 import com.lms.domain.city.dto.response.UpdateCityResponse;
-import com.lms.domain.users.constant.UserRole;
+import com.lms.domain.users.dto.UserRole;
+import com.lms.global.AppContext.AppContext;
 import com.lms.global.common.UserSession;
 
 import java.util.List;
@@ -42,6 +43,7 @@ public class CityInputView {
             System.out.println("      [ 2 ] 전체 도시 조감도 확인");
             System.out.println("      [ 3 ] 도시 정보 재건축");
             System.out.println("      [ 4 ] 도시 상태 변경 (활성화 ↔ 비활성화 토글)");
+            System.out.println("      [ 5 ] 신규 마을 개척 (생성)");
             System.out.println("      [ 5 ] 관할 마을 현장 시찰 (마을 입장)");
             System.out.println("      [ 0 ] 관리자 시스템 로그아웃");
             System.out.println("────────────────────────────────────────────────────────────────");
@@ -67,6 +69,10 @@ public class CityInputView {
                     deactivateCityProcess();
                     break;
                 case "5":
+                    System.out.println("\n  [ 시스템 ] 신규 마을 개척 프로세스를 가동합니다...");
+                    routeToCreateVillage(); // 🌟 마을 생성 라우팅 메서드 호출!
+                    break;
+                case "6":
                     System.out.println("\n  [ 시스템 ] 마을에 입장합니다...");
                     // TODO: 마을 입장 전 전체 리스트 조회하고 마을 번호 받아서 입장하기 (deleteCityProcess)
                     break;
@@ -75,7 +81,7 @@ public class CityInputView {
                     UserSession.setLoggedInUser(null);
                     return;
                 default:
-                    System.out.println("\n  [🚨] 올바른 업무 번호(0~5)를 입력해주세요.");
+                    System.out.println("\n  [🚨] 올바른 업무 번호(0~6)를 입력해주세요.");
             }
         }
     }
@@ -214,5 +220,31 @@ public class CityInputView {
         } catch (Exception e) {
             cityOutputView.displayFailure(e.getMessage());
         }
+    }
+
+    // 마을 생성 전 도시번호 선택하는 메서드
+    private void routeToCreateVillage() {
+        System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
+        System.out.println("║                 🔀 신규 마을 개척 대상 도시 선택             ║");
+        System.out.println("╚══════════════════════════════════════════════════════════════╝");
+        System.out.println("  [ 시스템 ] 마을을 개척할 상위 행정 구역(도시)을 선택해야 합니다.");
+        System.out.println("────────────────────────────────────────────────────────────────");
+
+        System.out.println("  [ 시스템 ] 현재 관할 중인 도시 조감도를 불러옵니다...\n");
+        readCityProcess();
+
+        System.out.println("────────────────────────────────────────────────────────────────");
+        System.out.print("  ▶ 마을을 개척할 도시의 행정 코드(ID)를 입력하세요 : ");
+        long cityId;
+        try {
+            String input = sc.nextLine().trim();
+            cityId = Long.parseLong(input);
+        } catch (NumberFormatException e) {
+            System.out.println("\n🚨 [오류] 행정 코드(ID)는 숫자만 입력해야 합니다. 메인 메뉴로 돌아갑니다.");
+            return;
+        }
+
+        System.out.println("\n  [ 시스템 ] 행정 코드 [ " + cityId + " ] 도시로 마을 개척 업무를 이관합니다...");
+        AppContext.getAppContext().villageAppContext.villageInputView.createVillageProcess(cityId);
     }
 }

@@ -41,4 +41,10 @@ public class QuizOutputview {
         System.out.println("내용: " + quiz.getContent());
 
     }
+
+    public void printSuccess(String message) {
+
+        System.out.println("✅" + message);
+
+    }
 }

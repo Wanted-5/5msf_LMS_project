@@ -1,6 +1,6 @@
 package com.lms.domain.users.dto.response;
 
-import com.lms.domain.users.constant.UserRole;
+import com.lms.domain.users.dto.UserRole;
 
 public class SignupResponse {
     private String username;

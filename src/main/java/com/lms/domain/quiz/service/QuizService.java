@@ -38,4 +38,16 @@ public class QuizService {
         }
 
     }
+
+    public Long createQuiz(QuizDTO newQuiz) {
+
+        try {
+            int nextId = quizDAO.selectNextQuizId();  // 추가
+            newQuiz.setQuizId(nextId);
+            return quizDAO.create(newQuiz);
+        } catch (SQLException e) {
+            throw new RuntimeException("퀴즈 등록 중 Error 발생 !!!" + e.getMessage());
+        }
+
+    }
 }

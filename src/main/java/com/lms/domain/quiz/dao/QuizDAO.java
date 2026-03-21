@@ -64,4 +64,39 @@ public class QuizDAO {
         }
         return null;
     }
+
+    // 퀴즈 등록
+    public Long create(QuizDTO quiz) throws SQLException {
+
+        String query = QueryUtil.getQuery("quiz.create");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            pstmt.setInt(1, quiz.getQuizId());    // 순번 추가
+            pstmt.setInt(2, quiz.getMafiaId());
+            pstmt.setString(3, quiz.getTitle());
+            pstmt.setString(4, quiz.getContent());
+            pstmt.setString(5, quiz.getAnswer());
+
+            pstmt.executeUpdate();
+
+            ResultSet rset = pstmt.getGeneratedKeys();
+            if(rset.next()) {
+                return rset.getLong(1);
+            }
+        }
+        return null;
+    }
+
+    public int selectNextQuizId() throws SQLException {
+        String query = QueryUtil.getQuery("quiz.selectNextQuizId");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            ResultSet rset = pstmt.executeQuery();
+            if (rset.next()) {
+                return rset.getInt(1);
+            }
+        }
+        return 1;
+    }
+
 }

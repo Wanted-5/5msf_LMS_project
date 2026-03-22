@@ -16,11 +16,9 @@ public class SectionController {
     }
 
     public List<SectionListResponse> displayAllSections(long villageId) {
-            return sectionService.findSectionsByVillageId(villageId);
-    }
-    public List<SectionDTO> findSectionsByVillageId(Long villageId) {
         return sectionService.findSectionsByVillageId(villageId);
     }
+
     public SectionDTO getSectionById(long sectionId) {
         try {
             return sectionService.findSectionById(sectionId);
@@ -37,9 +35,6 @@ public class SectionController {
             System.out.println("강의 조회 중 오류: " + e.getMessage());
             return null;
         }
-    }
-    public void createSection(Long villageId, int chapNo, String sectionName, String content, String videoUrl) {
-        sectionService.createSection(villageId, chapNo, sectionName, content, videoUrl);
     }
 }
 

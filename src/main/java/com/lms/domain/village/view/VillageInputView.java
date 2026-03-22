@@ -15,14 +15,12 @@ import java.util.Scanner;
 public class VillageInputView {
 
     private final VillageOutputView outputView;
-    private final SectionInputView sectionInputView;
     private final VillageController villageController;
     private final Scanner sc = new Scanner(System.in);
 
     public VillageInputView(VillageOutputView outputView,
                             SectionInputView sectionInputView, VillageController villageController) {
         this.outputView = outputView;
-        this.sectionInputView = sectionInputView;
         this.villageController = villageController;
     }
     // 마을 생성 기능 (관리자만 가능)

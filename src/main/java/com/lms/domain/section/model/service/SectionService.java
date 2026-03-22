@@ -11,9 +11,9 @@ public class SectionService {
     private final Connection con;
     private final SectionDAO sectionDAO;
 
-    public SectionService(Connection con, SectionDAO sectionDAO) {
+    public SectionService(Connection con) {
         this.con = con;
-        this.sectionDAO = sectionDAO;
+        this.sectionDAO = new SectionDAO(con);
     }
 
     public List<SectionDTO> findSectionsByVillageId(long villageId) {

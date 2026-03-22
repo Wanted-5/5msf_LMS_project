@@ -10,19 +10,12 @@ import java.sql.Connection;
 
 public class SectionAppContext {
 
-    public final SectionDAO sectionDAO;
-    public final SectionService sectionService;
-    public final SectionController sectionController;
-    public final SectionOutputView sectionOutputView;
-    public final SectionInputView sectionInputView;
+    private final SectionInputView sectionInputView;
 
     public SectionAppContext(Connection con) {
-        SectionDAO sectionDAO = new SectionDAO();
-        SectionService sectionService = new SectionService(con, sectionDAO);
-        this.sectionDAO = new SectionDAO();
-        this.sectionService = new SectionService(con, sectionDAO);
-        this.sectionController = new SectionController(sectionService);
-        this.sectionOutputView = new SectionOutputView();
-        this.sectionInputView = new SectionInputView(sectionController, sectionOutputView);
+        SectionService sectionService = new SectionService(con);
+        SectionController sectionController = new SectionController(sectionService);
+        SectionOutputView sectionOutputView = new SectionOutputView();
+        this.sectionInputView = new SectionInputView(sectionController,sectionOutputView);
     }
 }

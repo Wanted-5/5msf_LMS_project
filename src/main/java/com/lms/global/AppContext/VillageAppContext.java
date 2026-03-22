@@ -14,22 +14,13 @@ import java.sql.Connection;
 
 public class VillageAppContext {
 
-    public final VillageInputView villageInputView;
+//    public final VillageInputView villageInputView;
 
     // TODO : Section 파트 따로 분리하기
     public VillageAppContext(Connection con) {
-        SectionService sectionService = new SectionService(con); // 추후 따로 빼기
-        VillageService villageService = new VillageService(con);
-        SectionController sectionController = new SectionController(sectionService); // 추후 따로 빼기
-        VillageController villageController = new VillageController(villageService);
-        SectionDAO sectionDAO = new SectionDAO();
-        SectionService sectionService = new SectionService(con, sectionDAO);
-        SectionController sectionController = new SectionController(sectionService);
-        VillageOutputView villageOutputView = new VillageOutputView();
-        SectionInputView sectionInputView = new SectionInputView(sectionController); // 추후 따로 빼기
-        this.villageInputView = new VillageInputView(villageOutputView, sectionInputView, villageController);
-        SectionOutputView sectionOutputView = new SectionOutputView();
-        SectionInputView sectionInputView = new SectionInputView(sectionController, sectionOutputView);
-        this.villageInputView = new VillageInputView(villageOutputView, sectionInputView);
+//        VillageService villageService = new VillageService(con);
+//        VillageController villageController = new VillageController(villageService);
+//        VillageOutputView villageOutputView = new VillageOutputView();
+//        this.villageInputView = new VillageInputView(villageController,villageOutputView);
     }
 }

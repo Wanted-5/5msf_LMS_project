@@ -23,6 +23,7 @@ public class AppContext {
         this.quizAppContext = new QuizAppContext(con);
         this.enrollmentAppContext = new EnrollmentAppContext(con);
         this.sectionAppContext = new SectionAppContext(con);
+
     }
 
     // 최초에 한 번 세팅하는 메서드

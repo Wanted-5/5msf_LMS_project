@@ -13,6 +13,12 @@ import java.util.List;
 
 public class SectionDAO {
 
+    private final Connection con;
+
+    public SectionDAO(Connection con) {
+        this.con = con;
+    }
+
     public List<SectionDTO> findSectionsByVillageId(Connection con, long villageId) {
         List<SectionDTO> list = new ArrayList<>();
         PreparedStatement pstmt = null;

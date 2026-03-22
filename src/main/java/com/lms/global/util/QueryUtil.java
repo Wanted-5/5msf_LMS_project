@@ -25,7 +25,8 @@ public class QueryUtil {
             "Attend-querys.xml",
             "Comment-querys.xml",
             "quiz-queries.xml",
-            "mafia-queries.xml"
+            "mafia-queries.xml",
+            "quizsub-queries.xml"
 
     };
 

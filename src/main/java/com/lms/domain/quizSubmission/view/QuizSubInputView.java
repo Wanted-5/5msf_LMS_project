@@ -14,4 +14,20 @@ public class QuizSubInputView {
         this.quizsubController = quizsubController;
         this.quizsubOutputView = quizsubOutputView;
     }
+
+    public boolean submitAnswer(String submittedAnswer) {
+        try {
+            boolean isCorrect = quizsubController.submitAnswer(submittedAnswer);
+            if (isCorrect) {
+                quizsubOutputView.printCorrect();
+            } else {
+                quizsubOutputView.printWrong();
+            }
+            return isCorrect;
+        } catch (RuntimeException e) {
+            quizsubOutputView.printError(e.getMessage());
+            return false;
+        }
+    }
+
 }

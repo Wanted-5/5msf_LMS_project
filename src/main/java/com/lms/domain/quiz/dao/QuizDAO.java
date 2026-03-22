@@ -71,11 +71,13 @@ public class QuizDAO {
         String query = QueryUtil.getQuery("quiz.create");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            pstmt.setLong(1, quiz.getQuizId());    // 순번 추가
-            pstmt.setLong(2, quiz.getMafiaId());
-            pstmt.setString(3, quiz.getTitle());
-            pstmt.setString(4, quiz.getContent());
-            pstmt.setString(5, quiz.getAnswer());
+            pstmt.setLong(1, quiz.getQuizId());
+            pstmt.setObject(2, quiz.getUserId());
+            //null 값은 Object로
+            pstmt.setObject(3, quiz.getMafiaId());
+            pstmt.setString(4, quiz.getTitle());
+            pstmt.setString(5, quiz.getContent());
+            pstmt.setString(6, quiz.getAnswer());
 
             pstmt.executeUpdate();
 
@@ -101,7 +103,7 @@ public class QuizDAO {
     }
 
     // 마피아가 퀴즈 삭제
-    public Long deleteByMafia(long quiz, long userId) throws SQLException {
+    public Long deleteByMafia(Long quiz, Long userId) throws SQLException {
 
         String query = QueryUtil.getQuery("quiz.deleteByMafia");
 
@@ -115,7 +117,7 @@ public class QuizDAO {
 
 
     // 강사가 삭제
-    public Long deleteByInstructor(long quiz) throws SQLException {
+    public Long deleteByInstructor(Long quiz) throws SQLException {
 
         String query = QueryUtil.getQuery("quiz.deleteByinstructor");
 
@@ -127,7 +129,7 @@ public class QuizDAO {
     }
 
     // 관리자에 의해 퀴즈 삭제
-    public Long deleteByAdmin(long quiz) throws SQLException {
+    public Long deleteByAdmin(Long quiz) throws SQLException {
 
         String query = QueryUtil.getQuery("quiz.deleteByAdmin");
 
@@ -138,7 +140,7 @@ public class QuizDAO {
         return 0L;
     }
 
-    public Long updateQuizByMafia(long quizId, String title, String content, String answer,long userId) throws SQLException {
+    public Long updateQuizByMafia(Long quizId, String title, String content, String answer,Long userId) throws SQLException {
 
         String query = QueryUtil.getQuery("quiz.updateByMafia");
 
@@ -154,7 +156,7 @@ public class QuizDAO {
         return 0L;
     }
 
-    public Long updateQuizByInstructor(long quizId, String title, String content, String answer) throws SQLException {
+    public Long updateQuizByInstructor(Long quizId, String title, String content, String answer) throws SQLException {
 
         String query = QueryUtil.getQuery("quiz.updateByInstructor");
 
@@ -169,7 +171,7 @@ public class QuizDAO {
         return 0L;
     }
 
-    public Long updateQuizByAdmin(long quizId, String title, String content, String answer) throws SQLException {
+    public Long updateQuizByAdmin(Long quizId, String title, String content, String answer) throws SQLException {
 
         String query = QueryUtil.getQuery("quiz.updateByAdmin");
 
@@ -182,6 +184,24 @@ public class QuizDAO {
         }
 
         return 0L;
+    }
+
+    // 오늘의 퀴즈 있는지 조회
+    public QuizDTO selectTodayQuiz() throws SQLException {
+        String query = QueryUtil.getQuery("quiz.selectTodayQuiz");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            ResultSet rset = pstmt.executeQuery();
+            if (rset.next()) {
+                return new QuizDTO(
+                        rset.getLong("quiz_id"),
+                        rset.getString("quiz_title"),
+                        rset.getString("content"),
+                        rset.getString("answer")
+                );
+            }
+        }
+        return null;
     }
 
 }

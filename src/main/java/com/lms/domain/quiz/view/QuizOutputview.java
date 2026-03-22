@@ -7,7 +7,9 @@ import java.util.List;
 public class QuizOutputview {
 
     public void printMessage(String s) {
-
+        System.out.println("💀═══════════════════════════════════════💀");
+        System.out.println("           🩸 " + s + " 🩸");
+        System.out.println("💀═══════════════════════════════════════💀");
     }
 
     public void printError(String message) {
@@ -21,10 +23,13 @@ public class QuizOutputview {
             return;
         }
 
-        System.out.println("============퀴즈 전체 목록 조회 결과==========");
+        System.out.println("☠️ ═══════════════════════════════════════ ☠️");
+        System.out.println("        🩸 퀴즈 전체 목록 조회 결과 🩸       ");
+        System.out.println("☠️ ═══════════════════════════════════════ ☠️");
         for(QuizDTO quizDTO : quizList) {
-            System.out.println("퀴즈번호 : " + quizDTO.getQuizId());
-            System.out.println("퀴즈제목 : " + quizDTO.getTitle());
+            System.out.println("  🔪 퀴즈번호 : " + quizDTO.getQuizId());
+            System.out.println("  📜 퀴즈제목 : " + quizDTO.getTitle());
+            System.out.println("  ─────────────────────────────────────");
         }
     }
 
@@ -36,9 +41,12 @@ public class QuizOutputview {
         }
 
 
-        System.out.println("=======퀴즈 상세 조회 결과=========");
-        System.out.println("제목: " + quiz.getTitle());
-        System.out.println("내용: " + quiz.getContent());
+        System.out.println("☠️ ═══════════════════════════════════════ ☠️");
+        System.out.println("         🩸 퀴즈 상세 조회 결과 🩸            ");
+        System.out.println("☠️ ═══════════════════════════════════════ ☠️");
+        System.out.println("  📜 제목  : " + quiz.getTitle());
+        System.out.println("  🔪 내용  : " + quiz.getContent());
+        System.out.println("☠️ ═══════════════════════════════════════ ☠️");
 
     }
 

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<properties>
+    -- 마피아 히스토리 테이블에 없는 유저 아이디만 조회해서 마피아 선정
+    <query key = "mafia.selectMafia">
+        SELECT s.user_id, s.village_id
+        FROM enrollment s
+        LEFT JOIN mafia_history mh
+        ON s.user_id = mh.user_id
+        AND s.village_id = mh.village_id
+        WHERE s.village_id = ?
+        AND s.status = 'APPROVED'
+        AND mh.user_id IS NULL
+    </query>
+
+    -- 마을 별 마피아
+    <query key = "mafia.selectAllVillageId">
+        SELECT
+            village_id
+        FROM village;
+    </query>
+
+    -- 마피아 히스토리에 마피아로 당첨된 정보 입력
+    <query key = "mafia.insertmafiaHistory">
+        INSERT INTO mafia_history (mafia_id, user_id, village_id, selected_date)
+        VALUES (?, ?, ?, ?)
+    </query>
+
+    -- 모두 다 마피아 한번씩 해서 뽑을 사람 없을 때 초기화
+    <query key = "mafia.deleteMafiahistory">
+        delete from mafia_history
+        where village_id = ?
+    </query>
+
+    -- 마피아 id를 차곡차곡
+    <query key="mafia.selectNextMafiaId">
+        SELECT IFNULL(MAX(mafia_id), 0) + 1 FROM mafia_history
+    </query>
+
+    <query key="mafia.selectTodayMafiaId">
+        SELECT mafia_id FROM mafia_history
+        WHERE user_id = ?
+        AND selected_date = CURDATE()
+    </query>
+</properties>

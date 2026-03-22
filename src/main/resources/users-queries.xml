@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<properties>
+
+    <query key="users.findByUsername">
+        SELECT * FROM Users WHERE username = ?
+    </query>
+    <query key="users.insertUser">
+        insert into Users
+        (username, password, email, name, nickname, phone_number, address, gender, introduction, role)
+        VALUES
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    </query>
+
+    <query key="users.findById">
+        SELECT * FROM Users WHERE user_id = ?
+    </query>
+
+    <query key="users.updateNickname">
+        UPDATE Users SET nickname = ? WHERE user_id = ?
+    </query>
+
+    <query key="users.updateEmail">
+        UPDATE Users SET email = ? WHERE user_id = ?
+    </query>
+
+    <query key="users.updatePassword">
+        UPDATE Users SET password = ? WHERE user_id = ?
+    </query>
+
+</properties>

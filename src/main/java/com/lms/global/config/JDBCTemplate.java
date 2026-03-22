@@ -5,8 +5,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariPoolMXBean;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 public class JDBCTemplate {
@@ -14,6 +13,7 @@ public class JDBCTemplate {
 
     // static 블록은 정적 코드 블럭으로서
     // 클래스가 로드 될 때 한번만 실행된다.
+
     static {
         Properties prop = new Properties();
         //JDBCTemplate.class.getClassLoader() : 클래스의 메모리에 로드하는 역활을 한다.
@@ -30,7 +30,6 @@ public class JDBCTemplate {
             config.setUsername(prop.getProperty("db.username"));
             config.setPassword(prop.getProperty("db.password"));
 
-            // connection 관련 설정
             config.setMaximumPoolSize(10); // 최대 10개의 커넥션 관리
             config.setMinimumIdle(5); // 최소 5개의 커넥션 유지
             // 커넥션을 사용할 수 있는 최대 시간, 30분 후 새롭게 생성한다.
@@ -69,4 +68,28 @@ public class JDBCTemplate {
         System.out.println("🧘 유휴(idle) 커넥션 수 : " + poolMXBean.getIdleConnections());
         System.out.println("=============================================");
     }
+
+
+    // 빌리지, 시티 정현이꺼 수정후 삭제하기
+    public static void close(ResultSet rs) {
+        try {
+            if (rs != null && !rs.isClosed()) {
+                rs.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 빌리지, 시티 정현이꺼 수정후 삭제하기
+    public static void close(PreparedStatement pstmt) {
+        try {
+            if (pstmt != null && !pstmt.isClosed()) {
+                pstmt.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

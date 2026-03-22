@@ -2,7 +2,7 @@ package com.lms.domain.quiz.view;
 
 import com.lms.domain.quiz.controller.QuizController;
 import com.lms.domain.quiz.dto.QuizDTO;
-import com.lms.domain.users.constant.UserRole;
+import com.lms.domain.users.dto.UserRole;
 import com.lms.global.common.UserSession;
 
 

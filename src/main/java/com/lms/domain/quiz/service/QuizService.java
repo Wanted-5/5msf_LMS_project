@@ -3,7 +3,7 @@ package com.lms.domain.quiz.service;
 import com.lms.domain.mafia.dao.MafiaDAO;
 import com.lms.domain.quiz.dao.QuizDAO;
 import com.lms.domain.quiz.dto.QuizDTO;
-import com.lms.domain.users.constant.UserRole;
+import com.lms.domain.users.dto.UserRole;
 import com.lms.global.common.UserSession;
 
 import java.sql.Connection;

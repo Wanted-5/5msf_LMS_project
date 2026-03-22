@@ -2,7 +2,7 @@ package com.lms.domain.mafia.view;
 
 import com.lms.domain.mafia.controller.MafiaController;
 import com.lms.domain.mafia.dto.MafiaDTO;
-import com.lms.domain.users.constant.UserRole;
+import com.lms.domain.users.dto.UserRole;
 import com.lms.global.common.UserSession;
 
 import java.util.Scanner;

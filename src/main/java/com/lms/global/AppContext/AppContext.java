@@ -15,6 +15,7 @@ public class AppContext {
     public final EnrollmentAppContext enrollmentAppContext;
     public final BoardAppContext boardAppContext;
     public final CategoryAppContext categoryAppContext;
+    public final SectionAppContext sectionAppContext;
 
     public AppContext(Connection con) {
         this.userAppContext = new UserAppContext(con);
@@ -25,18 +26,22 @@ public class AppContext {
         this.villageAppContext = new VillageAppContext(con);
         this.quizAppContext = new QuizAppContext(con);
         this.enrollmentAppContext = new EnrollmentAppContext(con);
+        this.sectionAppContext = new SectionAppContext(con);
         this.categoryAppContext = new CategoryAppContext(con);
         this.boardAppContext = new BoardAppContext(con, categoryAppContext.categoryService,
                 categoryAppContext.categoryController);
     }
 
+    // 최초에 한 번 세팅하는 메서드
     public static void init(Connection con) {
         if (appContext == null) {
             appContext = new AppContext(con);
         }
     }
 
+    // get
     public static AppContext getAppContext() {
         return appContext;
     }
+
 }

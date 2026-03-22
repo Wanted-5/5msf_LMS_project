@@ -5,6 +5,8 @@ import com.lms.domain.village.controller.VillageController;
 import com.lms.domain.village.dto.VillageDTO;
 import com.lms.domain.village.dto.request.CreateVillageRequest;
 import com.lms.domain.village.dto.response.CreateVillageResponse;
+import com.lms.global.AppContext.AppContext;
+import com.lms.global.common.UserSession;
 import com.lms.global.util.InviteCodeUtil;
 
 import java.time.LocalDate;
@@ -14,19 +16,18 @@ import java.util.Scanner;
 
 public class VillageInputView {
 
-    private final VillageOutputView outputView;
-    private final SectionInputView sectionInputView;
     private final VillageController villageController;
+    private final VillageOutputView outputView;
     private final Scanner sc = new Scanner(System.in);
 
-    public VillageInputView(VillageOutputView outputView,
-                            SectionInputView sectionInputView, VillageController villageController) {
-        this.outputView = outputView;
-        this.sectionInputView = sectionInputView;
+    public VillageInputView(VillageController villageController, VillageOutputView outputView) {
         this.villageController = villageController;
+        this.outputView = outputView;
     }
 
-    // 마을 생성 기능 (관리자만 가능)
+
+    // comment. [관리자 기능] 마을 생성 기능
+    //  강사 메인 메뉴는 CityInputView에 있습니다.
     public void createVillageProcess(Long cityId) {
         System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
         System.out.println("║                 🏕️ 신규 마을(Village) 개척 기안                 ║");
@@ -56,7 +57,6 @@ public class VillageInputView {
                 startDate,
                 endDate
         );
-        // TODO : VillageController 호출하기부터 시작
         try {
             CreateVillageResponse response = villageController.createVillageProcess(request);
             outputView.displayInsertSuccess(response);
@@ -66,59 +66,60 @@ public class VillageInputView {
         }
     }
 
-    // TODO : 삭제해야될 코드
-    private void enterFixedVillage() {
-        VillageDTO village = new VillageDTO();
-        village.setVillageId(1L);
-        village.setVillageName("1번 마을");
 
-        outputView.printVillageEnterSuccess(village);
-        showVillageMainMenu(village);
-    }
+    // TODO : 강사 메인 메뉴 구현 해야함
 
-    // TODO : 강사 메인 메뉴 (관리자도 강사랑 똑같이)
 
-    // 학생 메인 메뉴, TODO : VillageDTO village 지우고 stay 테이블에서 넘어온 값 받기
-    public void showVillageMainMenu(VillageDTO village) {
+
+    // TODO : 정현이 코드 수정, 학생 메인 메뉴 (관리자도 강사랑 똑같이)
+    public void displayStudentMainMenu(Long villageId) {
         while (true) {
-            System.out.println("\n===> " + village.getVillageName() + " 메인페이지 입장");
-            System.out.println("1. 출석 체크");
-            System.out.println("2. 교육센터로 이동");
-            System.out.println("3. 게시판으로 이동");
-            System.out.println("4. 숙소(마이페이지)로 이동");
-            System.out.println("5. 마피아 게시판으로 이동");
-            System.out.println("6. 로그아웃");
-            System.out.print("번호 입력 : ");
+            System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
+            System.out.println("║                 🏡 마을 광장 (학생 전용)                       ║");
+            System.out.println("╚══════════════════════════════════════════════════════════════╝");
+            // TODO : 전달 받은 viilageId로 findById() 이용해서 villageName 받아오기
+//            System.out.println("  [ 소속 마을 ] " + villageName);
+            System.out.println("  [ 시스템 ] 환영합니다! 마을의 다양한 교육 인프라를 이용해 보세요.");
+            System.out.println("────────────────────────────────────────────────────────────────");
+            System.out.println("      [ 1 ] 📅 출석 체크 (출입 기록)");
+            System.out.println("      [ 2 ] 🎓 교육센터 입장 (섹션 및 강의 수강)");
+            System.out.println("      [ 3 ] 📢 마을 게시판 (공지 및 소통)");
+            System.out.println("      [ 4 ] 🏠 개인 숙소 (마이페이지)");
+            System.out.println("      [ 5 ] 🕵️ 마피아 광장 (휴식 및 미니게임)");
+            System.out.println("      [ 0 ] 🚪 마을 퇴장 (로그아웃 / 이전 화면으로 이동)");
+            System.out.println("────────────────────────────────────────────────────────────────");
+            System.out.print("  ▶ 원하시는 시설의 번호를 입력해주세요 : ");
 
-            int menu;
-            try {
-                menu = Integer.parseInt(sc.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("숫자만 입력하세요.");
-                continue;
-            }
+            // 🌟 예외 처리 없이 String으로 깔끔하게 처리
+            String choice = sc.nextLine().trim();
 
-            switch (menu) {
-                case 1:
-                    System.out.println("출석 체크 기능은 준비 중입니다.");
+            switch (choice) {
+                case "1":
+                    System.out.println("\n  [ 시스템 ] 📅 출석 체크 기능은 현재 공사 중입니다.");
+                    // TODO : 추후 강현이 attendanceInputView와 연결
                     break;
-                case 2:
-                    sectionInputView.displaySectionMenu(village);
+                case "2":
+                    System.out.println("\n  [ 시스템 ] 🎓 교육센터(Section)로 이동합니다...");
+                    // TODO: Section 부서로 라우팅
+                    AppContext.getAppContext().sectionAppContext.sectionInputView.displayStudentSectionMenu(villageId);
                     break;
-                case 3:
-                    System.out.println("게시판 기능은 준비 중입니다.");
+                case "3":
+                    System.out.println("\n  [ 시스템 ] 📢 마을 게시판 기능은 현재 공사 중입니다.");
+                    // TODO : 추후 종호형 boardInputView와 연결
                     break;
-                case 4:
-                    System.out.println("마이페이지 기능은 준비 중입니다.");
+                case "4":
+                    System.out.println("\n  [ 시스템 ] 🏠 개인 숙소(마이페이지) 기능은 현재 공사 중입니다.");
+                    // TODO : 추후 정수 UserInputView와 연결
                     break;
-                case 5:
-                    System.out.println("마피아 게시판 기능은 준비 중입니다.");
+                case "5":
+                    System.out.println("\n  [ 시스템 ] 🕵️ 마피아 광장 기능은 현재 공사 중입니다.");
+                    // TODO : 추후 태연이 mafiaInputVIew? 와 연결
                     break;
-                case 6:
-                    System.out.println("로그아웃합니다.");
-                    return;
+                case "0":
+                    System.out.println("\n  [ 시스템 ] 마을에서 퇴장합니다. 짐을 챙겨 이동합니다...");
+                    return; // while 루프 종료
                 default:
-                    System.out.println("잘못된 입력입니다.");
+                    System.out.println("\n  🚨 [오류] 올바른 시설 번호(0~5)를 입력해주세요.");
             }
         }
     }

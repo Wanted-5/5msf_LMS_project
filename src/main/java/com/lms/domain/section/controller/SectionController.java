@@ -36,5 +36,9 @@ public class SectionController {
             return null;
         }
     }
+    public void createSection(long villageId, long userId, int chapNo,
+                              String sectionName, String content, String videoUrl) {
+        sectionService.createSection(villageId, userId, chapNo, sectionName, content, videoUrl);
+    }
 }
 

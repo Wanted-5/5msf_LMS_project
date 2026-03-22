@@ -18,6 +18,20 @@ public class SectionOutputView {
 
         System.out.println("────────────────────────────────────────────────────────────────");
     }
+    public void printSectionList(List<SectionListResponse> list) {
+        if (list == null || list.isEmpty()) {
+            System.out.println("조회된 강의가 없습니다.");
+            return;
+        }
 
+        for (SectionListResponse section : list) {
+            System.out.println("--------------------------------");
+            System.out.println("강의번호(section_id): " + section.getSectionId());
+            System.out.println("주차(chap_no): " + section.getChapNo());
+            System.out.println("강의명: " + section.getSectionName());
+            System.out.println("상태: " + section.getStatus());
+        }
+        System.out.println("--------------------------------");
+    }
 
 }

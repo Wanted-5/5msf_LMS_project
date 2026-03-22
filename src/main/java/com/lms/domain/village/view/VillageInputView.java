@@ -68,7 +68,49 @@ public class VillageInputView {
 
 
     // TODO : 강사 메인 메뉴 구현 해야함
+    public void displayInstructorMainMenu(long villageId) {
+        while (true) {
+            System.out.println("\n===> 4. 마을 메인페이지 입장 (강사 모드)");
+            System.out.println("=== 메인 콘솔 (초기 화면 - 강사) ===");
+            System.out.println("1. 출석 체크 및 관리");
+            System.out.println("2. 교육센터 관리");
+            System.out.println("3. 게시판 관리");
+            System.out.println("4. 마피아 게시판 관리");
+            System.out.println("5. 숙소(마이페이지)로 이동");
+            System.out.println("6. 수강생 관리");
+            System.out.println("7. 오늘의 마피아 뽑기");
+            System.out.println("8. 로그아웃");
+            System.out.print("번호 입력 : ");
 
+            String input = sc.nextLine();
+
+            switch (input) {
+                case "2":
+                    AppContext.getAppContext()
+                            .sectionAppContext
+                            .sectionInputView
+                            .displayInstructorSectionMenu(
+                                    villageId,
+                                    UserSession.getLoggedInUser().getUserId()
+                            );
+                    break;
+
+                case "6":
+                    AppContext.getAppContext()
+                            .enrollmentAppContext
+                            .enrollmentInputView
+                            .displayInstructorEnrollmentMenu(villageId);
+                    break;
+
+                case "8":
+                    System.out.println("로그아웃합니다.");
+                    return;
+
+                default:
+                    System.out.println("아직 구현되지 않았거나 잘못된 번호입니다.");
+            }
+        }
+    }
 
 
     // TODO : 정현이 코드 수정, 학생 메인 메뉴 (관리자도 강사랑 똑같이)

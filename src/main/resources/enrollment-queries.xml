@@ -1,9 +1,85 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <properties>
-    <query key = "enrollment.insert">
-        INSERT INTO enrollment
-        (village_id, user_id, status)
-        VALUES
-        (?, ?, ?)
+
+    <query key="enrollment.insert">
+        <![CDATA[
+        INSERT INTO enrollment (village_id, user_id, status, applied_at)
+        VALUES (?, ?, ?, NOW())
+        ]]>
     </query>
+
+    <query key="enrollment.findWaitingByVillageId">
+        <![CDATA[
+    SELECT e.enrollment_id,
+           e.village_id,
+           e.user_id,
+           u.user_name,
+           e.status,
+           e.applied_at
+    FROM enrollment e
+    JOIN users u ON e.user_id = u.user_id
+    WHERE e.village_id = ?
+      AND e.status = 'WAITING'
+    ORDER BY e.applied_at ASC
+    ]]>
+    </query>
+
+    <query key="enrollment.findApprovedByVillageId">
+        <![CDATA[
+    SELECT e.enrollment_id,
+           e.village_id,
+           e.user_id,
+           u.user_name,
+           e.status,
+           e.applied_at
+    FROM enrollment e
+    JOIN users u ON e.user_id = u.user_id
+    WHERE e.village_id = ?
+      AND e.status = 'APPROVED'
+    ORDER BY e.applied_at ASC
+    ]]>
+    </query>
+
+    <query key="enrollment.findManageTargetById">
+        <![CDATA[
+    SELECT e.enrollment_id,
+           e.village_id,
+           e.user_id,
+           u.user_name,
+           e.status,
+           e.applied_at
+    FROM enrollment e
+    JOIN users u ON e.user_id = u.user_id
+    WHERE e.village_id = ?
+      AND e.enrollment_id = ?
+    ]]>
+    </query>
+
+    <query key="enrollment.approve">
+        <![CDATA[
+    UPDATE enrollment
+    SET status = 'APPROVED'
+    WHERE village_id = ?
+      AND enrollment_id = ?
+    ]]>
+    </query>
+
+    <query key="enrollment.reject">
+        <![CDATA[
+    UPDATE enrollment
+    SET status = 'REJECTED'
+    WHERE village_id = ?
+      AND enrollment_id = ?
+    ]]>
+    </query>
+
+    <query key="enrollment.expel">
+        <![CDATA[
+    UPDATE enrollment
+    SET status = 'EXPELLED'
+    WHERE village_id = ?
+      AND enrollment_id = ?
+    ]]>
+    </query>
+
 </properties>

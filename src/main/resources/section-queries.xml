@@ -20,13 +20,13 @@
     </query>
 
     <query key="section.findSectionsByVillageId">
-        <![CDATA[
-        SELECT section_id, village_id, chap_no, section_name, content, video_url, status
-        FROM section
+        SELECT
+            section_id, chap_no, section_name, status
+        FROM
+            section
         WHERE village_id = ?
           AND status = 'ACTIVE'
         ORDER BY chap_no ASC
-        ]]>
     </query>
 
     <query key="section.findSectionsByStudentId">

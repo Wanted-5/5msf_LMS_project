@@ -7,13 +7,12 @@ import java.sql.Connection;
 import java.util.List;
 
 public class SectionService {
-
     private final Connection con;
     private final SectionDAO sectionDAO;
 
     public SectionService(Connection con) {
         this.con = con;
-        this.sectionDAO = new SectionDAO(con);
+        this.sectionDAO = new SectionDAO();
     }
 
     public List<SectionDTO> findSectionsByVillageId(long villageId) {
@@ -26,19 +25,5 @@ public class SectionService {
 
     public SectionDTO findSectionByVillageIdAndSectionId(long villageId, long sectionId) {
         return sectionDAO.findSectionByVillageIdAndSectionId(con, villageId, sectionId);
-    }
-    public void createSection(Long villageId, int chapNo, String sectionName, String content, String videoUrl) {
-        if (sectionName == null || sectionName.isBlank()) {
-            throw new IllegalArgumentException("강의 제목은 필수입니다.");
-        }
-
-        if (content == null || content.isBlank()) {
-            throw new IllegalArgumentException("강의 내용은 필수입니다.");
-        }
-
-        sectionDAO.insertSection(con,villageId, chapNo, sectionName, content, videoUrl);
-    }
-    public List<SectionDTO> findSectionsByVillageId(Long villageId) {
-        return sectionDAO.findSectionsByVillageId(con, villageId);
     }
 }

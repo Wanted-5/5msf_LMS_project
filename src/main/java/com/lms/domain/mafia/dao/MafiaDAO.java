@@ -15,6 +15,7 @@ public class MafiaDAO {
         this.connection = connection;
     }
 
+    // 마을 별
     public List<Integer> selectAllVillageId() throws SQLException {
         String query = QueryUtil.getQuery("mafia.selectAllVillageId");
 
@@ -30,6 +31,7 @@ public class MafiaDAO {
         return villageList;
     }
 
+    // 마피아 뽑기
     public List<MafiaDTO> selectMafia(int villageId) throws SQLException {
 
         String query = QueryUtil.getQuery("mafia.selectMafia");
@@ -43,7 +45,7 @@ public class MafiaDAO {
             ResultSet rset = pstmt.executeQuery();
             while(rset.next()) {
                 MafiaDTO mafia = new MafiaDTO();
-                mafia.setUserId(rset.getInt("user_id"));
+                mafia.setUserId(rset.getLong("user_id"));
                 mafia.setVillageId(rset.getInt("village_id"));
 
                 mafiaList.add(mafia);
@@ -57,8 +59,8 @@ public class MafiaDAO {
         String query = QueryUtil.getQuery("mafia.insertmafiaHistory");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setInt(1, mafia.getMafiaId());  // Java에서 계산한 순번
-            pstmt.setInt(2, mafia.getUserId());
+            pstmt.setLong(1, mafia.getMafiaId());  // Java에서 계산한 순번
+            pstmt.setLong(2, mafia.getUserId());
             pstmt.setInt(3, mafia.getVillageId());
             pstmt.setDate(4, Date.valueOf(mafia.getCreatedAt()));
 
@@ -91,16 +93,17 @@ public class MafiaDAO {
         return 1;
     }
 
-    public int selectTodayMafiaId(int userId) throws SQLException {
+    // 오늘 날짜에 해당하는 마피아 아이디 검증
+    public Long selectTodayMafiaId(long userId) throws SQLException {
         String query = QueryUtil.getQuery("mafia.selectTodayMafiaId");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setInt(1, userId);
+            pstmt.setLong(1, userId);
             ResultSet rset = pstmt.executeQuery();
             if (rset.next()) {
-                return rset.getInt("mafia_id");
+                return rset.getLong("mafia_id");
             }
-            throw new SQLException("오늘의 마피아 정보를 찾을 수 없습니다.");
+            throw new SQLException("오늘의 마피아만 퀴즈를 등록할 수 있습니다.");
         }
     }
 

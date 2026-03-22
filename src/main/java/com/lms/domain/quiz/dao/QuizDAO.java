@@ -31,7 +31,7 @@ public class QuizDAO {
                 QuizDTO quiz = new QuizDTO(
                         rset.getString("content"),
                         rset.getString("quiz_title"),
-                        rset.getInt("quiz_Id")
+                        rset.getLong("quiz_Id")
                 );
 
                 quizList.add(quiz);
@@ -42,13 +42,13 @@ public class QuizDAO {
     }
 
     // 퀴즈 상세 조회
-    public QuizDTO findByQuizId(int id) throws SQLException {
+    public QuizDTO findByQuizId(long id) throws SQLException {
 
         String query = QueryUtil.getQuery("quiz.findById");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
 
-            pstmt.setInt(1,id);
+            pstmt.setLong(1,id);
 
             ResultSet rset = pstmt.executeQuery();
 
@@ -56,7 +56,7 @@ public class QuizDAO {
                 return new QuizDTO(
                         rset.getString("content"),
                         rset.getString("quiz_title"),
-                        rset.getInt("quiz_Id")
+                        rset.getLong("quiz_Id")
                 );
 
             }
@@ -71,8 +71,8 @@ public class QuizDAO {
         String query = QueryUtil.getQuery("quiz.create");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            pstmt.setInt(1, quiz.getQuizId());    // 순번 추가
-            pstmt.setInt(2, quiz.getMafiaId());
+            pstmt.setLong(1, quiz.getQuizId());    // 순번 추가
+            pstmt.setLong(2, quiz.getMafiaId());
             pstmt.setString(3, quiz.getTitle());
             pstmt.setString(4, quiz.getContent());
             pstmt.setString(5, quiz.getAnswer());
@@ -87,16 +87,101 @@ public class QuizDAO {
         return null;
     }
 
-    public int selectNextQuizId() throws SQLException {
+    // DB에 차고차곡
+    public Long selectNextQuizId() throws SQLException {
         String query = QueryUtil.getQuery("quiz.selectNextQuizId");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             ResultSet rset = pstmt.executeQuery();
             if (rset.next()) {
-                return rset.getInt(1);
+                return rset.getLong(1);
             }
         }
-        return 1;
+        return 1L;
+    }
+
+    // 마피아가 퀴즈 삭제
+    public Long deleteByMafia(long quiz, long userId) throws SQLException {
+
+        String query = QueryUtil.getQuery("quiz.deleteByMafia");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1,quiz);
+            pstmt.setLong(2,userId);
+            pstmt.executeUpdate();
+        }
+        return 0L;
+    }
+
+
+    // 강사가 삭제
+    public Long deleteByInstructor(long quiz) throws SQLException {
+
+        String query = QueryUtil.getQuery("quiz.deleteByinstructor");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1,quiz);
+            pstmt.executeUpdate();
+        }
+        return 0L;
+    }
+
+    // 관리자에 의해 퀴즈 삭제
+    public Long deleteByAdmin(long quiz) throws SQLException {
+
+        String query = QueryUtil.getQuery("quiz.deleteByAdmin");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1,quiz);
+            pstmt.executeUpdate();
+        }
+        return 0L;
+    }
+
+    public Long updateQuizByMafia(long quizId, String title, String content, String answer,long userId) throws SQLException {
+
+        String query = QueryUtil.getQuery("quiz.updateByMafia");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, title);
+            pstmt.setString(2, content);
+            pstmt.setString(3, answer);
+            pstmt.setLong(4, quizId);
+            pstmt.setLong(5, userId);
+            pstmt.executeUpdate();
+        }
+
+        return 0L;
+    }
+
+    public Long updateQuizByInstructor(long quizId, String title, String content, String answer) throws SQLException {
+
+        String query = QueryUtil.getQuery("quiz.updateByInstructor");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, title);
+            pstmt.setString(2, content);
+            pstmt.setString(3, answer);
+            pstmt.setLong(4, quizId);
+            pstmt.executeUpdate();
+        }
+
+        return 0L;
+    }
+
+    public Long updateQuizByAdmin(long quizId, String title, String content, String answer) throws SQLException {
+
+        String query = QueryUtil.getQuery("quiz.updateByAdmin");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, title);
+            pstmt.setString(2, content);
+            pstmt.setString(3, answer);
+            pstmt.setLong(4, quizId);
+            pstmt.executeUpdate();
+        }
+
+        return 0L;
     }
 
 }

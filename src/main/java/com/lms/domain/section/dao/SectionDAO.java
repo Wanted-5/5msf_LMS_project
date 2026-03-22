@@ -1,6 +1,6 @@
-package com.lms.domain.section.model.DAO;
+package com.lms.domain.section.dao;
 
-import com.lms.domain.section.model.DTO.SectionDTO;
+import com.lms.domain.section.dto.SectionDTO;
 import com.lms.global.config.JDBCTemplate;
 import com.lms.global.util.QueryUtil;
 
@@ -13,44 +13,54 @@ import java.util.List;
 
 public class SectionDAO {
 
-    private final Connection con;
+    private final Connection connection;
 
-    public SectionDAO(Connection con) {
-        this.con = con;
+    public SectionDAO(Connection connection) {
+        this.connection = connection;
     }
 
-    public List<SectionDTO> findSectionsByVillageId(Connection con, long villageId) {
-        List<SectionDTO> list = new ArrayList<>();
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+    public List<SectionDTO> findSectionsByVillageId(long villageId) throws SQLException {
+        List<SectionDTO> sectionDTOList = new ArrayList<>();
 
-        String sql = QueryUtil.getQuery("section.findSectionsByVillageId");
+        String query = QueryUtil.getQuery("section.findSectionsByVillageId");
 
-        try {
-            pstmt = con.prepareStatement(sql);
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1, villageId);
-            rs = pstmt.executeQuery();
 
-            while (rs.next()) {
-                SectionDTO dto = new SectionDTO();
-                dto.setSectionId(rs.getLong("section_id"));
-                dto.setVillageId(rs.getLong("village_id"));
-                dto.setChapNo(rs.getInt("chap_no"));
-                dto.setSectionName(rs.getString("section_name"));
-                dto.setContent(rs.getString("content"));
-                dto.setVideoUrl(rs.getString("video_url"));
-                dto.setStatus(rs.getString("status"));
-                list.add(dto);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    sectionDTOList.add(convertToDTO(rs));
+                }
             }
-        } catch (Exception e) {
-            throw new RuntimeException("마을별 강의 목록 조회 실패", e);
-        } finally {
-            JDBCTemplate.close(rs);
-            JDBCTemplate.close(pstmt);
         }
-
-        return list;
+        return sectionDTOList;
     }
+
+//        try {
+//            pstmt = con.prepareStatement(sql);
+//            pstmt.setLong(1, villageId);
+//            rs = pstmt.executeQuery();
+//
+//            while (rs.next()) {
+//                SectionDTO dto = new SectionDTO();
+//                dto.setSectionId(rs.getLong("section_id"));
+//                dto.setVillageId(rs.getLong("village_id"));
+//                dto.setChapNo(rs.getInt("chap_no"));
+//                dto.setSectionName(rs.getString("section_name"));
+//                dto.setContent(rs.getString("content"));
+//                dto.setVideoUrl(rs.getString("video_url"));
+//                dto.setStatus(rs.getString("status"));
+//                list.add(dto);
+//            }
+//        } catch (Exception e) {
+//            throw new RuntimeException("마을별 강의 목록 조회 실패", e);
+//        } finally {
+//            JDBCTemplate.close(rs);
+//            JDBCTemplate.close(pstmt);
+//        }
+//
+//        return list;
+//    }
 
     public SectionDTO findSectionById(Connection con, long sectionId) {
         PreparedStatement pstmt = null;
@@ -171,25 +181,17 @@ public class SectionDAO {
 
         return list;
     }
-    public int insertSection(Connection con, Long villageId, int chapNo, String sectionName, String content, String videoUrl) {
-        PreparedStatement pstmt = null;
-        int result = 0;
-        String query = QueryUtil.getQuery("section.insertSection");
 
-        try {
-            pstmt = con.prepareStatement(query);
-            pstmt.setLong(1, villageId);
-            pstmt.setInt(2, chapNo);
-            pstmt.setString(3, sectionName);
-            pstmt.setString(4, content);
-            pstmt.setString(5, videoUrl);
-            result = pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("섹션 INSERT 실패", e);
-        } finally {
-            JDBCTemplate.close(pstmt);
-        }
-
-        return result;
+    // =================== 내부 편의 메서드 ===============
+    private SectionDTO convertToDTO(ResultSet rs) throws SQLException {
+        return new SectionDTO(
+        rs.getLong("section_id"),
+        rs.getLong("village_id"),
+        rs.getInt("chap_no"),
+        rs.getString("section_name"),
+        rs.getString("content"),
+        rs.getString("video_url"),
+        rs.getString("status")
+        );
     }
 }

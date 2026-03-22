@@ -1,10 +1,10 @@
 package com.lms.domain.section.dto.response;
 
 public class SectionListResponse {
-    private final Long sectionId;
-    private final int chapNo;
-    private final String sectionName;
-    private final String status;
+    private Long sectionId;
+    private int chapNo;
+    private String sectionName;
+    private String status;
 
     public SectionListResponse(Long sectionId, int chapNo, String sectionName, String status) {
         this.sectionId = sectionId;

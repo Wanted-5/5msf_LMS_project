@@ -1,10 +1,12 @@
 package com.lms.domain.enrollment.view;
 
 import com.lms.domain.enrollment.controller.EnrollmentController;
+import com.lms.domain.enrollment.dto.Response.EnterVillageResponse;
 import com.lms.domain.enrollment.dto.Response.VerifyInviteCodeResponse;
 import com.lms.global.AppContext.AppContext;
 import com.lms.global.common.UserSession;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class EnrollmentInputView {
@@ -48,9 +50,9 @@ public class EnrollmentInputView {
                     break;
                 case "3":
                     System.out.println("\n  [ 시스템 ] 승인된 마을로 입장을 시도합니다...");
+                    enterVillageProcess();
                     // TODO: 승인 여부 체크 후 마을 진입 라우팅
                     // TODO : 승인된 마을 전체 조회 해서 해당 villageId 받아서 전달하기
-//                    AppContext.getAppContext().villageAppContext.villageInputView.displayStudentMainMenu(villageId);
                     break;
                 case "0":
                     System.out.println("  [ 시스템 ] 안전하게 로그아웃 되었습니다. 초기 화면으로 돌아갑니다.");
@@ -64,7 +66,7 @@ public class EnrollmentInputView {
         }
     }
 
-    // 초대코드 입력 display
+    // 초대코드 입력 기능
     private void submitEnrollmentCodeProcess() {
         while (true) {
             System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
@@ -118,5 +120,62 @@ public class EnrollmentInputView {
             }
 
             }
+    }
+
+    // 3번 입장하기 로직
+    private void enterVillageProcess() {
+        System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
+        System.out.println("║                 🚪 마을 광장으로 입장 (Enter Village)           ║");
+        System.out.println("╚══════════════════════════════════════════════════════════════╝");
+        System.out.println("  [ 시스템 ] 여행자님의 입국이 허가된 마을 목록을 조회합니다...\n");
+
+        try {
+            long currentUserId = UserSession.getLoggedInUser().getUserId();
+
+            // 1. [조회] 현재 학생이 가입 '승인(APPROVED)'된 마을 목록만 가져옵니다.
+            List<EnterVillageResponse> approvedVillages = controller.getApprovedVillages(currentUserId);
+
+            // 방어 로직: 들어갈 수 있는 마을이 없는 경우
+            if (approvedVillages == null || approvedVillages.isEmpty()) {
+                System.out.println("  [ 시스템 ] 현재 입장 가능한(승인 완료된) 마을이 없습니다.");
+                System.out.println("  [ 시스템 ] '마을 가입 신청'을 먼저 진행하시거나 강사님의 승인을 기다려주세요.");
+                System.out.println("────────────────────────────────────────────────────────────────\n");
+                return;
+            }
+
+            // OutputView를 통해 승인된 마을 목록을 예쁘게 출력합니다.
+            outputView.displayApprovedVillages(approvedVillages);
+
+            System.out.println("────────────────────────────────────────────────────────────────");
+            System.out.print("  ▶ 입장하실 마을의 번호(ID)를 입력하세요 (취소는 '0') : ");
+
+            long villageId;
+            try {
+                villageId = Long.parseLong(sc.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("\n  🚨 [오류] 마을 번호는 숫자만 입력 가능합니다.");
+                return;
+            }
+
+            if (villageId == 0) {
+                System.out.println("\n  [ 시스템 ] 마을 입장을 취소하고 수강 관리 메뉴로 돌아갑니다.");
+                return;
+            }
+
+            // TODO : 사용자가 입력한 villageId가 진짜로 승인된 마을이 맞는지 Controller/Service에서 2차 검증합니다.
+//            boolean isApproved = controller.verifyVillageApproval(currentUserId, villageId);
+
+//            if (!isApproved) {
+//                System.out.println("\n  🚨 [보안 경고] 해당 마을에 입장할 권한이 없거나 아직 승인 대기 중입니다.");
+//                return;
+//            }
+
+            System.out.println("\n  [ 시스템 ] 짐을 챙기세요! " + villageId + "번 마을로 안전하게 이동합니다... 🚀");
+
+            AppContext.getAppContext().villageAppContext.villageInputView.displayStudentMainMenu(villageId);
+
+        } catch (Exception e) {
+            System.out.println("\n  🚨 [오류] 마을 입장 처리 중 문제가 발생했습니다: " + e.getMessage());
+        }
     }
 }

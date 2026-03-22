@@ -1,6 +1,5 @@
 package com.lms.domain.village.dao;
 
-import com.lms.domain.city.dto.CityDTO;
 import com.lms.domain.village.dto.VillageDTO;
 import com.lms.domain.village.dto.request.CreateVillageRequest;
 import com.lms.global.config.JDBCTemplate;

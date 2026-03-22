@@ -6,15 +6,15 @@ public class MafiaDTO {
 
     private int stayId;
     private int villageId;
-    private int userId;
-    private int mafiaId;
+    private Long userId;
+    private Long mafiaId;
     private String status;
     private LocalDate appliedAt;
     private LocalDate createdAt;
 
     public MafiaDTO() {}
 
-    public MafiaDTO(int stayId, int villageId, int userId, String status, LocalDate appliedAt) {
+    public MafiaDTO(int stayId, int villageId, Long userId, String status, LocalDate appliedAt) {
         this.stayId = stayId;
         this.villageId = villageId;
         this.userId = userId;
@@ -22,19 +22,19 @@ public class MafiaDTO {
         this.appliedAt = appliedAt;
     }
 
-    public MafiaDTO(int userId, int villageId, LocalDate createdAt) {
+    public MafiaDTO(Long userId, int villageId, LocalDate createdAt) {
         this.userId = userId;
         this.villageId = villageId;
         this.createdAt = createdAt;
     }
 
-    public MafiaDTO(int userId, String status, LocalDate appliedAt) {
+    public MafiaDTO(Long userId, String status, LocalDate appliedAt) {
         this.userId = userId;
         this.status = status;
         this.appliedAt = appliedAt;
     }
 
-    public MafiaDTO(int mafiaId, int userId, int villageId, LocalDate createdAt) {
+    public MafiaDTO(Long mafiaId, Long userId, int villageId, LocalDate createdAt) {
         this.mafiaId = mafiaId;
         this.userId = userId;
         this.villageId = villageId;
@@ -57,19 +57,19 @@ public class MafiaDTO {
         this.villageId = villageId;
     }
 
-    public int getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public int getMafiaId() {
+    public Long getMafiaId() {
         return mafiaId;
     }
 
-    public void setMafiaId(int mafiaId) {
+    public void setMafiaId(Long mafiaId) {
         this.mafiaId = mafiaId;
     }
 

@@ -1,6 +1,5 @@
 package com.lms.domain.category.controller;
 
-
 import com.lms.domain.category.dto.CategoryDTO;
 import com.lms.domain.category.service.CategoryService;
 
@@ -8,7 +7,6 @@ import java.util.List;
 
 public class CategoryController {
     private final CategoryService categoryService;
-
 
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
@@ -18,11 +16,10 @@ public class CategoryController {
     public List<CategoryDTO> getCategoryList(Long villageId) {
         return categoryService.getCategoryList(villageId);
     }
-    // CategoryController.java
 
     // 강사권한 카테고리 추가
     public boolean insert(CategoryDTO dto, String userRole) {
-        return categoryService.insert(dto, userRole); // 서비스로 역할(Role) 전달
+        return categoryService.insert(dto, userRole);
     }
 
     // 강사,관리자 권한 카테고리 수정

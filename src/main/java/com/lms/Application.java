@@ -14,9 +14,10 @@ public class Application {
             System.out.println("✅ 데이터베이스 연결 성공!!!");
             JDBCTemplate.printConnectionStatus();
 
+
             AppContext appContext = new AppContext(con);
             appContext.boardAppContext.boardInputView.boardFirstMenu();
-
+            appContext.categoryAppContext.categoryInputView.Categorystart();
         } catch (SQLException e) {
             System.err.println("🚨 데이터 베이스 연결 실패... 🚨");
         } finally {

@@ -12,13 +12,12 @@ public class BoardAppContext {
 
     public final BoardInputView boardInputView;
 
-    public BoardAppContext(Connection con) {
-
+    public BoardAppContext(Connection con, CategoryService categoryService) {
         BoardService boardService = new BoardService(con);
         BoardController boardController = new BoardController(boardService);
         BoardOutputView boardOutputView = new BoardOutputView();
-        CategoryService categoryService = new CategoryService(con);
 
-        this.boardInputView = new BoardInputView(boardController, boardOutputView,categoryService);
+
+        this.boardInputView = new BoardInputView(boardController, boardOutputView, categoryService);
     }
 }

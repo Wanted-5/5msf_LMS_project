@@ -20,7 +20,8 @@ public class QueryUtil {
          "users-queries.xml",
          "Comment-querys.xml",
          "quiz-queries.xml",
-         "board-queries.xml"
+         "board-queries.xml",
+         "category-queries.xml"
  };
 
 

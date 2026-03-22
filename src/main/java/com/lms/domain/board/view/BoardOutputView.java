@@ -26,19 +26,7 @@ public class BoardOutputView {
         System.out.println("=================================");
     }
 
-    // 카테고리 선택 메뉴 출력
-    public void printCategoryMenu() {
-        System.out.println();
-        System.out.println("=================================");
-        System.out.println("         카테고리 선택");
-        System.out.println("=================================");
-        System.out.println("1. 자유 게시판");
-        System.out.println("2. QnA 게시판");
-        System.out.println("3. 공지 게시판");
-        System.out.println("4. 문의 게시판");
-        System.out.println("5. 이전으로");
-        System.out.print("번호를 입력해주세요 : ");
-    }
+
     // 게시글 상세 출력
     public void printBoardDetail(BoardDTO board) {
         System.out.println("=================================");

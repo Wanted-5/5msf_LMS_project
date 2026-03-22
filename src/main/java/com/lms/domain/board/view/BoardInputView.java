@@ -83,7 +83,7 @@ public class BoardInputView {
             List<BoardDTO> boardList = boardController.findAllBoard(categoryId);
             boardOutputView.printBoardList(boardList);
 
-            if (boardList.isEmpty()) return;
+            if (boardList.isEmpty()) continue;
 
             System.out.print("상세 조회할 게시글 번호를 입력해주세요 (0: 이전으로) : ");
             long boardId = inputLong();
@@ -150,7 +150,7 @@ public class BoardInputView {
 
     private void myBoardMenu() {
         // 내 글 목록 자동 출력
-        List<BoardDTO> myBoardList = boardController.findByUser(6L); // 임시 고정 ID
+        List<BoardDTO> myBoardList = boardController.findByUser(1L); // 임시 고정 ID
 
         if (myBoardList.isEmpty()) {
             System.out.println("작성한 게시글이 없습니다.");
@@ -245,4 +245,4 @@ public class BoardInputView {
         }
     }
 
-}
+            }

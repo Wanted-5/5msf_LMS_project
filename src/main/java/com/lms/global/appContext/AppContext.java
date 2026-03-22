@@ -26,12 +26,15 @@ import java.sql.Connection;
 
 public class AppContext {
 
+    public final CategoryAppContext categoryAppContext;
     public final BoardAppContext boardAppContext;
-    //public final CategoryAppContext categoryAppContext;
+
+
 
     public AppContext(Connection con) {
-        this.boardAppContext = new BoardAppContext(con);
-        //this.categoryAppContext = new CategoryAppContext(con);
+        this.categoryAppContext = new CategoryAppContext(con);
+        this.boardAppContext = new BoardAppContext(con,categoryAppContext.categoryService);
+
     }
 
 }

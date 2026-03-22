@@ -51,7 +51,7 @@ public class BoardDAO {
         String query = getQuery("board.insert");
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1, dto.getVillageId());
-            pstmt.setLong(2, dto.getTEST_USER_ID());
+            pstmt.setLong(2, dto.getCreatorId());
             pstmt.setLong(3, dto.getCategoryId());
             pstmt.setString(4, dto.getTitle());
             pstmt.setString(5, dto.getContent());
@@ -120,7 +120,7 @@ public class BoardDAO {
             pstmt.setString(1, dto.getTitle());
             pstmt.setString(2, dto.getContent());
             pstmt.setLong(3, dto.getBoardId());
-            pstmt.setLong(4, dto.getTEST_USER_ID());
+            pstmt.setLong(4, dto.getCreatorId());
             return pstmt.executeUpdate();
         }
     }

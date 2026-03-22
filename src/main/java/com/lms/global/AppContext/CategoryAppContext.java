@@ -1,4 +1,4 @@
-package com.lms.global.appContext;
+package com.lms.global.AppContext;
 
 import com.lms.domain.category.controller.CategoryController;
 import com.lms.domain.category.service.CategoryService;

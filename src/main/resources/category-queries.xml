@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<properties>
+
+
+
+    <!-- 카테고리 전체 조회 -->
+    <query key="findAllByVillageId">
+        SELECT c.category_id,
+        c.category_name,
+        c.village_id,
+        c.creator_id,
+        u.nickname AS creator_nickname,
+        c.created_at
+        FROM category c
+        JOIN Users u ON c.creator_id = u.user_id
+        WHERE c.village_id = ?
+        ORDER BY c.category_id ASC
+    </query>
+
+    <!-- 강사 권한 - 카테고리 추가 -->
+    <query key="category.insert">
+        INSERT INTO category(category_name, village_id, creator_id)
+        VALUES (?, ?, ?)
+    </query>
+
+    <!-- 강사 권한 - 카테고리 수정 -->
+    <query key="category.update">
+        UPDATE category
+        SET category_name = ?
+        WHERE category_id = ? AND creator_id = ?
+    </query>
+
+    <!-- 강사 권한 - 카테고리 삭제 -->
+    <query key="category.delete">
+        DELETE FROM category
+        WHERE category_id = ? AND creator_id = ?
+    </query>
+
+
+</properties>

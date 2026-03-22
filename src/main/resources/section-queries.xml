@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <properties>
 
+    <query key="section.insertSection">
+        <![CDATA[
+        INSERT INTO section
+        (village_id, chap_no, section_name, content, video_url, status, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, 'ACTIVE', NOW(), NOW())
+        ]]>
+    </query>
 
     <query key="section.findSectionByVillageIdAndSectionId">
         <![CDATA[
@@ -13,14 +20,15 @@
     </query>
 
     <query key="section.findSectionsByVillageId">
-        <![CDATA[
-        SELECT section_id, village_id, chap_no, section_name, content, video_url, status
-        FROM section
+        SELECT
+            section_id, chap_no, section_name, status
+        FROM
+            section
         WHERE village_id = ?
           AND status = 'ACTIVE'
         ORDER BY chap_no ASC
-        ]]>
     </query>
+
     <query key="section.findSectionsByStudentId">
         <![CDATA[
         SELECT s.section_id, s.village_id, s.chap_no, s.section_name, s.content, s.video_url, s.status
@@ -40,4 +48,5 @@
           AND status = 'ACTIVE'
         ]]>
     </query>
+
 </properties>

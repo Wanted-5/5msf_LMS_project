@@ -4,14 +4,14 @@ import java.time.LocalDateTime;
 
 public class QuizDTO {
 
-    private Integer quizId;
+    private Long quizId;
     private String title;
-    private int mafiaId;
+    private Long mafiaId;
     private String content;
     private String answer;
     private LocalDateTime createdAt;
 
-    public QuizDTO(Integer quizId, Integer mafiaId, String title, String content, String answer) {
+    public QuizDTO(Long quizId, Long mafiaId, String title, String content, String answer) {
         this.quizId = quizId;
         this.mafiaId = mafiaId;
         this.title = title;
@@ -19,7 +19,7 @@ public class QuizDTO {
         this.answer = answer;
     }
 
-    public QuizDTO(int quizId, String title, int mafiaId, String content, String answer, LocalDateTime createdAt) {
+    public QuizDTO(Long quizId, String title, Long mafiaId, String content, String answer, LocalDateTime createdAt) {
         this.quizId = quizId;
         this.title = title;
         this.mafiaId = mafiaId;
@@ -28,18 +28,18 @@ public class QuizDTO {
         this.createdAt = createdAt;
     }
 
-    public QuizDTO(String content, String title, int quizId) {
+    public QuizDTO(String content, String title, Long quizId) {
         this.content = content;
         this.mafiaId = mafiaId;
         this.title = title;
         this.quizId = quizId;
     }
 
-    public int getQuizId() {
+    public Long getQuizId() {
         return quizId;
     }
 
-    public void setQuizId(int quizId) {
+    public void setQuizId(Long quizId) {
         this.quizId = quizId;
     }
 
@@ -51,11 +51,11 @@ public class QuizDTO {
         this.title = title;
     }
 
-    public int getMafiaId() {
+    public Long getMafiaId() {
         return mafiaId;
     }
 
-    public void setMafiaId(int mafiaId) {
+    public void setMafiaId(Long mafiaId) {
         this.mafiaId = mafiaId;
     }
 

@@ -29,4 +29,47 @@
     SELECT IFNULL(MAX(quiz_id), 0) + 1 FROM quizzes
     </query>
 
+    <query key ="quiz.deleteByMafia">
+        DELETE FROM quizzes
+        WHERE quiz_id = ?
+        AND mafia_id = (
+        SELECT mafia_id FROM mafia_history
+        WHERE user_id = ?
+        AND selected_date = CURDATE()
+        )
+    </query>
+
+    <query key ="quiz.deleteByinstructor">
+        DELETE FROM quizzes
+        WHERE quiz_id = ?
+    </query>
+
+    <query key ="quiz.deleteByAdmin">
+        DELETE FROM quizzes
+        WHERE quiz_id = ?
+    </query>
+
+    <query key="quiz.updateByMafia">
+        UPDATE quizzes
+        SET quiz_title = ?, content = ?, answer = ?
+        WHERE quiz_id = ?
+        AND mafia_id = (
+        SELECT mafia_id FROM mafia_history
+        WHERE user_id = ?
+        AND selected_date = CURDATE()
+        )
+    </query>
+
+    <query key="quiz.updateByInstructor">
+        UPDATE quizzes
+        SET quiz_title = ?, content = ?, answer = ?
+        WHERE quiz_id = ?
+    </query>
+
+    <query key="quiz.updateByAdmin">
+        UPDATE quizzes
+        SET quiz_title = ?, content = ?, answer = ?
+        WHERE quiz_id = ?
+    </query>
+
 </properties>

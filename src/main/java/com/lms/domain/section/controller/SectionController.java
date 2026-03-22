@@ -16,7 +16,7 @@ public class SectionController {
     }
 
     public List<SectionListResponse> displayAllSections(long villageId) {
-            return sectionService.findSectionsByVillageId(villageId);
+        return sectionService.findSectionsByVillageId(villageId);
     }
 
     public SectionDTO getSectionById(long sectionId) {

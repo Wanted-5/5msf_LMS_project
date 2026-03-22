@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <properties>
 
+    <query key="section.insertSection">
+        <![CDATA[
+        INSERT INTO section
+        (village_id, chap_no, section_name, content, video_url, status, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, 'ACTIVE', NOW(), NOW())
+        ]]>
+    </query>
 
     <query key="section.findSectionByVillageIdAndSectionId">
         <![CDATA[
@@ -41,4 +48,5 @@
           AND status = 'ACTIVE'
         ]]>
     </query>
+
 </properties>

@@ -1,7 +1,5 @@
 package com.lms.domain.users.dto;
 
-import com.lms.domain.users.constant.UserRole;
-
 import java.time.LocalDateTime;
 
 public class UserDTO {

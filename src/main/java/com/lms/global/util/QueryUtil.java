@@ -19,10 +19,14 @@ public class QueryUtil {
     private static final String[] QUERIES_FILES = {
             "users-queries.xml",
             "city-queries.xml",
+            "village-queries.xml",
+            "enrollment-queries.xml",
             "section-queries.xml",
+            "Attend-querys.xml",
             "Comment-querys.xml",
             "quiz-queries.xml",
             "mafia-queries.xml"
+
     };
 
 
@@ -38,7 +42,6 @@ public class QueryUtil {
      */
     private static void loadQueriesFile(String fileName) {
         try {
-            // 클래스 로더를 통해 "users-quiz-queries.xml" 파일을 InputStream으로 가져옴
             InputStream inputStream = QueryUtil.class.getClassLoader().getResourceAsStream(fileName);
 
             // InputStream이 null인 경우, 즉 파일을 찾지 못한 경우 예외 발생

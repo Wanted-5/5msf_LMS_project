@@ -1,14 +1,19 @@
 package com.lms.domain.village.dao;
 
 import com.lms.domain.village.dto.VillageDTO;
+import com.lms.domain.village.dto.request.CreateVillageRequest;
 import com.lms.global.config.JDBCTemplate;
 import com.lms.global.util.QueryUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 
 public class VillageDAO {
+
+    private final Connection connection;
+
+    public VillageDAO(Connection connection) {
+        this.connection = connection;
+    }
 
     public VillageDTO findVillageByInviteCode(Connection con, String inviteCode) {
         PreparedStatement pstmt = null;
@@ -85,4 +90,54 @@ public class VillageDAO {
 
         return false;
     }
+
+    public Long createVillage(CreateVillageRequest request) throws SQLException {
+
+        String query = QueryUtil.getQuery("village.insertVillage");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setLong(1, request.getCityId());
+            pstmt.setString(2, request.getVillageName());
+            pstmt.setString(3, request.getDescription());
+            pstmt.setString(4, request.getInviteCode());
+            if (request.getStartDate() != null) {
+                // LocalDate를 JDBC가 이해할 수 있는 java.sql.Date로 변환해서 넣습니다.
+                pstmt.setDate(5, java.sql.Date.valueOf(request.getStartDate()));
+            } else {
+                pstmt.setNull(5, java.sql.Types.DATE);
+            }
+            if (request.getEndDate() != null) {
+                pstmt.setDate(6, java.sql.Date.valueOf(request.getEndDate()));
+            } else {
+                pstmt.setNull(6, java.sql.Types.DATE);
+            }
+
+            int insertRows = pstmt.executeUpdate();
+
+            if (insertRows == 0) {
+                throw new SQLException("마을 건설에 실패했습니다. [DB 문제]");
+            }
+
+            try (ResultSet resultSet = pstmt.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    return resultSet.getLong(1); // city_id 리턴
+                } else {
+                    throw new SQLException("[error] 마을 건설에는 성공, but ID 획득 실패.");
+                }
+            }
+        }
+    }
+
+    // TODO : 편의 메서드 구현하기
+    // ================== 내부 편의 메서드 ===============
+//    private VillageDTO convertToDTO (ResultSet rset) {
+//        try {
+//            return new VillageDTO(
+//                    // 구현예정
+//            );
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            throw new RuntimeException("[error] DTO 변환 작업 중 에러 발생", e);
+//        }
+//    }
 }

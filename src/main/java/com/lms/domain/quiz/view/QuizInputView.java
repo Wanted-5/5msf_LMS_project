@@ -1,6 +1,5 @@
 package com.lms.domain.quiz.view;
 
-import com.lms.domain.mafia.dao.MafiaDAO;
 import com.lms.domain.quiz.controller.QuizController;
 import com.lms.domain.quiz.dto.QuizDTO;
 

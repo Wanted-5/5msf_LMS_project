@@ -15,27 +15,28 @@ public class AttendInputView {
     private final AttendController attendController;
     private final AttendOutputView attendOutputView;
     Scanner sc = new Scanner(System.in);
-    LoginResponse loginUser = UserSession.getLoggedInUser();
 
     public AttendInputView(AttendController attendController, AttendOutputView attendOutputView) {
         this.attendController = attendController;
         this.attendOutputView = attendOutputView;
     }
 
-    public void AttendMenu() {
+    public void AttendMenu(Long villageId) {
+        LoginResponse loginUser = UserSession.getLoggedInUser();
         if (!UserSession.isLoggedIn()) {
             attendOutputView.printError("출결 메뉴는 로그인 후 이용 가능합니다.");
             return;
         }
 
         if (loginUser.getRole() == UserRole.ADMIN || loginUser.getRole() == UserRole.INSTRUCTOR) {
-            AdminAttendMenu();
+            AdminAttendMenu(villageId);
         } else {
-            StudentAttendMenu();
+            StudentAttendMenu(villageId);
         }
     }
 
-    public void StudentAttendMenu() {
+    public void StudentAttendMenu(Long villageId) {
+        LoginResponse loginUser = UserSession.getLoggedInUser();
 
         while (true) {
             System.out.println("\n==== 🧑‍🎓 [학생] 출결 메뉴 ====");
@@ -51,7 +52,7 @@ public class AttendInputView {
                     case 1:
                         AttendDTO newAttend = new AttendDTO();
                         newAttend.setAttendanceId(System.currentTimeMillis());
-                        newAttend.setVillageId(1L);
+                        newAttend.setVillageId(villageId);
                         newAttend.setUserId(loginUser.getUserId());
                         newAttend.setAttendanceDate(java.time.LocalDateTime.now());
                         attendController.processAttendanceCheck(newAttend);
@@ -72,7 +73,7 @@ public class AttendInputView {
         }
     }
 
-    public void AdminAttendMenu() {
+    public void AdminAttendMenu(Long villageId) {
         while (true) {
             System.out.println("\n==== 👨‍🏫 [관리자] 출결 관리 메뉴 ====");
             System.out.println("1. 수강생 전체 출결 조회(최신순)");
@@ -151,6 +152,12 @@ public class AttendInputView {
 
                 } else if (action == 2) {
                     System.out.print("정말 삭제하시겠습니까? (y/n) : ");
+//                    public boolean equalsIgnoreCase(String anotherString) {
+//                        return (this == anotherString) ? true
+//                                : (anotherString != null)
+//                                && (anotherString.length() == length())
+//                                && regionMatches(true, 0, anotherString, 0, length());
+//                    } ---> equalsIgnoreCase (y/Y 같은거 출력)
                     if (sc.nextLine().equalsIgnoreCase("y")) {
                         boolean isSuccess = attendController.deleteAttendance(targetId);
                         if (isSuccess) {

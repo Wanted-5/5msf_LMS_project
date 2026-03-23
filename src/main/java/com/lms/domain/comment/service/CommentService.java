@@ -31,7 +31,7 @@ public class CommentService {
 
         } catch (SQLException e) {
 
-            System.err.println("🚨 댓글 작성 중 DB 에러 발생: " + e.getMessage());
+            System.err.println("댓글 작성 중 DB 에러 발생: " + e.getMessage());
             return false;
         }
     }
@@ -40,13 +40,13 @@ public class CommentService {
         try {
             return commentDAO.findCommentAll(boardId);
         } catch (SQLException e) {
-            throw new RuntimeException("강의 전체 조회 중 Error 발생!! 🚨🚨" + e);
+            throw new RuntimeException("강의 전체 조회 중 Error 발생!! " + e);
         }
     }
     public List<CommentDTO> getCommentsForBoard(long boardId) throws SQLException {
-   //   지우면 안되는 주석 ( 권한 검증 로직)
+
         if (!UserSession.isLoggedIn()) {
-            System.out.println("🚨 [시스템] 로그인이 필요한 기능입니다. 먼저 로그인을 해주세요.");
+            System.out.println("로그인이 필요한 기능입니다. 먼저 로그인을 해주세요.");
 
             return new ArrayList<>();
         }
@@ -70,7 +70,7 @@ public class CommentService {
 
         } catch (SQLException e) {
 
-            System.out.println("🚨 [Service] 댓글 수정 중 DB 오류: " + e.getMessage());
+            System.out.println("댓글 수정 중 DB 오류: " + e.getMessage());
             return false;
         }
     }
@@ -79,7 +79,7 @@ public class CommentService {
             int result = commentDAO.deleteComment(commentId);
             return result > 0;
         } catch (SQLException e) {
-            System.out.println("🚨 [Service] 댓글 삭제 중 DB 오류: " + e.getMessage());
+            System.out.println("댓글 삭제 중 DB 오류: " + e.getMessage());
             return false;
         }
     }

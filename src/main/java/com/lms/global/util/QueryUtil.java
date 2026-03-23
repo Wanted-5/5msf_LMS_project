@@ -26,13 +26,10 @@ public class QueryUtil {
             "Comment-querys.xml",
             "quiz-queries.xml",
             "mafia-queries.xml",
-<<<<<<< HEAD
-            "quizsub-queries.xml"
-
-=======
+            "quizsub-queries.xml",
             "board-queries.xml",
             "category-queries.xml"
->>>>>>> ee2a336587567b1242bd1b740db40dccd3e3a888
+
     };
 
 

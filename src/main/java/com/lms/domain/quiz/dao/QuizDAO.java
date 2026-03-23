@@ -117,21 +117,9 @@ public class QuizDAO {
 
 
     // 강사가 삭제
-    public Long deleteByInstructor(Long quiz) throws SQLException {
+    public Long deleteByInstructorAndAdmin(Long quiz) throws SQLException {
 
-        String query = QueryUtil.getQuery("quiz.deleteByinstructor");
-
-        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setLong(1,quiz);
-            pstmt.executeUpdate();
-        }
-        return 0L;
-    }
-
-    // 관리자에 의해 퀴즈 삭제
-    public Long deleteByAdmin(Long quiz) throws SQLException {
-
-        String query = QueryUtil.getQuery("quiz.deleteByAdmin");
+        String query = QueryUtil.getQuery("quiz.deleteByinstructorAndAdmin");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1,quiz);
@@ -156,24 +144,9 @@ public class QuizDAO {
         return 0L;
     }
 
-    public Long updateQuizByInstructor(Long quizId, String title, String content, String answer) throws SQLException {
+    public Long updateQuizByInstructorAndAdmin(Long quizId, String title, String content, String answer) throws SQLException {
 
-        String query = QueryUtil.getQuery("quiz.updateByInstructor");
-
-        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setString(1, title);
-            pstmt.setString(2, content);
-            pstmt.setString(3, answer);
-            pstmt.setLong(4, quizId);
-            pstmt.executeUpdate();
-        }
-
-        return 0L;
-    }
-
-    public Long updateQuizByAdmin(Long quizId, String title, String content, String answer) throws SQLException {
-
-        String query = QueryUtil.getQuery("quiz.updateByAdmin");
+        String query = QueryUtil.getQuery("quiz.updateByInstructorAndAdmin");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, title);

@@ -18,7 +18,6 @@ public class Application {
 
             AppContext.init(con);
 
-
             while (true) {
                 LoginResponse loggedInUser = UserSession.getLoggedInUser();
 

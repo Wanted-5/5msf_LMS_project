@@ -47,9 +47,9 @@ public class AttendService {
         } catch (SQLException e) {
             // MySQL 에러 코드 1062는 Unique 제약 조건 위반
             if (e.getErrorCode() == 1062) {
-                System.out.println("⚠️ [안내] 오늘은 이미 출석 체크를 완료하셨습니다.");
+                System.out.println("오늘은 이미 출석 체크를 완료하셨습니다.");
             } else {
-                System.out.println("🚨 출석 체크 중 DB 오류 발생: " + e.getMessage());
+                System.out.println("출석 체크 중 DB 오류 발생: " + e.getMessage());
             }
             return false;
         }

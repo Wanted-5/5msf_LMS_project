@@ -19,9 +19,9 @@ public class AttendController {
         boolean isSuccess = attendService.checkAttendance(dto);
 
         if (isSuccess) {
-            System.out.println("🎉 [안내] 출석 체크가 완료되었습니다!");
+            System.out.println("출석 체크가 완료되었습니다!");
         } else {
-            System.out.println("❌ [안내] 출석 체크에 실패했습니다. 관리자에게 문의하세요.");
+            System.out.println("출석 체크에 실패했습니다. 관리자에게 문의하세요.");
         }
     }
 
@@ -42,7 +42,7 @@ public class AttendController {
         AttendStatus targetStatus = AttendStatus.fromDescription(description5);
 
         if (targetStatus == null) {
-            System.out.println("🚨 존재하지 않는 출결 상태입니다. (오타 확인)");
+            System.out.println("존재하지 않는 출결 상태입니다. (오타 확인)");
             return false;
         }
 

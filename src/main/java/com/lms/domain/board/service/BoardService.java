@@ -18,7 +18,7 @@ public class BoardService {
     }
 
     // 게시글 작성
-    public boolean registerPost(BoardDTO dto) {
+    public boolean registerPost(BoardDTO dto, Long villageId) {
        // 디버깅용  System.out.println("dto = " + dto);
         if (dto.getTitle() == null || dto.getTitle().trim().isEmpty()) {
             System.out.println("오류: 제목을 입력해주세요.");
@@ -30,7 +30,7 @@ public class BoardService {
         }
         try {
             // 디버깅 확인용 System.out.println("dadadadadada");
-            int result = boardDAO.insert(dto); //
+            int result = boardDAO.insert(dto, villageId); //
            //디버깅 확인용 System.out.println("여기 동작하니?");
             return result > 0;
         } catch (SQLException e) {

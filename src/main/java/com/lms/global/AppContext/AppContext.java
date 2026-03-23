@@ -29,7 +29,7 @@ public class AppContext {
         this.sectionAppContext = new SectionAppContext(con);
         this.categoryAppContext = new CategoryAppContext(con);
         this.boardAppContext = new BoardAppContext(con, categoryAppContext.categoryService,
-                categoryAppContext.categoryController);
+                categoryAppContext.categoryController, categoryAppContext.categoryInputView, commentAppContext.commentInputView);
     }
 
     // 최초에 한 번 세팅하는 메서드

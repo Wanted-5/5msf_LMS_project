@@ -19,10 +19,8 @@ public class BoardController {
     }
 
     // 게시글 작성
-    public boolean registerPost(BoardDTO dto) {
-        // 디버깅 출력용 System.out.println("dto = " + dto);
-        dto.setVillageId(1L); // 임시방편 연동하면 서비스로 옮겨야대요
-        return boardService.registerPost(dto);
+    public boolean registerPost(BoardDTO dto, Long villageId) {
+        return boardService.registerPost(dto, villageId);
     }
     // 게시글 상세 조회
     public BoardDTO findById(Long boardId) {

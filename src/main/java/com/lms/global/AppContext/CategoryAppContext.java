@@ -19,7 +19,7 @@ public class CategoryAppContext {
         this.categoryController = new CategoryController(this.categoryService);
         this.categoryOutputView = new CategoryOutputView();
 
-        this.categoryInputView = new CategoryInputView(this.categoryController, this.categoryOutputView);
+        this.categoryInputView = new CategoryInputView(this.categoryController, this.categoryOutputView, this.categoryService);
     }
 
 }

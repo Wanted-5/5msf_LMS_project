@@ -2,6 +2,7 @@ package com.lms.domain.mafia.view;
 
 import com.lms.domain.mafia.controller.MafiaController;
 import com.lms.domain.mafia.dto.MafiaDTO;
+
 import com.lms.domain.users.dto.UserRole;
 import com.lms.global.common.UserSession;
 
@@ -11,20 +12,12 @@ public class MafiaInputView {
 
     private final MafiaController mafiaController;
     private final MafiaOutputView mafiaOutputView;
-    Scanner sc = new Scanner(System.in);
 
 
     public MafiaInputView(MafiaController mafiaController, MafiaOutputView mafiaOutputView) {
         this.mafiaController = mafiaController;
         this.mafiaOutputView = mafiaOutputView;
     }
-
-//    // 테스트 하기 위해 생성
-//    public void mafiaTest(int villageId) {
-//        // 강사 권한 체크 로직 담겨있음 나중에 강사에다가 넘겨주기
-//        selectMafia(villageId);
-//        mafiaController.selectVillageAll();
-//    }
 
     public MafiaDTO selectMafia(int villageId) {
 
@@ -41,6 +34,10 @@ public class MafiaInputView {
             mafiaOutputView.printError(e.getMessage());
         }
         return null;
+    }
+
+    public void selectVillageAll() {
+        mafiaController.selectVillageAll();
     }
 
 

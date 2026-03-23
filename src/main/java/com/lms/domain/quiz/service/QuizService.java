@@ -3,6 +3,7 @@ package com.lms.domain.quiz.service;
 import com.lms.domain.mafia.dao.MafiaDAO;
 import com.lms.domain.quiz.dao.QuizDAO;
 import com.lms.domain.quiz.dto.QuizDTO;
+
 import com.lms.domain.users.dto.UserRole;
 import com.lms.global.common.UserSession;
 
@@ -75,11 +76,9 @@ public class QuizService {
             Long userId = UserSession.getLoggedInUser().getUserId();
             UserRole role = UserSession.getLoggedInUser().getRole();
 
-            if (role == UserRole.INSTRUCTOR) {
-                quizDAO.deleteByInstructor(quizId);
-            } else if(role == UserRole.ADMIN){
-                quizDAO.deleteByAdmin(quizId);
-            }else {
+            if (role == UserRole.INSTRUCTOR || role == UserRole.ADMIN) {
+                quizDAO.deleteByInstructorAndAdmin(quizId);
+            } else {
                 Long result = quizDAO.deleteByMafia(quizId, userId);
 
                 if (result == 0) {
@@ -101,10 +100,8 @@ public class QuizService {
             Long userId = UserSession.getLoggedInUser().getUserId();
             UserRole role = UserSession.getLoggedInUser().getRole();
 
-            if (role == UserRole.INSTRUCTOR) {
-                quizDAO.updateQuizByInstructor(quizId, title, content, answer);
-            } else if(role == UserRole.ADMIN) {
-                quizDAO.updateQuizByAdmin(quizId, title, content, answer);
+            if (role == UserRole.INSTRUCTOR || role == UserRole.ADMIN) {
+                quizDAO.updateQuizByInstructorAndAdmin(quizId, title, content, answer);
             } else {
                 Long result = quizDAO.updateQuizByMafia(quizId, title, content, answer, userId);
 

@@ -2,7 +2,11 @@ package com.lms.domain.quiz.view;
 
 import com.lms.domain.quiz.controller.QuizController;
 import com.lms.domain.quiz.dto.QuizDTO;
+
+
 import com.lms.domain.quizSubmission.view.QuizSubInputView;
+import com.lms.domain.quizSubmission.view.QuizSubOutputView;
+
 import com.lms.domain.users.dto.UserRole;
 import com.lms.global.common.UserSession;
 
@@ -188,6 +192,8 @@ public class QuizInputView {
 
             try {
                 Long result = quizController.createQuiz(title, fullContent, answer);
+
+
 
                 if (result != null && result > 0) {
                     quizOutputview.printSuccess("🩸 퀴즈 등록 완료... 등록된 퀴즈 ID : " + result + " 🩸");

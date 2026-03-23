@@ -3,6 +3,7 @@ package com.lms.domain.section.controller;
 
 import com.lms.domain.section.dto.SectionDTO;
 import com.lms.domain.section.dto.request.SectionDetailRequest;
+import com.lms.domain.section.dto.response.CreateSectionRequest;
 import com.lms.domain.section.dto.response.SectionDetailResponse;
 import com.lms.domain.section.dto.response.SectionListResponse;
 import com.lms.domain.section.service.SectionService;
@@ -45,9 +46,9 @@ public class SectionController {
             return null;
         }
     }
-    public void createSection(long villageId, long userId, int chapNo,
-                              String sectionName, String content, String videoUrl) {
-        sectionService.createSection(villageId, userId, chapNo, sectionName, content, videoUrl);
+
+    public Long createSection(CreateSectionRequest request) {
+        return sectionService.createSection(request);
     }
 }
 

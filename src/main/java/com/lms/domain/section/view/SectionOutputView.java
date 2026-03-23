@@ -68,6 +68,22 @@ public class SectionOutputView {
         System.out.println("────────────────────────────────────────────────────────────────\n");
     }
 
+    public void displayCreateSectionSuccess(int studentCount) {
+        System.out.println("\n  🎉 [ 성공 ] 새로운 강의가 성공적으로 배포되었습니다!");
+
+        if (studentCount > 0) {
+            System.out.println("  [ 알림 ] " + studentCount + "명의 마을 주민에게 '수강 전' 이력이 생성되었습니다.");
+        } else {
+            System.out.println("  [ 알림 ] 현재 마을에 수강생이 없어 강의만 등록되었습니다.");
+        }
+    }
+
+    // 🌟 섹션 관련 에러 메시지 출력
+    public void displaySectionError(String message) {
+        System.out.println("\n  🚨 [ 섹션 오류 ] 작업을 완료하지 못했습니다.");
+        System.out.println("  ▶ 사유: " + message);
+    }
+
 
 
 }

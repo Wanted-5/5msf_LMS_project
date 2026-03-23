@@ -26,17 +26,17 @@ public class LearningController {
     }
 
     // 초기 수강 전으로 입력하기 기능
-    public void insertIntoBeforeLearning(long sectionId, long villageId) {
-        learningService.insertIntoBeforeLearning(sectionId, villageId);
+    public int insertIntoBeforeLearning(long sectionId, long villageId) {
+        return learningService.insertIntoBeforeLearning(sectionId, villageId);
     }
 
-    // 초기 수강 전으로 입력하기 기능
+    // 수강 중으로 업데이트 하기
     public void updateStatusInProgress(long userId, long sectionId) {
         learningService.updateStatusInProgress(userId, sectionId);
     }
 
-    // 초기 수강 전으로 입력하기 기능
-    public void updateStatusBeforeCompleted(long userId, long sectionId) {
+    // 수강 완료로 업데이트하기
+    public void updateStatusCompleted(long userId, long sectionId) {
         learningService.updateStatusCompleted(userId, sectionId);
     }
 

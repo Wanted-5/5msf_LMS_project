@@ -60,7 +60,7 @@ public class LearningDAO {
         return learningDTOList;
     }
 
-    public void insertIntoBeforeLearning(long sectionId, long villageId) throws SQLException {
+    public int insertIntoBeforeLearning(long sectionId, long villageId) throws SQLException {
         String query = QueryUtil.getQuery("learning.insertIntoBeforeLearning");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -69,11 +69,9 @@ public class LearningDAO {
 
             int insertedCount = pstmt.executeUpdate();
 
-            if (insertedCount <= 0) {
-                System.out.println("  [시스템] 마을에 학생이 존재하지 않습니다.");
-            } else {
-                System.out.println("  [시스템 내부] " + insertedCount + "명의 학생에게 새 강의가 할당되었습니다.");
-            }
+            return insertedCount;
+        } catch (SQLException e) {
+            throw new SQLException("[DAO Error] 강의 초기 생성 중 오류 발생: " + e.getMessage(), e);
         }
     }
 

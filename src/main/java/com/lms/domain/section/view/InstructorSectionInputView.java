@@ -2,6 +2,7 @@ package com.lms.domain.section.view;
 
 import com.lms.domain.learning.controller.LearningController;
 import com.lms.domain.section.controller.SectionController;
+import com.lms.domain.section.dto.response.CreateSectionRequest;
 import com.lms.global.AppContext.AppContext;
 import com.lms.global.common.UserSession;
 
@@ -45,15 +46,19 @@ public class InstructorSectionInputView {
 
             switch (choice) {
                 case "1":
+                    //comment, 연동 OK
                     AppContext.getAppContext().sectionAppContext.studentSectionInputView.showAllSectionsProcess(villageId);
                     break;
                 case "2":
+                    //comment, 연동 OK
                     AppContext.getAppContext().sectionAppContext.studentSectionInputView.startLearning(villageId);
                     break;
                 case "3":
+                    //comment, 연동 OK
                     AppContext.getAppContext().sectionAppContext.studentSectionInputView.showCompletedSections(villageId);
                     break;
                 case "4":
+                    //comment, 연동 OK
                     createSectionProcess(villageId, currentUser);
                     break;
                 case "5":
@@ -66,26 +71,31 @@ public class InstructorSectionInputView {
 
     // 강사 - 섹션 등록
     private void createSectionProcess(long villageId, Long userId) {
-        try {
-            System.out.println("\n=== 새로운 강의(섹션) 업로드 ===");
+        System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
+        System.out.println("║                 🎓 신규 강의(Section) 업로드                  ║");
+        System.out.println("╚══════════════════════════════════════════════════════════════╝");
+        System.out.println("  [ 시스템 ] 마을 주민들에게 공유할 새로운 교육 콘텐츠를 등록합니다.");
+        System.out.println("────────────────────────────────────────────────────────────────");
 
-            System.out.print("주차(chap_no) 입력 : ");
+        try {
+            System.out.print("  ▶ [ 필수 ] 주차 (숫자만 입력, 예: 1) : ");
             int chapNo = Integer.parseInt(sc.nextLine().trim());
 
-            System.out.print("강의 제목(section_name) 입력 : ");
+            System.out.print("  ▶ [ 필수 ] 강의 제목 : ");
             String sectionName = sc.nextLine().trim();
+            if (sectionName.isEmpty()) throw new IllegalArgumentException("강의 제목은 필수입니다.");
 
-            System.out.print("강의 내용(content) 입력 : ");
+            System.out.print("  ▶ [ 필수 ] 강의 상세 설명 : ");
             String content = sc.nextLine().trim();
 
-            System.out.print("영상 링크(video_url) 입력 (선택) : ");
+            System.out.print("  ▶ [ 선택 ] 영상 링크 (URL 미입력 시 엔터) : ");
             String videoUrl = sc.nextLine().trim();
+            if (videoUrl.isBlank()) videoUrl = null;
 
-            if (videoUrl.isBlank()) {
-                videoUrl = null;
-            }
+            System.out.println("\n  [ 시스템 ] 강의 데이터를 검증하고 서버에 등록 중입니다...");
 
-            sectionController.createSection(
+            // 1. DTO 조립
+            CreateSectionRequest request = new CreateSectionRequest(
                     villageId,
                     userId,
                     chapNo,
@@ -94,14 +104,20 @@ public class InstructorSectionInputView {
                     videoUrl
             );
 
-            System.out.println("[시스템] 새로운 강의가 성공적으로 업로드되었습니다.");
+            // 2. 강의 생성 실행
+            Long newSectionId = sectionController.createSection(request);
 
+            // 수강 등록 성공 -> Learning_history에 해당하는 마을의 모든 유저 수강전으로 등록
+            int studentCount = learningController.insertIntoBeforeLearning(newSectionId, villageId);
+
+            sectionOutputView.displayCreateSectionSuccess(studentCount);
 
         } catch (NumberFormatException e) {
-            System.out.println("[시스템] 주차(chap_no)는 숫자로 입력하세요.");
+            sectionOutputView.displaySectionError("주차(Chapter)는 숫자만 입력 가능합니다.");
+        } catch (IllegalArgumentException e) {
+            sectionOutputView.displaySectionError(e.getMessage());
         } catch (Exception e) {
-            System.out.println("[시스템] 섹션 등록 중 오류가 발생했습니다.");
-            System.out.println(e.getMessage());
+            sectionOutputView.displaySectionError("예상치 못한 서버 오류: " + e.getMessage());
         }
     }
 }

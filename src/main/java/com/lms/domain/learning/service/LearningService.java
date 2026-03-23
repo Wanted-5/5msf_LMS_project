@@ -38,9 +38,9 @@ public class LearningService {
     }
 
     // 수강전으로 전체 등록하기
-    public void insertIntoBeforeLearning(long sectionId, long villageId) {
+    public int insertIntoBeforeLearning(long sectionId, long villageId) {
         try {
-            leaningDAO.insertIntoBeforeLearning(sectionId, villageId);
+           return leaningDAO.insertIntoBeforeLearning(sectionId, villageId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

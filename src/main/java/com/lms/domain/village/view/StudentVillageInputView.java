@@ -45,7 +45,7 @@ public class StudentVillageInputView {
                     break;
                 case "2":
                     System.out.println("\n  [ 시스템 ] 🎓 교육센터(Section)로 이동합니다...");
-                    // TODO: Section 부서로 라우팅
+                    // comment, 연동 OK
                     AppContext.getAppContext().sectionAppContext.studentSectionInputView.displayStudentSectionMenu(villageId);
                     break;
                 case "3":
@@ -54,7 +54,8 @@ public class StudentVillageInputView {
                     break;
                 case "4":
                     System.out.println("\n  [ 시스템 ] 🏠 개인 숙소(마이페이지) 기능은 현재 공사 중입니다.");
-                    // TODO : 추후 정수 UserInputView와 연결
+                    // comment, 연동 OK
+                    AppContext.getAppContext().userAppContext.userInputView.displayMyPageMenu();
                     break;
                 case "5":
                     System.out.println("\n  [ 시스템 ] 🕵️ 마피아 광장 기능은 현재 공사 중입니다.");

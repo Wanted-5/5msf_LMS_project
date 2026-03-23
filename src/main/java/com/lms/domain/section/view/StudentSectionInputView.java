@@ -45,14 +45,17 @@ public class StudentSectionInputView {
 
             switch (choice) {
                 case "1":
+                    //comment, 연동 OK
                     System.out.println("\n  [ 시스템 ] 📚 수강 가능한 강의 목록을 탐색합니다...");
                     showAllSectionsProcess(villageId);
                     break;
                 case "2":
+                    //comment, 연동 OK
                     System.out.println("\n  [ 시스템 ] ▶️ 학습 시스템을 가동합니다...");
                     startLearning(villageId);
                     break;
                 case "3":
+                    //comment, 연동 OK
                     System.out.println("\n  [ 시스템 ] ✅ 완료된 학습 기록을 조회합니다...");
                     showCompletedSections(villageId);
                     break;
@@ -74,6 +77,7 @@ public class StudentSectionInputView {
 
         try {
 
+            // 강의 전체 조회
             List<SectionListResponse> sectionList = sectionController.displayAllSections(villageId);
 
             if (sectionList == null || sectionList.isEmpty()) {
@@ -101,6 +105,7 @@ public class StudentSectionInputView {
         System.out.println("║                 ▶️ 학습 시스템 (강의 상세 및 수강)               ║");
         System.out.println("╚══════════════════════════════════════════════════════════════╝");
 
+        // 먼저 전체 목록 조회
         List<SectionListResponse> sectionList = sectionController.displayAllSections(villageId);
         if (sectionList != null && !sectionList.isEmpty()) {
             sectionOutputView.displaySectionList(sectionList);
@@ -135,7 +140,8 @@ public class StudentSectionInputView {
 
                 showLoadingBar();
 
-                learningController.updateStatusBeforeCompleted(currentUserId, sectionId);
+                // Learing_history 수강 전 -> 수강완료
+                learningController.updateStatusCompleted(currentUserId, sectionId);
 
                 System.out.println("\n  🎉 [ 시스템 ] 수강 완료 처리가 되었습니다! 고생하셨습니다.");
             } else {

@@ -1,16 +1,15 @@
 package com.lms.domain.section.dto.response;
 
-// 강의 상세 조회 항목 담은 Response
-public class SectionDetailResponse {
-    private Long sectionId;
+public class CreateSectionRequest {
+    private Long villageId;
     private Long userId;
     private int chapNo;
     private String sectionName;
     private String content;
     private String videoUrl;
 
-    public SectionDetailResponse(Long sectionId, Long userId, int chapNo, String sectionName, String content, String videoUrl) {
-        this.sectionId = sectionId;
+    public CreateSectionRequest(Long villageId, Long userId, int chapNo, String sectionName, String content, String videoUrl) {
+        this.villageId = villageId;
         this.userId = userId;
         this.chapNo = chapNo;
         this.sectionName = sectionName;
@@ -18,8 +17,8 @@ public class SectionDetailResponse {
         this.videoUrl = videoUrl;
     }
 
-    public Long getSectionId() {
-        return sectionId;
+    public Long getVillageId() {
+        return villageId;
     }
 
     public Long getUserId() {

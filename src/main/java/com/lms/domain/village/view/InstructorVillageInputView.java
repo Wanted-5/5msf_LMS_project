@@ -50,33 +50,35 @@ public class InstructorVillageInputView {
             switch (input) {
                 case "1":
                     System.out.println("\n  [ 시스템 ] 📅 출석 관리 시스템으로 이동합니다...");
-                    // TODO: 출석 관리 로직 및 View 호출
-                    // AppContext.getAppContext().attendAppContext.attendInputView.displayInstructorAttendMenu(villageId);
+                    // TODO: 추후 강현이 연동, 출결 관리 View 호출
                     break;
 
                 case "2":
                     System.out.println("\n  [ 시스템 ] 🎓 교육센터 관리 시스템으로 이동합니다...");
+                    // comment, 연동 OK
                     AppContext.getAppContext().sectionAppContext.instructorSectionInputView
                             .displayInstructorSectionMenu(villageId);
                     break;
 
                 case "3":
                     System.out.println("\n  [ 시스템 ] 📢 마을 게시판 관리로 이동합니다...");
-                    // TODO: 게시판 관리 View 호출
+                    // TODO: 추후 종호형 연동, 게시판 관리 View 호출
                     break;
 
                 case "4":
                     System.out.println("\n  [ 시스템 ] 🕵️‍♂️ 마피아 게시판 관리로 이동합니다...");
-                    // TODO: 마피아 게시판 View 호출
+                    // TODO: 추후 태연이 연동, 마피아 게시판 View 호출
                     break;
 
                 case "5":
                     System.out.println("\n  [ 시스템 ] 🏠 강사 숙소(마이페이지)로 이동합니다...");
-                    // TODO: 마이페이지 View 호출
+                    // comment, 연동 OK
+                    AppContext.getAppContext().userAppContext.userInputView.displayMyPageMenu();
                     break;
 
                 case "6":
                     System.out.println("\n  [ 시스템 ] 👥 수강생 관리 시스템으로 이동합니다...");
+                    // comment, 연동 OK
                     AppContext.getAppContext().enrollmentAppContext
                             .instructorEnrollmentInputView.displayInstructorEnrollmentMenu(villageId);
                     break;

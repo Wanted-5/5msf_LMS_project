@@ -18,6 +18,7 @@ public class Application {
 
             AppContext.init(con);
 
+
             while (true) {
                 LoginResponse loggedInUser = UserSession.getLoggedInUser();
 
@@ -35,11 +36,12 @@ public class Application {
 
                     } else if (role == UserRole.INSTRUCTOR) {
                         System.out.println("  [시스템] " + UserSession.getLoggedInUser().getRole().getDescription() + "(INSTRUCTOR) 권한으로 접속했습니다.");
+                        appContext.boardAppContext.boardInputView.boardFirstMenu();
                         //TODO: 강사 옵션으로 로직 구현
 
                     } else if (role == UserRole.STUDENT) {
                         System.out.println("  [시스템] " + UserSession.getLoggedInUser().getRole().getDescription() + "(STUDENT) 권한으로 접속했습니다.");
-                        appContext.enrollmentAppContext.enrollmentInputView.displayEnrollMainMenu();
+                        appContext.boardAppContext.boardInputView.boardFirstMenu();
                         //TODO: 학생 옵션으로 로직 구현
 
                     }

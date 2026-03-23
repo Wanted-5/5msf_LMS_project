@@ -1,21 +1,28 @@
 package com.lms.domain.quiz.service;
 
+import com.lms.domain.mafia.dao.MafiaDAO;
 import com.lms.domain.quiz.dao.QuizDAO;
 import com.lms.domain.quiz.dto.QuizDTO;
-import com.lms.domain.quizSubmission.dao.QuizSubDAO;
+<<<<<<< HEAD
+
+=======
+>>>>>>> ee2a336587567b1242bd1b740db40dccd3e3a888
+import com.lms.domain.users.dto.UserRole;
+import com.lms.global.common.UserSession;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class QuizService {
 
     private final QuizDAO quizDAO;
+    private final MafiaDAO mafiaDAO;
     private final Connection connection;
 
     public QuizService(Connection connection) {
         this.quizDAO = new QuizDAO(connection);
+        this.mafiaDAO = new MafiaDAO(connection);
         this.connection = connection;
     }
 
@@ -29,7 +36,7 @@ public class QuizService {
 
     }
 
-    public QuizDTO findByQuizId(int id) {
+    public QuizDTO findByQuizId(long id) {
 
         try {
             return quizDAO.findByQuizId(id);
@@ -40,14 +47,91 @@ public class QuizService {
     }
 
     public Long createQuiz(QuizDTO newQuiz) {
-
         try {
-            int nextId = quizDAO.selectNextQuizId();  // 추가
+            Long userId = UserSession.getLoggedInUser().getUserId();
+            UserRole role = UserSession.getLoggedInUser().getRole();
+
+            if (role == UserRole.INSTRUCTOR || role == UserRole.ADMIN) {
+                // 강사나 관리자는 mafia_id 없이 등록
+                newQuiz.setMafiaId(null);
+            } else {
+                // 학생은 오늘 마피아인지 체크
+                Long mafiaId = mafiaDAO.selectTodayMafiaId(userId);
+                newQuiz.setMafiaId(mafiaId);
+            }
+            newQuiz.setUserId(userId);
+
+            Long nextId = quizDAO.selectNextQuizId();
             newQuiz.setQuizId(nextId);
             return quizDAO.create(newQuiz);
         } catch (SQLException e) {
             throw new RuntimeException("퀴즈 등록 중 Error 발생 !!!" + e.getMessage());
         }
-
     }
+
+    public Long deleteQuiz(Long quizId) {
+        try {
+            // 로그인 여부 체크
+            if (!UserSession.isLoggedIn()) {
+                throw new RuntimeException("로그인이 필요합니다.");
+            }
+
+            Long userId = UserSession.getLoggedInUser().getUserId();
+            UserRole role = UserSession.getLoggedInUser().getRole();
+
+            if (role == UserRole.INSTRUCTOR) {
+                quizDAO.deleteByInstructor(quizId);
+            } else if(role == UserRole.ADMIN){
+                quizDAO.deleteByAdmin(quizId);
+            }else {
+                Long result = quizDAO.deleteByMafia(quizId, userId);
+
+                if (result == 0) {
+                    throw new RuntimeException("본인이 작성한 퀴즈만 삭제할 수 있습니다.");
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("퀴즈 삭제 실패 : " + e.getMessage());
+        }
+        return 0L;
+    }
+
+    public Long updateQuiz(long quizId, String title, String content, String answer) {
+        try {
+            if (!UserSession.isLoggedIn()) {
+                throw new RuntimeException("로그인이 필요합니다.");
+            }
+
+            Long userId = UserSession.getLoggedInUser().getUserId();
+            UserRole role = UserSession.getLoggedInUser().getRole();
+
+            if (role == UserRole.INSTRUCTOR) {
+                quizDAO.updateQuizByInstructor(quizId, title, content, answer);
+            } else if(role == UserRole.ADMIN) {
+                quizDAO.updateQuizByAdmin(quizId, title, content, answer);
+            } else {
+                Long result = quizDAO.updateQuizByMafia(quizId, title, content, answer, userId);
+
+                if (result == 0) {
+                    throw new RuntimeException("본인이 작성한 퀴즈만 수정할 수 있습니다.");
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("퀴즈 수정 실패 : " + e.getMessage());
+        }
+        return 0L;
+    }
+
+    public QuizDTO selectTodayQuiz() {
+        try {
+            QuizDTO quiz = quizDAO.selectTodayQuiz();
+            if (quiz == null) {
+                throw new RuntimeException("오늘의 퀴즈가 없습니다.");
+            }
+            return quiz;
+        } catch (SQLException e) {
+            throw new RuntimeException("퀴즈 조회 실패 : " + e.getMessage());
+        }
+    }
+
 }

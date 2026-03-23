@@ -15,6 +15,7 @@ public class MafiaDAO {
         this.connection = connection;
     }
 
+    // 마을 별
     public List<Integer> selectAllVillageId() throws SQLException {
         String query = QueryUtil.getQuery("mafia.selectAllVillageId");
 
@@ -30,6 +31,7 @@ public class MafiaDAO {
         return villageList;
     }
 
+    // 마피아 뽑기
     public List<MafiaDTO> selectMafia(int villageId) throws SQLException {
 
         String query = QueryUtil.getQuery("mafia.selectMafia");
@@ -43,7 +45,7 @@ public class MafiaDAO {
             ResultSet rset = pstmt.executeQuery();
             while(rset.next()) {
                 MafiaDTO mafia = new MafiaDTO();
-                mafia.setUserId(rset.getInt("user_id"));
+                mafia.setUserId(rset.getLong("user_id"));
                 mafia.setVillageId(rset.getInt("village_id"));
 
                 mafiaList.add(mafia);
@@ -57,12 +59,17 @@ public class MafiaDAO {
         String query = QueryUtil.getQuery("mafia.insertmafiaHistory");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setInt(1, mafia.getMafiaId());  // Java에서 계산한 순번
-            pstmt.setInt(2, mafia.getUserId());
+            pstmt.setLong(1, mafia.getMafiaId());  // Java에서 계산한 순번
+            pstmt.setLong(2, mafia.getUserId());
             pstmt.setInt(3, mafia.getVillageId());
             pstmt.setDate(4, Date.valueOf(mafia.getCreatedAt()));
 
             return pstmt.executeUpdate();
+        }  catch (SQLException e) {
+            if (e.getMessage().contains("Duplicate entry")) {
+                throw new RuntimeException("오늘 이미 마피아가 선정된 마을입니다.");
+            }
+            throw e;
         }
     }
 
@@ -77,30 +84,31 @@ public class MafiaDAO {
     }
 
     // DB에 mafidId 번호를 순차적으로 넣기 위해
-    public int selectNextMafiaId() throws SQLException {
+    public Long selectNextMafiaId() throws SQLException {
         String query = QueryUtil.getQuery("mafia.selectNextMafiaId");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             ResultSet rset = pstmt.executeQuery();
             // 결과값이 하나라도 있다면 그 숫자를 꺼내서 돌려줘라
             if (rset.next()) {
-                return rset.getInt(1);
+                return rset.getLong(1);
             }
         }
         //만약 DB에 데이터가 하나도 없어서 대답이 안 오면 1번 부터
-        return 1;
+        return 1L;
     }
 
-    public int selectTodayMafiaId(int userId) throws SQLException {
+    // 오늘 날짜에 해당하는 마피아 아이디 검증
+    public Long selectTodayMafiaId(Long userId) throws SQLException {
         String query = QueryUtil.getQuery("mafia.selectTodayMafiaId");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setInt(1, userId);
+            pstmt.setLong(1, userId);
             ResultSet rset = pstmt.executeQuery();
             if (rset.next()) {
-                return rset.getInt("mafia_id");
+                return rset.getLong("mafia_id");
             }
-            throw new SQLException("오늘의 마피아 정보를 찾을 수 없습니다.");
+            throw new SQLException("오늘의 마피아만 퀴즈를 등록할 수 있습니다.");
         }
     }
 

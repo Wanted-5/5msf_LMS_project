@@ -2,6 +2,7 @@ package com.lms.domain.enrollment.view;
 
 import com.lms.domain.enrollment.controller.EnrollmentController;
 import com.lms.domain.enrollment.dto.Response.VerifyInviteCodeResponse;
+import com.lms.global.AppContext.AppContext;
 import com.lms.global.common.UserSession;
 
 import java.util.Scanner;
@@ -48,6 +49,8 @@ public class EnrollmentInputView {
                 case "3":
                     System.out.println("\n  [ 시스템 ] 승인된 마을로 입장을 시도합니다...");
                     // TODO: 승인 여부 체크 후 마을 진입 라우팅
+                    // TODO : 승인된 마을 전체 조회 해서 해당 villageId 받아서 전달하기
+//                    AppContext.getAppContext().villageAppContext.villageInputView.displayStudentMainMenu(villageId);
                     break;
                 case "0":
                     System.out.println("  [ 시스템 ] 안전하게 로그아웃 되었습니다. 초기 화면으로 돌아갑니다.");

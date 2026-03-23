@@ -3,7 +3,7 @@
     -- 마피아 히스토리 테이블에 없는 유저 아이디만 조회해서 마피아 선정
     <query key = "mafia.selectMafia">
         SELECT s.user_id, s.village_id
-        FROM stay s
+        FROM enrollment s
         LEFT JOIN mafia_history mh
         ON s.user_id = mh.user_id
         AND s.village_id = mh.village_id

@@ -21,12 +21,64 @@
     </query>
 
     <query key = "quiz.create">
-        INSERT INTO quizzes (quiz_id, mafia_id, quiz_title, content, answer, created_at)
-        VALUES (?, ?, ?, ?, ?, NOW())
+        INSERT INTO quizzes (quiz_id, user_id, mafia_id, quiz_title, content, answer, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, NOW())
     </query>
 
     <query key="quiz.selectNextQuizId">
     SELECT IFNULL(MAX(quiz_id), 0) + 1 FROM quizzes
+    </query>
+
+    <query key ="quiz.deleteByMafia">
+        DELETE FROM quizzes
+        WHERE quiz_id = ?
+        AND mafia_id = (
+        SELECT mafia_id FROM mafia_history
+        WHERE user_id = ?
+        AND selected_date = CURDATE()
+        )
+    </query>
+
+    <query key ="quiz.deleteByinstructor">
+        DELETE FROM quizzes
+        WHERE quiz_id = ?
+    </query>
+
+    <query key ="quiz.deleteByAdmin">
+        DELETE FROM quizzes
+        WHERE quiz_id = ?
+    </query>
+
+    <query key="quiz.updateByMafia">
+        UPDATE quizzes
+        SET quiz_title = ?, content = ?, answer = ?
+        WHERE quiz_id = ?
+        AND mafia_id = (
+        SELECT mafia_id FROM mafia_history
+        WHERE user_id = ?
+        AND selected_date = CURDATE()
+        )
+    </query>
+
+    <query key="quiz.updateByInstructor">
+        UPDATE quizzes
+        SET quiz_title = ?, content = ?, answer = ?
+        WHERE quiz_id = ?
+    </query>
+
+    <query key="quiz.updateByAdmin">
+        UPDATE quizzes
+        SET quiz_title = ?, content = ?, answer = ?
+        WHERE quiz_id = ?
+    </query>
+
+   -- 오늘의 퀴즈 조회
+    <query key="quiz.selectTodayQuiz">
+        SELECT quiz_id, quiz_title, content, answer
+        FROM quizzes
+        WHERE DATE(created_at) = CURDATE()
+        ORDER BY created_at DESC
+        LIMIT 1
     </query>
 
 </properties>

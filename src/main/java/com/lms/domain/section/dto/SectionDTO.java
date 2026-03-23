@@ -1,4 +1,4 @@
-package com.lms.domain.section.model.DTO;
+package com.lms.domain.section.dto;
 
 public class SectionDTO {
 
@@ -11,6 +11,16 @@ public class SectionDTO {
     private String status;
 
     public SectionDTO() {
+    }
+
+    public SectionDTO(long sectionId, long villageId, int chapNo, String sectionName, String content, String videoUrl, String status) {
+        this.sectionId = sectionId;
+        this.villageId = villageId;
+        this.chapNo = chapNo;
+        this.sectionName = sectionName;
+        this.content = content;
+        this.videoUrl = videoUrl;
+        this.status = status;
     }
 
     public long getSectionId() {

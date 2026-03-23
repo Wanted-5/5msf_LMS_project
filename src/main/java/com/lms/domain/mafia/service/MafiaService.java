@@ -20,7 +20,7 @@ public class MafiaService {
         this.connection = connection;
     }
 
-
+    // 마을 별 마피아 선정
     public void selectVillageAll() {
         try {
             List<Integer> villageIds = mafiaDAO.selectAllVillageId();
@@ -37,7 +37,7 @@ public class MafiaService {
 
                     System.out.println("[자동화]" + vid + "번 마을 마피아 선정 완료");
                 } catch (RuntimeException e) {
-                    System.out.println("[주의]" + vid + "번 마을 건너뜀");
+                    System.out.println("[주의]" + vid + "번 마을 건너뜀" + e.getMessage());
                 }
             }
             System.out.println("모든 마을 오늘의 마피아 선정 완료!!!");
@@ -45,7 +45,7 @@ public class MafiaService {
             throw new RuntimeException(e);
         }
     }
-
+    // 마피아 뽑기
     public MafiaDTO selectMafia(int villageId) {
 
         try {
@@ -66,8 +66,9 @@ public class MafiaService {
             int randomIndex = random.nextInt(list.size());
             MafiaDTO selectedMafia = list.get(randomIndex);
             // 다음 mafia_id 순번 계산 후 DTO에 세팅
-            int nextId = mafiaDAO.selectNextMafiaId();  // 다음 순번 조회
-            selectedMafia.setMafiaId(nextId);           // DTO에 세팅
+            long nextId = mafiaDAO.selectNextMafiaId();  // 다음 순번 조회
+            selectedMafia.setMafiaId((long) nextId);           // DTO에 세팅
+            // 오늘 생성된 마피아 아이디
             selectedMafia.setCreatedAt(LocalDate.now());
             // DB에 넣겠디
             mafiaDAO.insertMafiaHistory(selectedMafia);
@@ -80,7 +81,8 @@ public class MafiaService {
 
     }
 
-    public int selectTodayMafiaId(int userId) {
+    // 오늘 날짜에 해당하는 마피아 아이디 검증
+    public Long selectTodayMafiaId(long userId) {
         try {
             return mafiaDAO.selectTodayMafiaId(userId);
         } catch (SQLException e) {

@@ -9,8 +9,6 @@ import java.sql.*;
 import java.util.Properties;
 
 public class JDBCTemplate {
-
-
     private static final HikariDataSource datasource;
 
     // static 블록은 정적 코드 블럭으로서

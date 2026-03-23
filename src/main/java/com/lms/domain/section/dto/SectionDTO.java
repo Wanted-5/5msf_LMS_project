@@ -2,8 +2,9 @@ package com.lms.domain.section.dto;
 
 public class SectionDTO {
 
-    private long sectionId;
-    private long villageId;
+    private Long sectionId;
+    private Long villageId;
+    private Long userId;
     private int chapNo;
     private String sectionName;
     private String content;
@@ -13,9 +14,10 @@ public class SectionDTO {
     public SectionDTO() {
     }
 
-    public SectionDTO(long sectionId, long villageId, int chapNo, String sectionName, String content, String videoUrl, String status) {
+    public SectionDTO(long sectionId, long villageId, long userId, int chapNo, String sectionName, String content, String videoUrl, String status) {
         this.sectionId = sectionId;
         this.villageId = villageId;
+        this.userId = userId;
         this.chapNo = chapNo;
         this.sectionName = sectionName;
         this.content = content;
@@ -37,6 +39,14 @@ public class SectionDTO {
 
     public void setVillageId(long villageId) {
         this.villageId = villageId;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public int getChapNo() {
@@ -84,6 +94,7 @@ public class SectionDTO {
         return "SectionDTO{" +
                 "sectionId=" + sectionId +
                 ", villageId=" + villageId +
+                ", userId=" + userId +
                 ", chapNo=" + chapNo +
                 ", sectionName='" + sectionName + '\'' +
                 ", content='" + content + '\'' +

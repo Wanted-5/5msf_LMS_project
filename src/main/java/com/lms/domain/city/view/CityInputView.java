@@ -66,7 +66,7 @@ public class CityInputView {
             switch (choice) {
                 case "1":
                     System.out.println("\n  [ 시스템 ] 새로운 도시를 건설합니다...");
-                    createCityProcess(); // 도시 건설 로직 호출
+                    createCityProcess();
                     break;
                 case "2":
                     System.out.println("\n  [ 시스템 ] 전체 도시의 조감도를 불러옵니다...");
@@ -82,14 +82,15 @@ public class CityInputView {
                     break;
                 case "5":
                     System.out.println("\n  [ 시스템 ] 신규 마을 개척 프로세스를 가동합니다...");
-                    routeToCreateVillage(); // 🌟 마을 생성 라우팅 메서드 호출!
+                    routeToCreateVillage();
                     break;
                 case "6":
+                    // comment, 구현, 연동 OK
                     System.out.println("\n  [ 시스템 ] 마을에 입장합니다...");
                     routeToEnterVillage();
-                    // TODO: 마을 입장 전 전체 리스트 조회하고 마을 번호 받아서 입장하기 (deleteCityProcess)
                     break;
                 case "7":
+                    // comment, 구현, 연동 OK
                     System.out.println("\n  [ 시스템 ] 권한을 수정합니다...");
                     promoteUserToInstructor();
                     break;

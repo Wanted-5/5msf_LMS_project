@@ -42,24 +42,20 @@ public class EnrollmentInputView {
             switch (choice) {
                 case "1":
                     System.out.println("\n  [ 시스템 ] 마을 입장 코드 검증 프로세스를 가동합니다...");
-                    // TODO: 초대 코드 입력 및 검증 메서드 호출 (예: submitEnrollmentCodeProcess())
                     submitEnrollmentCodeProcess();
                     break;
                 case "2":
                     System.out.println("\n  [ 시스템 ] 현재 수강 신청 및 승인 상태를 조회합니다...");
                     checkEnrollmentStatusProcess();
-                    // TODO: 상태 조회 메서드 호출 (예: checkEnrollmentStatusProcess())
                     break;
                 case "3":
                     System.out.println("\n  [ 시스템 ] 승인된 마을로 입장을 시도합니다...");
                     enterVillageProcess();
-                    // TODO: 승인 여부 체크 후 마을 진입 라우팅
-                    // TODO : 승인된 마을 전체 조회 해서 해당 villageId 받아서 전달하기
                     break;
                 case "0":
                     System.out.println("  [ 시스템 ] 안전하게 로그아웃 되었습니다. 초기 화면으로 돌아갑니다.");
                     UserSession.setLoggedInUser(null);
-                    return; // while 루프를 빠져나가 이전 화면(메인 로그인 화면)으로 복귀
+                    return;
                 default:
                     System.out.println("\n  🚨 [오류] 올바른 메뉴 번호(0~3)를 입력해주세요.");
 

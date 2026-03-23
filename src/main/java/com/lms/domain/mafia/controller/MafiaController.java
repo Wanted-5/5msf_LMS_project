@@ -19,11 +19,9 @@ public class MafiaController {
 
     }
 
-    // 마을 돌면서 마피아 뽑기
+     //마을 돌면서 마피아 뽑기
     public void selectVillageAll() {
         mafiaService.selectVillageAll();
     }
-
-
 
 }

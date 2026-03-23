@@ -38,7 +38,7 @@ public class AttendService {
             int result = attendDAO.attendInsert(attendDTO);
 
             if (result > 0) {
-                System.out.println("🎉 [" + attendDTO.getStatus().getDescription() + "] 처리가 완료되었습니다. (현재시간: " + now + ")");
+                System.out.println(" [" + attendDTO.getStatus().getDescription() + "] 처리가 완료되었습니다. (현재시간: " + now + ")");
                 return true;
             }
 

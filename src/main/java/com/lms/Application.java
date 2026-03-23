@@ -17,11 +17,10 @@ public class Application {
             AppContext appContext = new AppContext(con);
 
             AppContext.init(con);
-
-
+            UserSession.setLoggedInUser(new LoginResponse(1L, "테스트유저", "닉네임", UserRole.INSTRUCTOR));
+            //UserSession.setLoggedInUser(new LoginResponse(4L, "테스트유저", "닉네임", UserRole.STUDENT));
             while (true) {
                 LoginResponse loggedInUser = UserSession.getLoggedInUser();
-
                 if (loggedInUser == null) {
                     appContext.userAppContext.userInputView.displayInitialMenu();
                 }
@@ -36,24 +35,20 @@ public class Application {
 
                     } else if (role == UserRole.INSTRUCTOR) {
                         System.out.println("  [시스템] " + UserSession.getLoggedInUser().getRole().getDescription() + "(INSTRUCTOR) 권한으로 접속했습니다.");
-                        appContext.enrollmentAppContext.enrollmentInputView.displayEnrollMainMenu();
+                        //appContext.enrollmentAppContext.enrollmentInputView.displayEnrollMainMenu();
+                        long villageId = 1L;
+                        appContext.boardAppContext.boardInputView.boardFirstMenu(villageId);
+
                         //TODO: 강사 옵션으로 로직 구현
 
-//                        long villageId = 1L; // 임시로 해둠
-//                        AppContext.getAppContext()
-//                                .villageAppContext
-//                                .villageInputView
-//                                .displayInstructorMainMenu(villageId);
                     } else if (role == UserRole.STUDENT) {
                         System.out.println("  [시스템] " + UserSession.getLoggedInUser().getRole().getDescription() + "(STUDENT) 권한으로 접속했습니다.");
-                        appContext.enrollmentAppContext.enrollmentInputView.displayEnrollMainMenu();
+                        //appContext.enrollmentAppContext.enrollmentInputView.displayEnrollMainMenu();
                         //TODO: 학생 옵션으로 로직 구현
 
                     }
                 }
             }
-
-
 
         } catch (SQLException e) {
             System.err.println("🚨 데이터 베이스 연결 실패... 🚨");

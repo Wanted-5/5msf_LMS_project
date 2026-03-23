@@ -65,7 +65,6 @@ public class CommentService {
 
             int result = commentDAO.updateComment(updateDto);
 
-
             return result > 0;
 
         } catch (SQLException e) {
@@ -83,5 +82,4 @@ public class CommentService {
             return false;
         }
     }
-
 }

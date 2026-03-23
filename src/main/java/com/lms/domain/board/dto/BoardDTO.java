@@ -1,5 +1,7 @@
 package com.lms.domain.board.dto;
 
+import com.lms.global.common.UserSession;
+
 import java.time.LocalDateTime;
 
 public class BoardDTO {
@@ -12,11 +14,10 @@ public class BoardDTO {
     private Long creatorId;
     private Long categoryId;
     private String title;
-
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private String nickname; //
+    private String nickname;
 
     // 기본 생성자
     public BoardDTO() {
@@ -119,6 +120,7 @@ public class BoardDTO {
     }
 
     public String getNickname() {
+
         return nickname;
     }
 

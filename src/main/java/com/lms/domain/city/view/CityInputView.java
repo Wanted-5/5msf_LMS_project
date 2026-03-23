@@ -245,6 +245,6 @@ public class CityInputView {
         }
 
         System.out.println("\n  [ 시스템 ] 행정 코드 [ " + cityId + " ] 도시로 마을 개척 업무를 이관합니다...");
-        AppContext.getAppContext().villageAppContext.villageInputView.createVillageProcess(cityId);
+        AppContext.getAppContext().villageAppContext.adminVillageInputView.createVillageProcess(cityId);
     }
 }

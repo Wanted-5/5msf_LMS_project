@@ -2,31 +2,23 @@ package com.lms.domain.section.view;
 
 
 import com.lms.domain.learning.controller.LearningController;
-import com.lms.domain.learning.dto.LearningDTO;
 import com.lms.domain.learning.dto.LearningStatus;
 import com.lms.domain.learning.dto.reseponse.LearningSectionResponse;
 import com.lms.domain.section.controller.SectionController;
-import com.lms.domain.section.dto.SectionDTO;
 import com.lms.domain.section.dto.response.SectionDetailResponse;
 import com.lms.domain.section.dto.response.SectionListResponse;
-import com.lms.domain.village.dto.VillageDTO;
-import com.lms.global.AppContext.AppContext;
 import com.lms.global.common.UserSession;
-import com.lms.global.util.PasswordUtil;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-public class SectionInputView {
+public class StudentSectionInputView {
 
     private final SectionController sectionController;
     private final SectionOutputView sectionOutputView;
     private final LearningController learningController;
 
-    public SectionInputView(SectionController sectionController, SectionOutputView sectionOutputView, LearningController learningController) {
+    public StudentSectionInputView(SectionController sectionController, SectionOutputView sectionOutputView, LearningController learningController) {
         this.sectionController = sectionController;
         this.sectionOutputView = sectionOutputView;
         this.learningController = learningController;
@@ -55,12 +47,10 @@ public class SectionInputView {
                 case "1":
                     System.out.println("\n  [ 시스템 ] 📚 수강 가능한 강의 목록을 탐색합니다...");
                     showAllSectionsProcess(villageId);
-                    // TODO: controller.showUncompletedSections(villageId);
                     break;
                 case "2":
                     System.out.println("\n  [ 시스템 ] ▶️ 학습 시스템을 가동합니다...");
                     startLearning(villageId);
-                    // TODO: controller.startLearning(villageId);
                     break;
                 case "3":
                     System.out.println("\n  [ 시스템 ] ✅ 완료된 학습 기록을 조회합니다...");
@@ -76,7 +66,7 @@ public class SectionInputView {
     }
 
     // 강의 전체 조회
-    private void showAllSectionsProcess(long villageId) {
+    public void showAllSectionsProcess(long villageId) {
         System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
         System.out.println("║                 📚 전체 강의(Section) 목록 및 현황              ║");
         System.out.println("╚══════════════════════════════════════════════════════════════╝");
@@ -103,7 +93,7 @@ public class SectionInputView {
     // 2. 학습 시작
     // TODO : 강의 전체 조회 먼저 해주기 -> chap_no 받아서 villageId랑 같이 전달하면서 상세 조회 구현
     // TODO : 상세 조회 된 상태에서 수강하기 누르면 수강시작.
-    private void startLearning(long villageId) {
+    public void startLearning(long villageId) {
 
         long currentUserId = UserSession.getLoggedInUser().getUserId();
 
@@ -145,13 +135,6 @@ public class SectionInputView {
 
                 showLoadingBar();
 
-                /* =========================================================================
-                   TODO: [추후 DB 연동 예정]
-                   learning_history 테이블이 추가되면, 여기에 수강 완료(INSERT) 로직 추가
-                   long currentUserId = UserSession.getLoggedInUser().getUserId();
-                   sectionController.completeSection(currentUserId, sectionId);
-                   ========================================================================= */
-
                 learningController.updateStatusBeforeCompleted(currentUserId, sectionId);
 
                 System.out.println("\n  🎉 [ 시스템 ] 수강 완료 처리가 되었습니다! 고생하셨습니다.");
@@ -165,7 +148,7 @@ public class SectionInputView {
     }
 
     // 3번 수강 상태별 강의 목록 보기
-    private void showCompletedSections(long villageId) {
+    public void showCompletedSections(long villageId) {
         System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
         System.out.println("║                 📊 수강 상태별 강의 목록 조회                    ║");
         System.out.println("╚══════════════════════════════════════════════════════════════╝");
@@ -223,84 +206,6 @@ public class SectionInputView {
             sectionOutputView.displayFailure(e.getMessage());
         }
     }
-
-    // comment, 강사용 메뉴 시작
-
-    // 강사용 메뉴
-    public void displayInstructorSectionMenu(long villageId, Long userId) {
-        while (true) {
-            System.out.println("\n=== 교육센터 관리 ===");
-            System.out.println("1. 전체 강의 보기");
-            System.out.println("2. 학습 시작하기");
-            System.out.println("3. 완료한 학습 목록 보기");
-            System.out.println("4. 신규 섹션 업로드");
-            System.out.println("5. 메인페이지로 돌아가기");
-            System.out.print("번호 입력 : ");
-
-            String choice = sc.nextLine().trim();
-
-            switch (choice) {
-                case "1":
-                    showAllSectionsProcess(villageId);
-                    break;
-                case "2":
-                    startLearning(villageId);
-                    break;
-                case "3":
-                    showCompletedSections(villageId);
-                    break;
-                case "4":
-                    createSectionProcess(villageId, userId);
-                    break;
-                case "5":
-                    return;
-                default:
-                    System.out.println("[시스템] 올바른 메뉴 번호를 입력해주세요.");
-            }
-        }
-    }
-
-    // 강사 - 섹션 등록
-    private void createSectionProcess(long villageId, Long userId) {
-        try {
-            System.out.println("\n=== 새로운 강의(섹션) 업로드 ===");
-
-            System.out.print("주차(chap_no) 입력 : ");
-            int chapNo = Integer.parseInt(sc.nextLine().trim());
-
-            System.out.print("강의 제목(section_name) 입력 : ");
-            String sectionName = sc.nextLine().trim();
-
-            System.out.print("강의 내용(content) 입력 : ");
-            String content = sc.nextLine().trim();
-
-            System.out.print("영상 링크(video_url) 입력 (선택) : ");
-            String videoUrl = sc.nextLine().trim();
-
-            if (videoUrl.isBlank()) {
-                videoUrl = null;
-            }
-
-            sectionController.createSection(
-                    villageId,
-                    userId,
-                    chapNo,
-                    sectionName,
-                    content,
-                    videoUrl
-            );
-
-            System.out.println("[시스템] 새로운 강의가 성공적으로 업로드되었습니다.");
-
-
-        } catch (NumberFormatException e) {
-            System.out.println("[시스템] 주차(chap_no)는 숫자로 입력하세요.");
-        } catch (Exception e) {
-            System.out.println("[시스템] 섹션 등록 중 오류가 발생했습니다.");
-            System.out.println(e.getMessage());
-        }
-    }
-
 
     // ============== 내부 편의 메서드 ===========================
     private void showLoadingBar() {

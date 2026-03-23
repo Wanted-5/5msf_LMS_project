@@ -4,14 +4,16 @@ import com.lms.domain.learning.controller.LearningController;
 import com.lms.domain.learning.service.LearningService;
 import com.lms.domain.section.controller.SectionController;
 import com.lms.domain.section.service.SectionService;
-import com.lms.domain.section.view.SectionInputView;
+import com.lms.domain.section.view.InstructorSectionInputView;
+import com.lms.domain.section.view.StudentSectionInputView;
 import com.lms.domain.section.view.SectionOutputView;
 
 import java.sql.Connection;
 
 public class SectionAppContext {
 
-    public final SectionInputView sectionInputView;
+    public final StudentSectionInputView studentSectionInputView;
+    public final InstructorSectionInputView instructorSectionInputView;
 
 
     public SectionAppContext(Connection con) {
@@ -22,6 +24,7 @@ public class SectionAppContext {
         // Section에서 learging
         LearningService learningService = new LearningService(con);
         LearningController learningController = new LearningController(learningService);
-        this.sectionInputView = new SectionInputView(sectionController, sectionOutputView, learningController);
+        this.studentSectionInputView = new StudentSectionInputView(sectionController, sectionOutputView, learningController);
+        this.instructorSectionInputView = new InstructorSectionInputView(sectionController, sectionOutputView, learningController);
     }
 }

@@ -1,10 +1,62 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <properties>
+
+<!--    신청 테이블 넣기-->
     <query key = "enrollment.insert">
         INSERT INTO enrollment
         (village_id, user_id, status)
         VALUES
         (?, ?, ?)
+    </query>
+
+<!--    특정 마을 승인한 정보 가져오기-->
+    <query key="enrollment.checkApprovedStatus">
+        SELECT
+            *
+        FROM
+            enrollment
+        WHERE
+        user_id = ? AND village_id = ? AND status = 'APPROVED'
+    </query>
+
+<!--    대기중인 인원 response에 있는 값만 담기-->
+    <query key="enrollment.findWaitingResponseByVillageId">
+        SELECT
+            e.enrollment_id, v.village_name, u.name, e.status, e.applied_at
+        FROM
+            enrollment e
+        JOIN
+            users u ON e.user_id = u.user_id
+        JOIN
+            village v ON e.village_id = v.village_id
+        WHERE
+            e.village_id =? AND e.status = 'WAITING'
+        ORDER BY
+            e.applied_at ASC
+    </query>
+
+    <!--신청-->
+    <query key="enrollment.approve">
+        UPDATE enrollment
+        SET status = 'APPROVED'
+        WHERE village_id = ?
+        AND enrollment_id = ?
+    </query>
+
+<!--    거절-->
+    <query key="enrollment.reject">
+        UPDATE enrollment
+        SET status = 'REJECTED'
+        WHERE village_id = ?
+        AND enrollment_id = ?
+    </query>
+
+<!--    퇴장-->
+    <query key="enrollment.expel">
+        UPDATE enrollment
+        SET status = 'EXPELLED'
+        WHERE village_id = ?
+        AND enrollment_id = ?
     </query>
 
     <query key="enrollment.findApprovedVillagesByUserId">
@@ -72,26 +124,5 @@
         JOIN users u ON e.user_id = u.user_id
         WHERE e.village_id = ?
         AND e.enrollment_id = ?
-    </query>
-
-    <query key="enrollment.approve">
-        UPDATE enrollment
-        SET status = 'APPROVED'
-        WHERE village_id = ?
-        AND enrollment_id = ?
-    </query>
-
-    <query key="enrollment.reject">
-        UPDATE enrollment
-        SET status = 'REJECTED'
-        WHERE village_id = ?
-        AND enrollment_id = ?
-    </query>
-
-    <query key="enrollment.expel">
-        UPDATE enrollment
-        SET status = 'EXPELLED'
-        WHERE village_id = ?
-        AND enrollment_id = ?
     </query>
 </properties>

@@ -4,6 +4,7 @@ import com.lms.domain.enrollment.dto.EnrollmentDTO;
 import com.lms.domain.enrollment.dto.EnrollmentStatus;
 import com.lms.domain.enrollment.dto.Response.EnterVillageResponse;
 import com.lms.domain.enrollment.dto.Response.VerifyInviteCodeResponse;
+import com.lms.domain.enrollment.dto.Response.WaitingEnrollmentResponse;
 import com.lms.domain.users.dto.UserDTO;
 import com.lms.domain.users.dto.UserRole;
 import com.lms.global.util.QueryUtil;
@@ -111,23 +112,49 @@ public class EnrollmentDAO {
         return waitingVillageResponseList;
     }
 
+    public boolean checkApprovedEnrollment(long currentUserId, long villageId) throws SQLException {
+
+        String query = QueryUtil.getQuery("enrollment.checkApprovedStatus");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, currentUserId);
+            pstmt.setLong(2, villageId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     //comment, 정현이 코드
     // ===== 강사용 수강생 관리 기능 추가 =====
 
-    public List<Map<String, Object>> findWaitingEnrollmentList(long villageId) throws SQLException {
-        List<Map<String, Object>> list = new ArrayList<>();
-        String query = QueryUtil.getQuery("enrollment.findWaitingByVillageId");
+    public List<WaitingEnrollmentResponse> findWaitingEnrollmentList(long villageId) throws SQLException {
+        List<WaitingEnrollmentResponse> waitingResponseList = new ArrayList<>();
+        String query = QueryUtil.getQuery("enrollment.findWaitingResponseByVillageId");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1, villageId);
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    list.add(convertJoinRowToMap(rs));
+
+                    Timestamp appliedAt = rs.getTimestamp("applied_at");
+
+                    waitingResponseList.add(new WaitingEnrollmentResponse(
+                            rs.getLong("enrollment_id"),
+                            rs.getString("village_name"),
+                            rs.getString("name"),
+                            EnrollmentStatus.valueOf(rs.getString("status")),
+                            appliedAt != null ? appliedAt.toLocalDateTime() : null
+                    ));
                 }
             }
         }
-        return list;
+        return waitingResponseList;
     }
 
     public List<Map<String, Object>> findApprovedEnrollmentList(long villageId) throws SQLException {
@@ -162,13 +189,19 @@ public class EnrollmentDAO {
         return null;
     }
 
-    public int approveEnrollment(long villageId, long enrollmentId) throws SQLException {
+    public void approveEnrollment(long villageId, long enrollmentId) throws SQLException {
         String query = QueryUtil.getQuery("enrollment.approve");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1, villageId);
             pstmt.setLong(2, enrollmentId);
-            return pstmt.executeUpdate();
+            int updatedRows = pstmt.executeUpdate();
+
+            if (updatedRows == 0) {
+                throw new SQLException("[approveEnrollment error] 승인으로 변경 실패");
+            } else {
+                System.out.println("🎉 승인 성공");
+            }
         }
     }
 

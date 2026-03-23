@@ -3,6 +3,7 @@ package com.lms.domain.enrollment.service;
 import com.lms.domain.enrollment.dao.EnrollmentDAO;
 import com.lms.domain.enrollment.dto.Response.EnterVillageResponse;
 import com.lms.domain.enrollment.dto.Response.VerifyInviteCodeResponse;
+import com.lms.domain.enrollment.dto.Response.WaitingEnrollmentResponse;
 import com.lms.domain.village.dto.VillageDTO;
 import com.lms.global.util.QueryUtil;
 
@@ -69,10 +70,19 @@ public class EnrollmentService {
         }
     }
 
+    public boolean isApprovedUser(long currentUserId, long villageId) {
+        try {
+            return enrollmentDAO.checkApprovedEnrollment(currentUserId, villageId);
+        } catch (SQLException e) {
+            throw new RuntimeException("[isApprovedUser] 수강생 검증 중 서버 오류가 발생했습니다.", e);
+        }
+    }
+
+
     // comment, 정현이 코드
     //  ===== 강사용 수강생 관리 기능 추가 =====
 
-    public List<Map<String, Object>> findWaitingEnrollmentList(long villageId) {
+    public List<WaitingEnrollmentResponse> findWaitingEnrollmentList(long villageId) {
         try {
             return enrollmentDAO.findWaitingEnrollmentList(villageId);
         } catch (SQLException e) {
@@ -98,12 +108,9 @@ public class EnrollmentService {
 
     public void approveEnrollment(long villageId, long enrollmentId) {
         try {
-            int result = enrollmentDAO.approveEnrollment(villageId, enrollmentId);
-            if (result <= 0) {
-                throw new RuntimeException("승인 처리 실패");
-            }
+            enrollmentDAO.approveEnrollment(villageId, enrollmentId);
         } catch (SQLException e) {
-            throw new RuntimeException("승인 처리 중 DB 오류", e);
+            throw new RuntimeException(e);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.lms.domain.enrollment.view;
 
 import com.lms.domain.enrollment.dto.Response.EnterVillageResponse;
+import com.lms.domain.enrollment.dto.Response.WaitingEnrollmentResponse;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -80,5 +81,30 @@ public class EnrollmentOutputView {
             System.out.println("신청일시: " + row.get("appliedAt"));
         }
         System.out.println("--------------------------------");
+    }
+
+    public void displayWaitingEnrollments(List<WaitingEnrollmentResponse> list) {
+        System.out.println("────────────────────────────────────────────────────────────────");
+        System.out.println("  [신청 번호] |    [ 마을 이름 ]    | [ 신청자명 ] | [ 신청 일시 ]");
+        System.out.println("────────────────────────────────────────────────────────────────");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        for (WaitingEnrollmentResponse response : list) {
+
+
+            String formattedDate = "날짜 정보 없음";
+            if (response.getAppliedAt() != null) {
+                formattedDate = response.getAppliedAt().format(formatter);
+            }
+
+            System.out.printf("   ▶ No.%-3d | %-13s | %-8s | %s\n",
+                    response.getEnrollmentId(),
+                    response.getVillageName(),
+                    response.getName(),
+                    formattedDate
+            );
+        }
+        System.out.println("────────────────────────────────────────────────────────────────");
     }
 }

@@ -6,6 +6,10 @@ import com.lms.domain.enrollment.service.EnrollmentService;
 
 import java.util.List;
 
+import java.sql.SQLException;
+import java.util.Map;
+import java.util.List;
+
 public class EnrollmentController {
 
     private final EnrollmentService service;
@@ -26,5 +30,28 @@ public class EnrollmentController {
 
     public List<EnterVillageResponse> getApprovedVillages(long currentUserId) {
         return service.getApprovedVillages(currentUserId);
+    }
+    public List<Map<String, Object>> findWaitingEnrollmentList(long villageId) {
+        return service.findWaitingEnrollmentList(villageId);
+    }
+
+    public List<Map<String, Object>> findApprovedEnrollmentList(long villageId) {
+        return service.findApprovedEnrollmentList(villageId);
+    }
+
+    public Map<String, Object> findEnrollmentManageTarget(long villageId, long enrollmentId) {
+        return service.findEnrollmentManageTarget(villageId, enrollmentId);
+    }
+
+    public void approveEnrollment(long villageId, long enrollmentId) {
+        service.approveEnrollment(villageId, enrollmentId);
+    }
+
+    public void rejectEnrollment(long villageId, long enrollmentId) {
+        service.rejectEnrollment(villageId, enrollmentId);
+    }
+
+    public void expelEnrollment(long villageId, long enrollmentId) {
+        service.expelEnrollment(villageId, enrollmentId);
     }
 }

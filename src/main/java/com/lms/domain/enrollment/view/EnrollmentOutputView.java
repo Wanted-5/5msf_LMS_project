@@ -4,6 +4,8 @@ import com.lms.domain.enrollment.dto.Response.EnterVillageResponse;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
+
 
 public class EnrollmentOutputView {
         public void displayApprovedVillages(List<EnterVillageResponse> approvedVillages) {
@@ -11,7 +13,7 @@ public class EnrollmentOutputView {
             System.out.println("║                 🏰 입장 가능한 마을(Village) 목록               ║");
             System.out.println("╚══════════════════════════════════════════════════════════════╝");
 
-            // 실무 팁: DB에서 가져온 날짜/시간 데이터는 항상 View 계층에서 사용자가 보기 편하게 포맷팅해 줍니다.
+            // 실무 팁: DB에서 가져온 날짜/시간 -데이터는 항상 View 계층에서 사용자가 보기 편하게 포맷팅해 줍니다.
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
             // 리스트에서 마을 정보를 하나씩 꺼내어 예쁘게 배치합니다.
@@ -24,4 +26,21 @@ public class EnrollmentOutputView {
                 System.out.println("────────────────────────────────────────────────────────────────");
             }
         }
+
+    public void printEnrollmentList(List<Map<String, Object>> list) {
+        if (list == null || list.isEmpty()) {
+            System.out.println("조회된 대상이 없습니다.");
+            return;
+        }
+
+        for (Map<String, Object> row : list) {
+            System.out.println("--------------------------------");
+            System.out.println("신청번호(enrollment_id): " + row.get("enrollmentId"));
+            System.out.println("학생번호(user_id): " + row.get("userId"));
+            System.out.println("학생이름: " + row.get("userName"));
+            System.out.println("상태: " + row.get("status"));
+            System.out.println("신청일시: " + row.get("appliedAt"));
+        }
+        System.out.println("--------------------------------");
+    }
 }

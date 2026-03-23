@@ -14,7 +14,7 @@ public class SectionDTO {
     public SectionDTO() {
     }
 
-    public SectionDTO(long sectionId, long villageId, Long userId, int chapNo, String sectionName, String content, String videoUrl, String status) {
+    public SectionDTO(long sectionId, long villageId, long userId, int chapNo, String sectionName, String content, String videoUrl, String status) {
         this.sectionId = sectionId;
         this.villageId = villageId;
         this.userId = userId;
@@ -39,6 +39,14 @@ public class SectionDTO {
 
     public void setVillageId(long villageId) {
         this.villageId = villageId;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public int getChapNo() {
@@ -86,15 +94,12 @@ public class SectionDTO {
         return "SectionDTO{" +
                 "sectionId=" + sectionId +
                 ", villageId=" + villageId +
+                ", userId=" + userId +
                 ", chapNo=" + chapNo +
                 ", sectionName='" + sectionName + '\'' +
                 ", content='" + content + '\'' +
                 ", videoUrl='" + videoUrl + '\'' +
                 ", status='" + status + '\'' +
                 '}';
-    }
-
-    public Long getUserId() {
-        return userId;
     }
 }

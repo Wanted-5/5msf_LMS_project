@@ -28,8 +28,8 @@ public class CityAppContext {
         VillageService villageService = new VillageService(con);
         VillageController villageController = new VillageController(villageService);
 
-        EnrollmentService enrollmentService = new EnrollmentService(con)
-        EnrollmentController enrollmentController = new EnrollmentController(enrollmentService)
+        EnrollmentService enrollmentService = new EnrollmentService(con);
+        EnrollmentController enrollmentController = new EnrollmentController(enrollmentService);
         this.cityInputView = new CityInputView(
                 cityController,
                 cityOutputView,

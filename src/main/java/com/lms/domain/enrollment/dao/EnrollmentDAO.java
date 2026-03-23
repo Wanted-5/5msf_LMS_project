@@ -87,6 +87,31 @@ public class EnrollmentDAO {
         return enterVillageList;
     }
 
+    public List<EnterVillageResponse> findWaitingVillageByUserId(long currentUserId) throws SQLException {
+
+        List<EnterVillageResponse> waitingVillageResponseList = new ArrayList<>();
+
+        String query = QueryUtil.getQuery("enrollment.findWaitingVillagesByUserId");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, currentUserId);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                waitingVillageResponseList.add(new EnterVillageResponse(
+                        rs.getLong("village_id"),
+                        rs.getString("village_name"),
+                        EnrollmentStatus.valueOf(rs.getString("status")),
+                        rs.getTimestamp("applied_at").toLocalDateTime()
+                ));
+
+            }
+        }
+        return waitingVillageResponseList;
+    }
+
+    //comment, 정현이 코드
     // ===== 강사용 수강생 관리 기능 추가 =====
 
     public List<Map<String, Object>> findWaitingEnrollmentList(long villageId) throws SQLException {
@@ -183,8 +208,7 @@ public class EnrollmentDAO {
     }
 
 
-
-// ======================= 내부 편의 메서드 =============================
+    // ======================= 내부 편의 메서드 =============================
     private EnrollmentDTO convertToDTO(ResultSet rs) throws SQLException {
         return new EnrollmentDTO(
                 rs.getLong("enrollment_id"),

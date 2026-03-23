@@ -31,6 +31,12 @@ public class EnrollmentController {
     public List<EnterVillageResponse> getApprovedVillages(long currentUserId) {
         return service.getApprovedVillages(currentUserId);
     }
+
+    public List<EnterVillageResponse> getWaitingVillage(long currentUserId) throws Exception {
+        return service.getWaitingVillages(currentUserId);
+    }
+
+    // comment, 정현이 코드
     public List<Map<String, Object>> findWaitingEnrollmentList(long villageId) {
         return service.findWaitingEnrollmentList(villageId);
     }

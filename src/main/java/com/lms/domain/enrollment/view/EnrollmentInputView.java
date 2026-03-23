@@ -46,6 +46,7 @@ public class EnrollmentInputView {
                     break;
                 case "2":
                     System.out.println("\n  [ 시스템 ] 현재 수강 신청 및 승인 상태를 조회합니다...");
+                    checkEnrollmentStatusProcess();
                     // TODO: 상태 조회 메서드 호출 (예: checkEnrollmentStatusProcess())
                     break;
                 case "3":
@@ -66,7 +67,7 @@ public class EnrollmentInputView {
         }
     }
 
-    // 초대코드 입력 기능
+    // 1번 초대코드 입력 기능
     private void submitEnrollmentCodeProcess() {
         while (true) {
             System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
@@ -120,6 +121,27 @@ public class EnrollmentInputView {
             }
 
             }
+    }
+
+    // 2번 입장 대기 중인 테이블 조회
+    private void checkEnrollmentStatusProcess() {
+        System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
+        System.out.println("║                 ⏳ 마을 입장 대기 상태 조회                      ║");
+        System.out.println("╚══════════════════════════════════════════════════════════════╝");
+        System.out.println("  [ 시스템 ] 강사님의 승인을 기다리고 있는 마을 목록을 불러옵니다...\n");
+
+        long currentUserId = UserSession.getLoggedInUser().getUserId();
+
+        try {
+            List<EnterVillageResponse> waitingVillages = controller.getWaitingVillage(currentUserId);
+
+            outputView.displayWatingVillages(waitingVillages);
+
+        } catch (Exception e) {
+            outputView.displayFailure(e.getMessage());
+        }
+
+
     }
 
     // 3번 입장하기 로직

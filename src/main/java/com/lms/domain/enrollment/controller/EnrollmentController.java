@@ -1,7 +1,10 @@
 package com.lms.domain.enrollment.controller;
 
+import com.lms.domain.enrollment.dto.Response.EnterVillageResponse;
 import com.lms.domain.enrollment.dto.Response.VerifyInviteCodeResponse;
 import com.lms.domain.enrollment.service.EnrollmentService;
+
+import java.util.List;
 
 public class EnrollmentController {
 
@@ -19,5 +22,9 @@ public class EnrollmentController {
     // 신청하기 enrollment에 insert하기
     public void submitEnrollment(long currentUserId, long villageId) throws Exception{
         service.submitEnrollment(currentUserId, villageId);
+    }
+
+    public List<EnterVillageResponse> getApprovedVillages(long currentUserId) {
+        return service.getApprovedVillages(currentUserId);
     }
 }

@@ -6,4 +6,17 @@
         VALUES
         (?, ?, ?)
     </query>
+
+    <query key="enrollment.findApprovedVillagesByUserId">
+        SELECT
+            v.village_id, v.village_name, e.status, e.applied_at
+        FROM
+            Enrollment as e
+        JOIN
+            Village as v ON e.village_id = v.village_id
+        WHERE
+            e.user_id = ? AND e.status = 'APPROVED'
+        ORDER BY
+            e.applied_at DESC
+    </query>
 </properties>

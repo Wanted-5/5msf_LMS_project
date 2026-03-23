@@ -2,6 +2,7 @@ package com.lms.domain.enrollment.dao;
 
 import com.lms.domain.enrollment.dto.EnrollmentDTO;
 import com.lms.domain.enrollment.dto.EnrollmentStatus;
+import com.lms.domain.enrollment.dto.Response.EnterVillageResponse;
 import com.lms.domain.enrollment.dto.Response.VerifyInviteCodeResponse;
 import com.lms.domain.users.dto.UserDTO;
 import com.lms.domain.users.dto.UserRole;
@@ -11,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EnrollmentDAO {
 
@@ -56,6 +59,29 @@ public class EnrollmentDAO {
                 throw new SQLException("[error] 마을 신청 실패, DB 에러 발생");
             }
         }
+    }
+
+    public List<EnterVillageResponse> findActiveVillageByUserId(long currentUserId) throws SQLException {
+
+        List<EnterVillageResponse> enterVillageList = new ArrayList<>();
+
+        String query = QueryUtil.getQuery("enrollment.findApprovedVillagesByUserId");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, currentUserId);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                enterVillageList.add(new EnterVillageResponse(
+                        rs.getLong("village_id"),
+                        rs.getString("village_name"),
+                        EnrollmentStatus.valueOf(rs.getString("status")),
+                        rs.getTimestamp("applied_at").toLocalDateTime()
+                ));
+            }
+        }
+        return enterVillageList;
     }
 
 

@@ -2,10 +2,6 @@ package com.lms.domain.mafia.view;
 
 import com.lms.domain.mafia.controller.MafiaController;
 import com.lms.domain.mafia.dto.MafiaDTO;
-<<<<<<< HEAD
-
-=======
->>>>>>> ee2a336587567b1242bd1b740db40dccd3e3a888
 import com.lms.domain.users.dto.UserRole;
 import com.lms.global.common.UserSession;
 

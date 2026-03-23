@@ -104,6 +104,7 @@ public class VillageInputView {
 
                 case "8":
                     System.out.println("로그아웃합니다.");
+                    UserSession.setLoggedInUser(null);
                     return;
 
                 default:

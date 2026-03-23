@@ -81,4 +81,86 @@
         WHERE village_id = ?
         AND enrollment_id = ?
     </query>
+
+    <query key="existsApprovedEnrollment">
+        <![CDATA[
+        SELECT COUNT(*) AS cnt
+        FROM enrollment
+        WHERE user_id = ?
+          AND village_id = ?
+          AND status = 'APPROVED'
+    ]]>
+    </query>
+    <query key="enrollment.findStudentUsersByCityId">
+        <![CDATA[
+        SELECT DISTINCT
+            u.user_id,
+            u.username,
+            u.name,
+            u.nickname,
+            u.role
+        FROM users u
+        JOIN enrollment e ON u.user_id = e.user_id
+        JOIN village v ON e.village_id = v.village_id
+        WHERE v.city_id = ?
+          AND u.role = 'STUDENT'
+          AND e.status = 'APPROVED'
+        ORDER BY u.user_id ASC
+    ]]>
+    </query>
+    <query key="enrollment.findWaitingTargetById"><![CDATA[
+    SELECT e.enrollment_id,
+           e.village_id,
+           e.user_id,
+           u.username,
+           e.status,
+           e.applied_at
+    FROM enrollment e
+    JOIN users u ON e.user_id = u.user_id
+    WHERE e.village_id = ?
+      AND e.enrollment_id = ?
+      AND e.status = 'WAITING'
+]]></query>
+    <query key="enrollment.findWaitingEnrollmentTarget"><![CDATA[
+    SELECT e.enrollment_id,
+           e.village_id,
+           e.user_id,
+           u.username,
+           e.status,
+           e.applied_at
+    FROM enrollment e
+    JOIN users u ON e.user_id = u.user_id
+    WHERE e.village_id = ?
+      AND e.enrollment_id = ?
+      AND e.status = 'WAITING'
+]]></query>
+    <query key="enrollment.findAllWaitingList"><![CDATA[
+    SELECT e.enrollment_id,
+           e.village_id,
+           e.user_id,
+           u.username,
+           v.village_name,
+           e.status,
+           e.applied_at
+    FROM enrollment e
+    JOIN users u ON e.user_id = u.user_id
+    JOIN village v ON e.village_id = v.village_id
+    WHERE e.status = 'WAITING'
+    ORDER BY e.applied_at ASC
+]]></query>
+
+    <query key="enrollment.findWaitingTargetByEnrollmentId"><![CDATA[
+    SELECT e.enrollment_id,
+           e.village_id,
+           e.user_id,
+           u.username,
+           v.village_name,
+           e.status,
+           e.applied_at
+    FROM enrollment e
+    JOIN users u ON e.user_id = u.user_id
+    JOIN village v ON e.village_id = v.village_id
+    WHERE e.enrollment_id = ?
+      AND e.status = 'WAITING'
+]]></query>
 </properties>

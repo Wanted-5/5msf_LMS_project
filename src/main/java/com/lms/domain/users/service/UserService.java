@@ -14,6 +14,7 @@ import com.lms.global.util.PasswordUtil;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 public class UserService {
 
@@ -218,4 +219,5 @@ public class UserService {
             throw new RuntimeException("비밀번호 변경 중 시스템 오류가 발생했습니다.", e);
         }
     }
+
 }

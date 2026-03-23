@@ -194,13 +194,18 @@ public class SectionInputView {
     // 강사용 메뉴
     public void displayInstructorSectionMenu(long villageId, Long userId) {
         while (true) {
-            System.out.println("\n=== 교육센터 관리 ===");
-            System.out.println("1. 전체 강의 보기");
-            System.out.println("2. 학습 시작하기");
-            System.out.println("3. 완료한 학습 목록 보기");
-            System.out.println("4. 신규 섹션 업로드");
-            System.out.println("5. 메인페이지로 돌아가기");
-            System.out.print("번호 입력 : ");
+            System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
+            System.out.println("║                  🎓 교육센터 운영 패널 (강사)                   ║");
+            System.out.println("╚══════════════════════════════════════════════════════════════╝");
+            System.out.println("  [ 시스템 ] 강의 진행 현황과 섹션 관리를 여기서 수행합니다.");
+            System.out.println("────────────────────────────────────────────────────────────────");
+            System.out.println("      [ 1 ] 📚 전체 강의 목록 조회");
+            System.out.println("      [ 2 ] ▶️ 학습 시작 / 테스트");
+            System.out.println("      [ 3 ] ✅ 완료 강의 목록 확인");
+            System.out.println("      [ 4 ] 🛠 신규 섹션 업로드");
+            System.out.println("      [ 5 ] ↩ 메인페이지 복귀");
+            System.out.println("────────────────────────────────────────────────────────────────");
+            System.out.print("  ▶ 번호를 입력하세요 : ");
 
             String choice = sc.nextLine().trim();
 

@@ -13,6 +13,7 @@ import java.sql.Connection;
 public class VillageAppContext {
 
     public final VillageInputView villageInputView;
+    public Object villageController;
 
     public VillageAppContext(Connection con) {
         VillageService villageService = new VillageService(con);

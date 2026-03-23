@@ -70,17 +70,23 @@ public class VillageInputView {
     // TODO : 강사 메인 메뉴 구현 해야함
     public void displayInstructorMainMenu(long villageId) {
         while (true) {
-            System.out.println("\n===> 4. 마을 메인페이지 입장 (강사 모드)");
-            System.out.println("=== 메인 콘솔 (초기 화면 - 강사) ===");
-            System.out.println("1. 출석 체크 및 관리");
-            System.out.println("2. 교육센터 관리");
-            System.out.println("3. 게시판 관리");
-            System.out.println("4. 마피아 게시판 관리");
-            System.out.println("5. 숙소(마이페이지)로 이동");
-            System.out.println("6. 수강생 관리");
-            System.out.println("7. 오늘의 마피아 뽑기");
-            System.out.println("8. 로그아웃");
-            System.out.print("번호 입력 : ");
+            System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
+            System.out.println("║                 🏡 마을 광장 (강사 전용)                       ║");
+            System.out.println("╚══════════════════════════════════════════════════════════════╝");
+// TODO : 전달 받은 villageId로 findById() 이용해서 villageName 받아오기
+// System.out.println("  [ 소속 마을 ] " + villageName);
+            System.out.println("  [ 시스템 ] 환영합니다! 강사 전용 관리 기능을 사용할 수 있습니다.");
+            System.out.println("────────────────────────────────────────────────────────────────");
+            System.out.println("      [ 1 ] 📅 출석 체크 및 관리");
+            System.out.println("      [ 2 ] 🎓 교육센터 관리");
+            System.out.println("      [ 3 ] 📢 게시판 관리");
+            System.out.println("      [ 4 ] 🕵️ 마피아 게시판 관리");
+            System.out.println("      [ 5 ] 🏠 숙소(마이페이지)로 이동");
+            System.out.println("      [ 6 ] 👥 수강생 관리");
+            System.out.println("      [ 7 ] 🎯 오늘의 마피아 뽑기");
+            System.out.println("      [ 8 ] 🚪 로그아웃");
+            System.out.println("────────────────────────────────────────────────────────────────");
+            System.out.print("  ▶ 원하시는 기능의 번호를 입력해주세요 : ");
 
             String input = sc.nextLine();
 

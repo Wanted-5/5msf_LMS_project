@@ -5,6 +5,8 @@ import com.lms.domain.users.dto.UserDTO;
 import com.lms.global.util.QueryUtil;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
 
@@ -127,6 +129,41 @@ public class UserDAO {
         }
     }
 
+    public List<UserDTO> findAllUsers() throws SQLException {
+        List<UserDTO> userList = new ArrayList<>();
+
+        String query = QueryUtil.getQuery("user.findAllUsers");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query);
+             ResultSet rset = pstmt.executeQuery()) {
+
+            while (rset.next()) {
+                UserDTO user = new UserDTO();
+                user.setUserId(rset.getLong("user_id"));
+                user.setUsername(rset.getString("username"));
+                user.setName(rset.getString("name"));
+                user.setNickname(rset.getString("nickname"));
+                user.setRole(UserRole.valueOf(rset.getString("role")));
+                userList.add(user);
+            }
+        }
+
+        return userList;
+    }
+
+    public void updateUserRole(Long userId, UserRole newRole) throws SQLException {
+        String query = QueryUtil.getQuery("users.updateUserRole");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, newRole.name());
+            pstmt.setLong(2, userId);
+
+            int result = pstmt.executeUpdate();
+            if (result == 0) {
+                throw new SQLException("유저 역할 변경 실패");
+            }
+        }
+    }
 
     // ---------- 내부 편의 메서드 ----------------
     private UserDTO convertToDTO(ResultSet rs) throws SQLException {

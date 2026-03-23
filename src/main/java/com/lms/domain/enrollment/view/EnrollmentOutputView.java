@@ -43,4 +43,5 @@ public class EnrollmentOutputView {
         }
         System.out.println("--------------------------------");
     }
+
 }

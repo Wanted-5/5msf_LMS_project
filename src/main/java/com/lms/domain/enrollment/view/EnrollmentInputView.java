@@ -3,6 +3,7 @@ package com.lms.domain.enrollment.view;
 import com.lms.domain.enrollment.controller.EnrollmentController;
 import com.lms.domain.enrollment.dto.Response.EnterVillageResponse;
 import com.lms.domain.enrollment.dto.Response.VerifyInviteCodeResponse;
+import com.lms.domain.users.dto.UserRole;
 import com.lms.global.AppContext.AppContext;
 import com.lms.global.common.UserSession;
 
@@ -163,17 +164,23 @@ public class EnrollmentInputView {
             }
 
             // TODO : 사용자가 입력한 villageId가 진짜로 승인된 마을이 맞는지 Controller/Service에서 2차 검증합니다.
-//            boolean isApproved = controller.verifyVillageApproval(currentUserId, villageId);
+            boolean isApproved = controller.verifyVillageApproval(currentUserId, villageId);
 
-//            if (!isApproved) {
-//                System.out.println("\n  🚨 [보안 경고] 해당 마을에 입장할 권한이 없거나 아직 승인 대기 중입니다.");
-//                return;
-//            }
+            if (!isApproved) {
+                System.out.println("\n  🚨 [보안 경고] 해당 마을에 입장할 권한이 없거나 아직 승인 대기 중입니다.");
+                return;
+            }
 
             System.out.println("\n  [ 시스템 ] 짐을 챙기세요! " + villageId + "번 마을로 안전하게 이동합니다... 🚀");
-
-            AppContext.getAppContext().villageAppContext.villageInputView.displayStudentMainMenu(villageId);
-
+            // 역할에 따른 메뉴 분기
+            if (UserSession.getLoggedInUser().getRole() == UserRole.STUDENT) {
+                AppContext.getAppContext().villageAppContext.villageInputView.displayStudentMainMenu(villageId);
+            } else if (UserSession.getLoggedInUser().getRole() == UserRole.INSTRUCTOR
+                    || UserSession.getLoggedInUser().getRole() == UserRole.ADMIN) {
+                AppContext.getAppContext().villageAppContext.villageInputView.displayInstructorMainMenu(villageId);
+            } else {
+                System.out.println("  🚨 [오류] 정의되지 않은 사용자 권한입니다.");
+            }
         } catch (Exception e) {
             System.out.println("\n  🚨 [오류] 마을 입장 처리 중 문제가 발생했습니다: " + e.getMessage());
         }
@@ -186,7 +193,8 @@ public class EnrollmentInputView {
             System.out.println("\n수강생 관리 (강사 특권)");
             System.out.println("1. 수강 신청 승인 및 거절");
             System.out.println("2. 수강생 강제 추방");
-            System.out.println("3. 이전으로");
+            System.out.println("3. 대기 학생 강사 승격");
+            System.out.println("4. 이전으로");
             System.out.print("번호 입력 : ");
 
             String input = sc.nextLine();
@@ -199,10 +207,63 @@ public class EnrollmentInputView {
                     expelEnrollment(villageId);
                     break;
                 case "3":
+                    promoteStudentToInstructor(villageId);
+                    break;
+                case "4":
                     return;
                 default:
                     System.out.println("잘못된 번호입니다.");
             }
+        }
+    }
+
+    private void promoteStudentToInstructor(long villageId) {
+        try {
+            System.out.println("=== 대기 중인 수강 신청 목록을 조회합니다. ===");
+            java.util.List<java.util.Map<String, Object>> waitingList =
+                    controller.findWaitingEnrollmentList(villageId);
+
+            if (waitingList.isEmpty()) {
+                System.out.println("대기 중인 수강 신청이 없습니다.");
+                return;
+            }
+
+            outputView.printEnrollmentList(waitingList);
+
+            System.out.print("- 강사로 승격할 수강 신청 번호(enrollment_id)를 입력해주세요 : ");
+            long enrollmentId = Long.parseLong(sc.nextLine());
+
+            java.util.Map<String, Object> target =
+                    controller.findEnrollmentManageTarget(villageId, enrollmentId);
+
+            if (target == null) {
+                System.out.println("존재하지 않는 신청 번호입니다.");
+                return;
+            }
+
+            String status = String.valueOf(target.get("status"));
+            if (!"WAITING".equalsIgnoreCase(status)) {
+                System.out.println("대기 중인 신청만 강사로 승격할 수 있습니다.");
+                return;
+            }
+
+            System.out.print("- 정말로 " + target.get("userName")
+                    + " 님을 강사(INSTRUCTOR)로 승격하시겠습니까? (Y/N) : ");
+            String confirm = sc.nextLine();
+
+            if (confirm.equalsIgnoreCase("Y")) {
+                controller.promoteWaitingStudentToInstructor(enrollmentId);
+                System.out.println("=== 해당 학생이 강사(INSTRUCTOR)로 승격되었습니다. ===");
+            } else if (confirm.equalsIgnoreCase("N")) {
+                System.out.println("=== 강사 승격이 취소되었습니다. ===");
+            } else {
+                System.out.println("잘못된 입력입니다.");
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("신청 번호는 숫자로 입력해야 합니다.");
+        } catch (Exception e) {
+            System.out.println("오류가 발생했습니다: " + e.getMessage());
         }
     }
 

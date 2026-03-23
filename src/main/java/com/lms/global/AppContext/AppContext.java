@@ -1,4 +1,6 @@
 package com.lms.global.AppContext;
+import com.lms.domain.users.controller.UserController;
+
 import java.sql.Connection;
 
 public class AppContext {
@@ -16,6 +18,7 @@ public class AppContext {
     public final BoardAppContext boardAppContext;
     public final CategoryAppContext categoryAppContext;
     public final SectionAppContext sectionAppContext;
+     ;
 
     public AppContext(Connection con) {
         this.userAppContext = new UserAppContext(con);

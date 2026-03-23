@@ -1,6 +1,7 @@
 package com.lms.domain.section.dao;
 
 import com.lms.domain.section.dto.SectionDTO;
+import com.lms.domain.section.dto.request.SectionDetailRequest;
 import com.lms.global.config.JDBCTemplate;
 import com.lms.global.util.QueryUtil;
 
@@ -19,6 +20,7 @@ public class SectionDAO {
         this.connection = connection;
     }
 
+    // 강의 전체 조회
     public List<SectionDTO> findSectionsByVillageId(long villageId) throws SQLException {
         List<SectionDTO> sectionDTOList = new ArrayList<>();
 
@@ -34,6 +36,25 @@ public class SectionDAO {
             }
         }
         return sectionDTOList;
+    }
+
+    public SectionDTO findSectionBySectionId(SectionDetailRequest request) throws SQLException {
+
+        String query = QueryUtil.getQuery("section.findSectionByVillageIdAndSectionId");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, request.getVillageId());
+            pstmt.setLong(2, request.getSectionId());
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+
+                while (rs.next()) {
+                    return convertToDTO(rs);
+                }
+            }
+        }
+
+        return null;
     }
 
     public SectionDTO findSectionById(Connection con, long sectionId) {
@@ -140,21 +161,8 @@ public class SectionDAO {
         return list;
     }
 
-    // =================== 내부 편의 메서드 ===============
-    private SectionDTO convertToDTO(ResultSet rs) throws SQLException {
-        return new SectionDTO(
-                rs.getLong("section_id"),
-                rs.getLong("village_id"),
-                rs.getLong("user_id"),
-                rs.getInt("chap_no"),
-                rs.getString("section_name"),
-                rs.getString("content"),
-                rs.getString("video_url"),
-                rs.getString("status")
-        );
-    }
+    //comment, 강사 기능
 
-    // 강사
     public int insertSection(Connection con, long villageId, long userId, int chapNo,
                              String sectionName, String content, String videoUrl) throws SQLException {
 
@@ -170,5 +178,19 @@ public class SectionDAO {
 
             return pstmt.executeUpdate();
         }
+    }
+
+    // =================== 내부 편의 메서드 ===============
+    private SectionDTO convertToDTO(ResultSet rs) throws SQLException {
+        return new SectionDTO(
+        rs.getLong("section_id"),
+        rs.getLong("village_id"),
+        rs.getLong("user_id"),
+        rs.getInt("chap_no"),
+        rs.getString("section_name"),
+        rs.getString("content"),
+        rs.getString("video_url"),
+        rs.getString("status")
+        );
     }
 }

@@ -18,12 +18,14 @@ public class Application {
 
             AppContext.init(con);
 
+
             while (true) {
                 LoginResponse loggedInUser = UserSession.getLoggedInUser();
 
                 if (loggedInUser == null) {
                     appContext.userAppContext.userInputView.displayInitialMenu();
                 }
+
                 else {
                     UserRole role = loggedInUser.getRole();
 
@@ -33,13 +35,15 @@ public class Application {
                         //TODO: 관리자는 마을을 선택할 수 있게 로직 구현
 
                     } else if (role == UserRole.INSTRUCTOR) {
-                        System.out.println("[시스템] " + UserSession.getLoggedInUser().getRole().getDescription() + "(INSTRUCTOR) 권한으로 접속했습니다.");
+                        System.out.println("  [시스템] " + UserSession.getLoggedInUser().getRole().getDescription() + "(INSTRUCTOR) 권한으로 접속했습니다.");
+                        appContext.enrollmentAppContext.enrollmentInputView.displayEnrollMainMenu();
+                        //TODO: 강사 옵션으로 로직 구현
 
-                        long villageId = 1L; // 임시로 해둠
-                        AppContext.getAppContext()
-                                .villageAppContext
-                                .villageInputView
-                                .displayInstructorMainMenu(villageId);
+//                        long villageId = 1L; // 임시로 해둠
+//                        AppContext.getAppContext()
+//                                .villageAppContext
+//                                .villageInputView
+//                                .displayInstructorMainMenu(villageId);
                     } else if (role == UserRole.STUDENT) {
                         System.out.println("  [시스템] " + UserSession.getLoggedInUser().getRole().getDescription() + "(STUDENT) 권한으로 접속했습니다.");
                         appContext.enrollmentAppContext.enrollmentInputView.displayEnrollMainMenu();

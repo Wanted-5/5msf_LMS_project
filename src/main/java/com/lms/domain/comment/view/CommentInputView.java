@@ -71,7 +71,7 @@ public class CommentInputView {
     }
 
     private void deleteComment(long boardId) {
-        System.out.println("\n==== 🗑️ 댓글 삭제 ====");
+        System.out.println("\n==== 댓글 삭제 ====");
 
         List<CommentDTO> deletComments = commentController.getEditableComments(boardId);
 
@@ -83,25 +83,20 @@ public class CommentInputView {
         commentOutputView.printMessage("[삭제 가능한 댓글 목록]");
         commentOutputView.printComment(deletComments);
 
-        System.out.print("\n삭제할 댓글 번호를 선택하세요 : ");
-        long commentId = inputLong();
+        //구분을 위해 []로 묶어서 출력 -> outputview 출력형태
+        System.out.print("\n삭제할 순번( [ ] 안의 번호 )을 선택하세요 : ");
+        //인덱스 순번 호출을 위한 형변환(int만 가능하다고 함)
+        int selectNum = (int) inputLong();
 
-        // 권한이 있는 번호 입력했는지 확인
-        boolean isValidId = false;
-        for (CommentDTO comment : deletComments) {
-            if (comment.getCommentId() == commentId) {
-                isValidId = true;
-                break;
-            }
-        }
-
-        if (!isValidId) {
-            commentOutputView.printError("목록에 없는 번호이거나 삭제 권한이 없습니다!");
+        if (selectNum < 1 || selectNum > deletComments.size()) {
+            commentOutputView.printError("잘못된 번호입니다. 화면에 보이는 순번을 입력해주세요.");
             return;
         }
 
+        CommentDTO selectedComment = deletComments.get(selectNum - 1);
+        long realCommentId = selectedComment.getCommentId();
 
-        boolean isSuccess = commentController.deleteComment(commentId);
+        boolean isSuccess = commentController.deleteComment(realCommentId);
 
         if (isSuccess) {
             commentOutputView.printSuccess("댓글이 영구적으로 삭제되었습니다.");
@@ -111,12 +106,10 @@ public class CommentInputView {
     }
 
     private void updateComment(long boardId) {
-        System.out.println("\n==== ✏️ 댓글 수정 ====");
-
+        System.out.println("\n==== 댓글 수정 ====");
 
         List<CommentDTO> editableComments = commentController.getEditableComments(boardId);
 
-        // 수정 할게 없으면 튕김 - > 권한 검증 지우면 안되는 주석
         if (editableComments == null || editableComments.isEmpty()) {
             commentOutputView.printError("수정할 수 있는 댓글이 없습니다.");
             return;
@@ -125,27 +118,23 @@ public class CommentInputView {
         commentOutputView.printMessage("[수정 가능한 댓글 목록]");
         commentOutputView.printComment(editableComments);
 
-        System.out.print("\n수정할 댓글 번호를 선택하세요 : ");
-        long commentId = inputLong();
+        //구분을 위해 []로 묶어서 출력 -> outputview 출력형태
+        System.out.print("\n수정할 순번( [ ] 안의 번호 )을 선택하세요 : ");
+        //인덱스 순번 호출을 위한 형변환(int만 가능하다고 함)
+        int selectNum = (int) inputLong();
 
-        // 엉뚱한 번호 검증
-        boolean isValidId = false;
-        for (CommentDTO comment : editableComments) {
-            if (comment.getCommentId() == commentId) {
-                isValidId = true;
-                break;
-            }
-        }
-        // 수정 할게 없으면 튕김 - > 권한 검증 지우면 안되는 주석
-        if (!isValidId) {
-            commentOutputView.printError("목록에 없는 번호이거나 수정 권한이 없습니다!");
+        if (selectNum < 1 || selectNum > editableComments.size()) {
+            commentOutputView.printError("잘못된 번호입니다. 화면에 보이는 순번을 입력해주세요.");
             return;
         }
+
+        CommentDTO selectedComment = editableComments.get(selectNum - 1);
+        long realCommentId = selectedComment.getCommentId();
 
         System.out.print("새로운 댓글 내용을 입력해주세요 : ");
         String content = sc.nextLine();
 
-        boolean isSuccess = commentController.updateComment(commentId, content);
+        boolean isSuccess = commentController.updateComment(realCommentId, content);
 
         if (isSuccess) {
             commentOutputView.printSuccess("댓글이 성공적으로 수정되었습니다.");

@@ -9,4 +9,9 @@ public class QuizSubController {
     public QuizSubController(QuizSubService quizsubService) {
         this.quizsubService = quizsubService;
     }
+
+    public boolean submitAnswer(String submittedAnswer) {
+        return quizsubService.submitAnswer(submittedAnswer);
+    }
 }
+

@@ -65,6 +65,11 @@ public class MafiaDAO {
             pstmt.setDate(4, Date.valueOf(mafia.getCreatedAt()));
 
             return pstmt.executeUpdate();
+        }  catch (SQLException e) {
+            if (e.getMessage().contains("Duplicate entry")) {
+                throw new RuntimeException("오늘 이미 마피아가 선정된 마을입니다.");
+            }
+            throw e;
         }
     }
 
@@ -79,22 +84,22 @@ public class MafiaDAO {
     }
 
     // DB에 mafidId 번호를 순차적으로 넣기 위해
-    public int selectNextMafiaId() throws SQLException {
+    public Long selectNextMafiaId() throws SQLException {
         String query = QueryUtil.getQuery("mafia.selectNextMafiaId");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             ResultSet rset = pstmt.executeQuery();
             // 결과값이 하나라도 있다면 그 숫자를 꺼내서 돌려줘라
             if (rset.next()) {
-                return rset.getInt(1);
+                return rset.getLong(1);
             }
         }
         //만약 DB에 데이터가 하나도 없어서 대답이 안 오면 1번 부터
-        return 1;
+        return 1L;
     }
 
     // 오늘 날짜에 해당하는 마피아 아이디 검증
-    public Long selectTodayMafiaId(long userId) throws SQLException {
+    public Long selectTodayMafiaId(Long userId) throws SQLException {
         String query = QueryUtil.getQuery("mafia.selectTodayMafiaId");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {

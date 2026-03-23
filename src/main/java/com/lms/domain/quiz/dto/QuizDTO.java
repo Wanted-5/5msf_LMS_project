@@ -7,6 +7,7 @@ public class QuizDTO {
     private Long quizId;
     private String title;
     private Long mafiaId;
+    private Long userId;
     private String content;
     private String answer;
     private LocalDateTime createdAt;
@@ -19,10 +20,11 @@ public class QuizDTO {
         this.answer = answer;
     }
 
-    public QuizDTO(Long quizId, String title, Long mafiaId, String content, String answer, LocalDateTime createdAt) {
+    public QuizDTO(Long quizId, String title, Long mafiaId,Long userId, String content, String answer, LocalDateTime createdAt) {
         this.quizId = quizId;
         this.title = title;
         this.mafiaId = mafiaId;
+        this.userId = userId;
         this.content = content;
         this.answer = answer;
         this.createdAt = createdAt;
@@ -33,6 +35,13 @@ public class QuizDTO {
         this.mafiaId = mafiaId;
         this.title = title;
         this.quizId = quizId;
+    }
+
+    public QuizDTO(long quizId, String title, String content, String answer) {
+        this.quizId = quizId;
+        this.title = title;
+        this.content = content;
+        this.answer = answer;
     }
 
     public Long getQuizId() {
@@ -83,12 +92,21 @@ public class QuizDTO {
         this.createdAt = createdAt;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "QuizDTO{" +
                 "quizId=" + quizId +
                 ", title='" + title + '\'' +
                 ", mafiaId=" + mafiaId +
+                ", userId=" + userId +
                 ", content='" + content + '\'' +
                 ", answer='" + answer + '\'' +
                 ", createdAt=" + createdAt +

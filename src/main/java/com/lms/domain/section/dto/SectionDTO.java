@@ -2,9 +2,9 @@ package com.lms.domain.section.dto;
 
 public class SectionDTO {
 
-    private long sectionId;
-    private long villageId;
-    private long userId;
+    private Long sectionId;
+    private Long villageId;
+    private Long userId;
     private int chapNo;
     private String sectionName;
     private String content;
@@ -14,8 +14,7 @@ public class SectionDTO {
     public SectionDTO() {
     }
 
-    public SectionDTO(long sectionId, long villageId, long userId, int chapNo,
-                      String sectionName, String content, String videoUrl, String status) {
+    public SectionDTO(long sectionId, long villageId, long userId, int chapNo, String sectionName, String content, String videoUrl, String status) {
         this.sectionId = sectionId;
         this.villageId = villageId;
         this.userId = userId;

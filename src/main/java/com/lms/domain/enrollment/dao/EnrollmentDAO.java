@@ -2,6 +2,7 @@ package com.lms.domain.enrollment.dao;
 
 import com.lms.domain.enrollment.dto.EnrollmentDTO;
 import com.lms.domain.enrollment.dto.EnrollmentStatus;
+import com.lms.domain.enrollment.dto.Response.EnterVillageResponse;
 import com.lms.domain.enrollment.dto.Response.VerifyInviteCodeResponse;
 import com.lms.domain.users.dto.UserDTO;
 import com.lms.domain.users.dto.UserRole;
@@ -12,6 +13,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class EnrollmentDAO {
 
@@ -58,6 +63,30 @@ public class EnrollmentDAO {
             }
         }
     }
+
+    public List<EnterVillageResponse> findActiveVillageByUserId(long currentUserId) throws SQLException {
+
+        List<EnterVillageResponse> enterVillageList = new ArrayList<>();
+
+        String query = QueryUtil.getQuery("enrollment.findApprovedVillagesByUserId");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, currentUserId);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                enterVillageList.add(new EnterVillageResponse(
+                        rs.getLong("village_id"),
+                        rs.getString("village_name"),
+                        EnrollmentStatus.valueOf(rs.getString("status")),
+                        rs.getTimestamp("applied_at").toLocalDateTime()
+                ));
+            }
+        }
+        return enterVillageList;
+    }
+
     // ===== 강사용 수강생 관리 기능 추가 =====
 
     public List<Map<String, Object>> findWaitingEnrollmentList(long villageId) throws SQLException {
@@ -153,7 +182,9 @@ public class EnrollmentDAO {
         return row;
     }
 
-    // ======================= 내부 편의 메서드 =============================
+
+
+// ======================= 내부 편의 메서드 =============================
     private EnrollmentDTO convertToDTO(ResultSet rs) throws SQLException {
         return new EnrollmentDTO(
                 rs.getLong("enrollment_id"),

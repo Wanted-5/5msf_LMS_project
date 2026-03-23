@@ -1,14 +1,16 @@
 package com.lms.domain.enrollment.service;
 
 import com.lms.domain.enrollment.dao.EnrollmentDAO;
+import com.lms.domain.enrollment.dto.Response.EnterVillageResponse;
 import com.lms.domain.enrollment.dto.Response.VerifyInviteCodeResponse;
 import com.lms.domain.village.dto.VillageDTO;
 import com.lms.global.util.QueryUtil;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
+import java.sql.*;
+import java.util.HashMap;
 import java.util.Map;
 
 public class EnrollmentService {
@@ -42,6 +44,19 @@ public class EnrollmentService {
             throw new RuntimeException(e);
         }
     }
+
+    public List<EnterVillageResponse> getApprovedVillages(long currentUserId) {
+
+        try {
+            List<EnterVillageResponse> responseList = enrollmentDAO.findActiveVillageByUserId(currentUserId);
+
+            return responseList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("[DB error] 승인된 마을 목록을 조회하는 중 문제가 발생했습니다.", e);
+        }
+    }
+
     // ===== 강사용 수강생 관리 기능 추가 =====
 
     public List<Map<String, Object>> findWaitingEnrollmentList(long villageId) {

@@ -1,7 +1,10 @@
 package com.lms.domain.enrollment.controller;
 
+import com.lms.domain.enrollment.dto.Response.EnterVillageResponse;
 import com.lms.domain.enrollment.dto.Response.VerifyInviteCodeResponse;
 import com.lms.domain.enrollment.service.EnrollmentService;
+
+import java.util.List;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -25,6 +28,9 @@ public class EnrollmentController {
         service.submitEnrollment(currentUserId, villageId);
     }
 
+    public List<EnterVillageResponse> getApprovedVillages(long currentUserId) {
+        return service.getApprovedVillages(currentUserId);
+    }
     public List<Map<String, Object>> findWaitingEnrollmentList(long villageId) {
         return service.findWaitingEnrollmentList(villageId);
     }

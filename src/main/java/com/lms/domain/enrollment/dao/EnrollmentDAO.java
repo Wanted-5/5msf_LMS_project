@@ -146,7 +146,7 @@ public class EnrollmentDAO {
         row.put("enrollmentId", rs.getLong("enrollment_id"));
         row.put("villageId", rs.getLong("village_id"));
         row.put("userId", rs.getLong("user_id"));
-        row.put("userName", rs.getString("user_name"));
+        row.put("userName", rs.getString("username"));
         row.put("status", rs.getString("status"));
         row.put("appliedAt", appliedAt != null ? appliedAt.toLocalDateTime() : null);
 

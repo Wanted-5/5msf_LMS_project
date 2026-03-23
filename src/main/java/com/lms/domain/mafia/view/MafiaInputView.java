@@ -2,10 +2,6 @@ package com.lms.domain.mafia.view;
 
 import com.lms.domain.mafia.controller.MafiaController;
 import com.lms.domain.mafia.dto.MafiaDTO;
-<<<<<<< HEAD
-
-=======
->>>>>>> ee2a336587567b1242bd1b740db40dccd3e3a888
 import com.lms.domain.users.dto.UserRole;
 import com.lms.global.common.UserSession;
 
@@ -23,12 +19,12 @@ public class MafiaInputView {
         this.mafiaOutputView = mafiaOutputView;
     }
 
-    // 테스트 하기 위해 생성
-    public void mafiaTest() {
-        // 강사 권한 체크 로직 담겨있음 나중에 강사에다가 넘겨주기
-        selectMafia(1);
-        mafiaController.selectVillageAll();
-    }
+//    // 테스트 하기 위해 생성
+//    public void mafiaTest(int villageId) {
+//        // 강사 권한 체크 로직 담겨있음 나중에 강사에다가 넘겨주기
+//        selectMafia(villageId);
+//        mafiaController.selectVillageAll();
+//    }
 
     public MafiaDTO selectMafia(int villageId) {
 
@@ -47,17 +43,5 @@ public class MafiaInputView {
         return null;
     }
 
-    private int inputInt() {
-
-        while (true) {
-            try {
-                int value = Integer.parseInt(sc.nextLine());
-                return value;
-            } catch (NumberFormatException e) {
-                System.out.println("숫자만 입력해주세요 : ");
-            }
-        }
-
-    }
 
 }

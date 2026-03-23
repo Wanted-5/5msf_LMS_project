@@ -3,10 +3,6 @@ package com.lms.domain.quiz.service;
 import com.lms.domain.mafia.dao.MafiaDAO;
 import com.lms.domain.quiz.dao.QuizDAO;
 import com.lms.domain.quiz.dto.QuizDTO;
-<<<<<<< HEAD
-
-=======
->>>>>>> ee2a336587567b1242bd1b740db40dccd3e3a888
 import com.lms.domain.users.dto.UserRole;
 import com.lms.global.common.UserSession;
 

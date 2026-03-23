@@ -66,7 +66,7 @@ public class MafiaService {
             int randomIndex = random.nextInt(list.size());
             MafiaDTO selectedMafia = list.get(randomIndex);
             // 다음 mafia_id 순번 계산 후 DTO에 세팅
-            int nextId = mafiaDAO.selectNextMafiaId();  // 다음 순번 조회
+            long nextId = mafiaDAO.selectNextMafiaId();  // 다음 순번 조회
             selectedMafia.setMafiaId((long) nextId);           // DTO에 세팅
             // 오늘 생성된 마피아 아이디
             selectedMafia.setCreatedAt(LocalDate.now());

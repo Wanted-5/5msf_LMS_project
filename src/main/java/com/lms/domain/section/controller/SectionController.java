@@ -19,7 +19,7 @@ public class SectionController {
 
     // 강의 전체 조회
     public List<SectionListResponse> displayAllSections(long villageId) {
-            return sectionService.findSectionsByVillageId(villageId);
+        return sectionService.findSectionsByVillageId(villageId);
     }
 
     // 강의 상세 조회

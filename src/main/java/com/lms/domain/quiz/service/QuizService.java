@@ -3,6 +3,10 @@ package com.lms.domain.quiz.service;
 import com.lms.domain.mafia.dao.MafiaDAO;
 import com.lms.domain.quiz.dao.QuizDAO;
 import com.lms.domain.quiz.dto.QuizDTO;
+<<<<<<< HEAD
+
+=======
+>>>>>>> ee2a336587567b1242bd1b740db40dccd3e3a888
 import com.lms.domain.users.dto.UserRole;
 import com.lms.global.common.UserSession;
 
@@ -43,24 +47,29 @@ public class QuizService {
     }
 
     public Long createQuiz(QuizDTO newQuiz) {
-
         try {
-            // 현재 로그인 한 유저의 아이디 가져오기
-            int userId = UserSession.getLoggedInUser().getUserId().intValue();
-            // 오늘 마피아인지 확인하고 가져오기
-            Long mafiaId = mafiaDAO.selectTodayMafiaId(userId);
-            newQuiz.setMafiaId(mafiaId);
+            Long userId = UserSession.getLoggedInUser().getUserId();
+            UserRole role = UserSession.getLoggedInUser().getRole();
 
-            Long nextId = quizDAO.selectNextQuizId();  // 추가
+            if (role == UserRole.INSTRUCTOR || role == UserRole.ADMIN) {
+                // 강사나 관리자는 mafia_id 없이 등록
+                newQuiz.setMafiaId(null);
+            } else {
+                // 학생은 오늘 마피아인지 체크
+                Long mafiaId = mafiaDAO.selectTodayMafiaId(userId);
+                newQuiz.setMafiaId(mafiaId);
+            }
+            newQuiz.setUserId(userId);
+
+            Long nextId = quizDAO.selectNextQuizId();
             newQuiz.setQuizId(nextId);
             return quizDAO.create(newQuiz);
         } catch (SQLException e) {
             throw new RuntimeException("퀴즈 등록 중 Error 발생 !!!" + e.getMessage());
         }
-
     }
 
-    public Long deleteQuiz(long quizId) {
+    public Long deleteQuiz(Long quizId) {
         try {
             // 로그인 여부 체크
             if (!UserSession.isLoggedIn()) {
@@ -75,7 +84,7 @@ public class QuizService {
             } else if(role == UserRole.ADMIN){
                 quizDAO.deleteByAdmin(quizId);
             }else {
-                Long result = quizDAO.deleteByMafia(quizId, userId.intValue());
+                Long result = quizDAO.deleteByMafia(quizId, userId);
 
                 if (result == 0) {
                     throw new RuntimeException("본인이 작성한 퀴즈만 삭제할 수 있습니다.");
@@ -112,4 +121,17 @@ public class QuizService {
         }
         return 0L;
     }
+
+    public QuizDTO selectTodayQuiz() {
+        try {
+            QuizDTO quiz = quizDAO.selectTodayQuiz();
+            if (quiz == null) {
+                throw new RuntimeException("오늘의 퀴즈가 없습니다.");
+            }
+            return quiz;
+        } catch (SQLException e) {
+            throw new RuntimeException("퀴즈 조회 실패 : " + e.getMessage());
+        }
+    }
+
 }

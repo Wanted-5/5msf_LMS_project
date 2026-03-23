@@ -3,6 +3,7 @@ package com.lms.domain.city.view;
 import com.lms.domain.city.dto.CityDTO;
 import com.lms.domain.city.dto.response.CreateCityResponse;
 import com.lms.domain.city.dto.response.UpdateCityResponse;
+import com.lms.domain.village.dto.response.CreateVillageResponse;
 
 import java.util.List;
 
@@ -63,5 +64,26 @@ public class CityOutputView {
         System.out.println("╚══════════════════════════════════════════════════════════════╝");
         System.out.printf("  [ 시스템 ] 행정 코드 [ %d ] 도시의 상태가 [ %s ](으)로 변경되었습니다.\n", cityId, statusText);
         System.out.println("────────────────────────────────────────────────────────────────\n");
+    }
+
+    public void displayVillageList(List<CreateVillageResponse> villageList) {
+        System.out.println("\n  [ 🗺️ 전 지역 마을 통합 관리 명부 ]");
+        System.out.println("──────────────────────────────────────────────────────────");
+        System.out.println("  [ ID ] |      [ 마을 이름 ]      | [ 초대 코드 ]");
+        System.out.println("──────────────────────────────────────────────────────────");
+
+        if (villageList.isEmpty()) {
+            System.out.println("            현재 개척된 마을이 하나도 없습니다.             ");
+        } else {
+            for (CreateVillageResponse village : villageList) {
+                // 🌟 3가지 필드에 최적화된 printf 정렬
+                System.out.printf("   %-5d | %-20s | %-12s\n",
+                        village.getVillageId(),
+                        village.getVillageName(),
+                        village.getInviteCode()
+                );
+            }
+        }
+        System.out.println("──────────────────────────────────────────────────────────");
     }
 }

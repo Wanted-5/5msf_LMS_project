@@ -2,12 +2,16 @@ package com.lms.domain.enrollment.service;
 
 import com.lms.domain.enrollment.dao.EnrollmentDAO;
 import com.lms.domain.enrollment.dto.EnrollmentDTO;
+import com.lms.domain.enrollment.dto.EnrollmentStatus;
 import com.lms.domain.enrollment.dto.Response.ApprovedEnrollmentResponse;
 import com.lms.domain.enrollment.dto.Response.EnterVillageResponse;
 import com.lms.domain.enrollment.dto.Response.VerifyInviteCodeResponse;
 import com.lms.domain.enrollment.dto.Response.WaitingEnrollmentResponse;
 import com.lms.domain.users.dao.UserDAO;
+import com.lms.domain.users.dto.UserDTO;
+import com.lms.domain.users.dto.UserRole;
 import com.lms.domain.village.dto.VillageDTO;
+import com.lms.global.common.UserSession;
 import com.lms.global.util.QueryUtil;
 
 import java.sql.Connection;
@@ -46,7 +50,13 @@ public class EnrollmentService {
 
     public void submitEnrollment(long currentUserId, long villageId) {
         try {
-            enrollmentDAO.insertIntoEnrollment(currentUserId, villageId);
+
+            UserDTO user = userDAO.findById(currentUserId);
+
+            EnrollmentStatus initialStatus = (user.getRole() == UserRole.INSTRUCTOR ||
+                    user.getRole() == UserRole.ADMIN) ? EnrollmentStatus.APPROVED : EnrollmentStatus.WAITING;
+
+            enrollmentDAO.insertIntoEnrollment(currentUserId, villageId, initialStatus);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -146,6 +156,23 @@ public class EnrollmentService {
             enrollmentDAO.expelEnrollment(villageId, enrollmentId);
         } catch (SQLException e) {
             throw new RuntimeException("추방 처리 중 DB 오류", e);
+        }
+    }
+
+    public void enterVillageByAdmin(long villageId) {
+        long currentUserId = UserSession.getLoggedInUser().getUserId(); //
+
+        try {
+            // 특정 마을 입장 여부 확인
+            EnrollmentDTO existing = enrollmentDAO.findByUserIdAndVillageId(currentUserId, villageId);
+
+            if (existing == null) {
+                // APPROVED로 즉시 가입
+                enrollmentDAO.insertIntoEnrollment(currentUserId, villageId, EnrollmentStatus.APPROVED);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("[Service Error] 관리자 직권 입장 처리 중 오류 발생", e);
         }
     }
 }

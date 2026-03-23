@@ -159,6 +159,17 @@ public class UserDAO {
         return null;
     }
 
+    // 권한 승격 로직
+    public int updateRoleToInstructor(String username) throws SQLException {
+        String query = QueryUtil.getQuery("users.updateRole");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, username);
+
+            return pstmt.executeUpdate();
+        }
+    }
+
 
     // ---------- 내부 편의 메서드 ----------------
     private UserDTO convertToDTO(ResultSet rs) throws SQLException {

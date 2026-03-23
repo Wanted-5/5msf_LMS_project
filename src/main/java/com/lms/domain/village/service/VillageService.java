@@ -10,6 +10,8 @@ import com.lms.domain.village.dto.response.CreateVillageResponse;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VillageService {
 
@@ -84,6 +86,27 @@ public class VillageService {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public List<CreateVillageResponse> findAllVillages() {
+        try {
+            List<VillageDTO> villageDTOList = villageDAO.findAllVillages();
+
+            List<CreateVillageResponse> responses = new ArrayList<>();
+
+            for (VillageDTO dto : villageDTOList) {
+                responses.add(new CreateVillageResponse(
+                        dto.getVillageId(),
+                        dto.getVillageName(),
+                        dto.getInviteCode()
+                ));
+            }
+
+            return responses;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("[Service Error] 전체 마을 목록을 조회하는 중 오류가 발생했습니다.", e);
         }
     }
 }

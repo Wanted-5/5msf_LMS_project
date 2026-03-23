@@ -35,4 +35,8 @@
         SELECT nickname FROM Users WHERE user_id = ?
     </query>
 
+    <query key="usres.updateRole">
+        UPDATE Users SET role = 'INSTRUCTOR' WHERE username = ?
+    </query>
+
 </properties>

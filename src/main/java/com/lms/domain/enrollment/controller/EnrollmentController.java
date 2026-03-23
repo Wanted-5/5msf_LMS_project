@@ -63,4 +63,8 @@ public class EnrollmentController {
     public void expelEnrollment(long villageId, long enrollmentId) {
         service.expelEnrollment(villageId, enrollmentId);
     }
+
+    public void enterVillageByAdmin(long villageId) {
+        service.enterVillageByAdmin(villageId);
+    }
 }

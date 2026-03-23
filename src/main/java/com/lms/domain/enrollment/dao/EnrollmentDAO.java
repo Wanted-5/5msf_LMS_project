@@ -49,14 +49,14 @@ public class EnrollmentDAO {
         return null;
     }
 
-    public void insertIntoEnrollment(long currentUserId, long villageId) throws SQLException {
+    public void insertIntoEnrollment(long currentUserId, long villageId, EnrollmentStatus status) throws SQLException {
 
         String query = QueryUtil.getQuery("enrollment.insert");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1, villageId);
             pstmt.setLong(2, currentUserId);
-            pstmt.setString(3, String.valueOf(EnrollmentStatus.WAITING));
+            pstmt.setString(3, status.name());
 
             int rest = pstmt.executeUpdate();
 
@@ -114,7 +114,7 @@ public class EnrollmentDAO {
         return waitingVillageResponseList;
     }
 
-    // 특정 마을 승인된 유저 조회
+    // 특정 마을 승인 유저 조회
     public boolean checkApprovedEnrollment(long currentUserId, long villageId) throws SQLException {
 
         String query = QueryUtil.getQuery("enrollment.checkApprovedStatus");
@@ -225,6 +225,36 @@ public class EnrollmentDAO {
                 throw new SQLException("[expelEnrollment error] 거절 실패");
             }
             return updatedRows;
+        }
+    }
+
+    // 특정 유저의 특정 마을 신청 내역을 조회합니다.
+    public EnrollmentDTO findByUserIdAndVillageId(long userId, long villageId) throws SQLException {
+        String query = QueryUtil.getQuery("enrollment.findByUserIdAndVillageId");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, userId);
+            pstmt.setLong(2, villageId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    // 이전에 만들어둔 DTO 변환 메서드를 활용합니다.
+                    return convertToDTO(rs);
+                }
+            }
+        }
+        return null; // 내역이 없으면 null 반환
+    }
+
+    // 강사 권한 업데이트
+    public int updateStatus(long enrollmentId, EnrollmentStatus status) throws SQLException {
+        String query = QueryUtil.getQuery("enrollment.updateStatus");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, status.name());
+            pstmt.setLong(2, enrollmentId);
+
+            return pstmt.executeUpdate();
         }
     }
 

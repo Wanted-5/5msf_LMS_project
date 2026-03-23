@@ -5,6 +5,8 @@ import com.lms.domain.village.dto.request.CreateVillageRequest;
 import com.lms.domain.village.dto.response.CreateVillageResponse;
 import com.lms.domain.village.service.VillageService;
 
+import java.util.List;
+
 public class VillageController {
 
     private final VillageService villageService;
@@ -25,5 +27,9 @@ public class VillageController {
 
     public CreateVillageResponse createVillageProcess(CreateVillageRequest request) throws Exception{
         return villageService.createVillage(request);
+    }
+
+    public List<CreateVillageResponse> findAllVillages() {
+        return villageService.findAllVillages();
     }
 }

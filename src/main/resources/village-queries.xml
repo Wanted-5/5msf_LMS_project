@@ -14,4 +14,8 @@
         WHERE invite_code = ?
     </query>
 
+    <query key="village.findAll">
+        SELECT * FROM Village
+    </query>
+
 </properties>

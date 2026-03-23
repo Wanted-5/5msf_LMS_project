@@ -59,6 +59,18 @@
         AND enrollment_id = ?
     </query>
 
+    <query key="enrollment.findByUserIdAndVillageId">
+        SELECT * FROM enrollment
+        WHERE user_id = ? AND village_id = ?
+    </query>
+
+    <query key="enrollment.updateStatus">
+        UPDATE enrollment
+        SET status = ?
+        WHERE enrollment_id = ?
+    </query>
+
+
     <query key="enrollment.findApprovedVillagesByUserId">
         SELECT
             v.village_id, v.village_name, e.status, e.applied_at

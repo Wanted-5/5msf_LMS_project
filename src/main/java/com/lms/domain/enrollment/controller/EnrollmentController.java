@@ -27,4 +27,8 @@ public class EnrollmentController {
     public List<EnterVillageResponse> getApprovedVillages(long currentUserId) {
         return service.getApprovedVillages(currentUserId);
     }
+
+    public List<EnterVillageResponse> getWaitingVillage(long currentUserId) throws Exception {
+        return service.getWaitingVillages(currentUserId);
+    }
 }

@@ -52,4 +52,16 @@ public class EnrollmentService {
             throw new RuntimeException("[DB error] 승인된 마을 목록을 조회하는 중 문제가 발생했습니다.", e);
         }
     }
+
+    public List<EnterVillageResponse> getWaitingVillages(long currentUserId) {
+
+        try {
+            List<EnterVillageResponse> responseList = enrollmentDAO.findWaitingVillageByUserId(currentUserId);
+
+            return responseList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("[DB error] 마을 목록을 조회하는 중 문제가 발생했습니다.", e);
+        }
+    }
 }

@@ -84,6 +84,30 @@ public class EnrollmentDAO {
         return enterVillageList;
     }
 
+    public List<EnterVillageResponse> findWaitingVillageByUserId(long currentUserId) throws SQLException {
+
+        List<EnterVillageResponse> waitingVillageResponseList = new ArrayList<>();
+
+        String query = QueryUtil.getQuery("enrollment.findWaitingVillagesByUserId");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, currentUserId);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                waitingVillageResponseList.add(new EnterVillageResponse(
+                        rs.getLong("village_id"),
+                        rs.getString("village_name"),
+                        EnrollmentStatus.valueOf(rs.getString("status")),
+                        rs.getTimestamp("applied_at").toLocalDateTime()
+                ));
+
+            }
+        }
+        return waitingVillageResponseList;
+    }
+
 
     // ======================= 내부 편의 메서드 =============================
     private EnrollmentDTO convertToDTO(ResultSet rs) throws SQLException {

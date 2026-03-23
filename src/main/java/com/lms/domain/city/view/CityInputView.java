@@ -44,7 +44,7 @@ public class CityInputView {
             System.out.println("      [ 3 ] 도시 정보 재건축");
             System.out.println("      [ 4 ] 도시 상태 변경 (활성화 ↔ 비활성화 토글)");
             System.out.println("      [ 5 ] 신규 마을 개척 (생성)");
-            System.out.println("      [ 5 ] 관할 마을 현장 시찰 (마을 입장)");
+            System.out.println("      [ 6 ] 관할 마을 현장 시찰 (마을 입장)");
             System.out.println("      [ 0 ] 관리자 시스템 로그아웃");
             System.out.println("────────────────────────────────────────────────────────────────");
             System.out.print("  ▶ 원하시는 행정 업무의 번호를 입력해주세요 : ");

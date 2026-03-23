@@ -192,6 +192,9 @@ public class EnrollmentInputView {
 //                return;
 //            }
 
+            //TODO : 권한별로 village메인뷰로 옮겨주기.
+
+
             System.out.println("\n  [ 시스템 ] 짐을 챙기세요! " + villageId + "번 마을로 안전하게 이동합니다... 🚀");
 
             AppContext.getAppContext().villageAppContext.villageInputView.displayStudentMainMenu(villageId);

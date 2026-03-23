@@ -1,5 +1,7 @@
 package com.lms.domain.section.view;
 
+import com.lms.domain.learning.dto.LearningDTO;
+import com.lms.domain.learning.dto.reseponse.LearningSectionResponse;
 import com.lms.domain.section.dto.response.SectionDetailResponse;
 import com.lms.domain.section.dto.response.SectionListResponse;
 
@@ -48,20 +50,22 @@ public class SectionOutputView {
         System.out.println("────────────────────────────────────────────────────────────────");
     }
 
-    public void printSectionList(List<SectionListResponse> list) {
-        if (list == null || list.isEmpty()) {
-            System.out.println("조회된 강의가 없습니다.");
-            return;
+    public void displaySectionsByStatus(List<LearningSectionResponse> list, String statusDisplayName) {
+
+        System.out.println("────────────────────────────────────────────────────────────────");
+        System.out.println("  📌 현재 조회 상태 : " + statusDisplayName);
+        System.out.println("────────────────────────────────────────────────────────────────");
+
+        // 🌟 복잡한 로직(if, match 등)은 1도 없습니다. 그저 리스트를 순회하며 출력할 뿐!
+        for (LearningSectionResponse response : list) {
+            System.out.printf("  ▶ %2d번. [ %2d주차 ] %s\n",
+                    response.getSectionId(),
+                    response.getChapNo(),
+                    response.getSectionName()
+            );
         }
 
-        for (SectionListResponse section : list) {
-            System.out.println("--------------------------------");
-            System.out.println("강의번호(section_id): " + section.getSectionId());
-            System.out.println("주차(chap_no): " + section.getChapNo());
-            System.out.println("강의명: " + section.getSectionName());
-            System.out.println("상태: " + section.getStatus());
-        }
-        System.out.println("--------------------------------");
+        System.out.println("────────────────────────────────────────────────────────────────\n");
     }
 
 

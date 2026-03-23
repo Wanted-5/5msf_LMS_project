@@ -22,6 +22,7 @@ public class QueryUtil {
             "village-queries.xml",
             "enrollment-queries.xml",
             "section-queries.xml",
+            "learning-queries.xml",
             "Attend-querys.xml",
             "Comment-querys.xml",
             "quiz-queries.xml",

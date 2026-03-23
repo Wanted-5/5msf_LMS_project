@@ -97,7 +97,13 @@ public class MafiaDTO {
         this.createdAt = createdAt;
     }
 
-
+    @Override
+    public String toString() {
+        return "MafiaDTO{" +
+                "userId=" + userId +
+                ", villageId=" + villageId +
+                '}';
+    }
 
     public void setSelectedDate(LocalDate now) {
 

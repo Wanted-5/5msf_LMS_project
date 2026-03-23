@@ -48,6 +48,7 @@ public class MafiaService {
     // 마피아 뽑기
     public MafiaDTO selectMafia(int villageId) {
 
+
         try {
 
             List<MafiaDTO> list = mafiaDAO.selectMafia(villageId);

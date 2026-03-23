@@ -161,6 +161,25 @@ public class SectionDAO {
         return list;
     }
 
+    //comment, 강사 기능
+
+    public int insertSection(Connection con, long villageId, long userId, int chapNo,
+                             String sectionName, String content, String videoUrl) throws SQLException {
+
+        String sql = QueryUtil.getQuery("section.insertSection");
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setLong(1, villageId);
+            pstmt.setLong(2, userId);
+            pstmt.setInt(3, chapNo);
+            pstmt.setString(4, sectionName);
+            pstmt.setString(5, content);
+            pstmt.setString(6, videoUrl);
+
+            return pstmt.executeUpdate();
+        }
+    }
+
     // =================== 내부 편의 메서드 ===============
     private SectionDTO convertToDTO(ResultSet rs) throws SQLException {
         return new SectionDTO(

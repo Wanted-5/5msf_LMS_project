@@ -29,6 +29,7 @@ public class SectionInputView {
     // 현재 실행 중인 동안만 완료 강의 저장
     private final Set<Long> completedSectionIds = new HashSet<>();
 
+    // 학생용 메뉴
     public void displayStudentSectionMenu(long villageId) {
         while (true) {
             System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
@@ -58,7 +59,7 @@ public class SectionInputView {
                     break;
                 case "3":
                     System.out.println("\n  [ 시스템 ] ✅ 완료된 학습 기록을 조회합니다...");
-                    // TODO: controller.showCompletedSections(villageId);
+                    showCompletedSections(villageId);
                     break;
                 case "0":
                     System.out.println("\n  [ 시스템 ] 교육센터에서 퇴장하여 마을 광장으로 돌아갑니다.");
@@ -153,7 +154,115 @@ public class SectionInputView {
         } catch (Exception e) {
             sectionOutputView.displayFailure(e.getMessage());
         }
+    }
 
+    // TODO : 3번 완료한 학습 목록 보기, 리펙토링하기
+    private void showCompletedSections(long villageId) {
+        System.out.println("\n=== 완료한 학습 목록 보기 ===");
+
+        try {
+            List<SectionListResponse> sectionList = sectionController.displayAllSections(villageId);
+
+            if (sectionList == null || sectionList.isEmpty()) {
+                System.out.println("[시스템] 현재 등록된 강의가 없습니다.");
+                return;
+            }
+
+            boolean found = false;
+
+            for (SectionListResponse section : sectionList) {
+                if (completedSectionIds.contains(section.getSectionId())) {
+                    System.out.println(section.getSectionId() + ". ["
+                            + section.getChapNo() + "주차] "
+                            + section.getSectionName());
+                    found = true;
+                }
+            }
+
+            if (!found) {
+                System.out.println("[시스템] 완료한 학습이 없습니다.");
+            }
+
+        } catch (Exception e) {
+            System.out.println("[시스템] 완료 강의 조회 중 오류가 발생했습니다.");
+            System.out.println(e.getMessage());
+        }
+    }
+
+    // comment, 강사용 메뉴 시작
+
+    // 강사용 메뉴
+    public void displayInstructorSectionMenu(long villageId, Long userId) {
+        while (true) {
+            System.out.println("\n=== 교육센터 관리 ===");
+            System.out.println("1. 전체 강의 보기");
+            System.out.println("2. 학습 시작하기");
+            System.out.println("3. 완료한 학습 목록 보기");
+            System.out.println("4. 신규 섹션 업로드");
+            System.out.println("5. 메인페이지로 돌아가기");
+            System.out.print("번호 입력 : ");
+
+            String choice = sc.nextLine().trim();
+
+            switch (choice) {
+                case "1":
+                    showAllSectionsProcess(villageId);
+                    break;
+                case "2":
+                    startLearning(villageId);
+                    break;
+                case "3":
+                    showCompletedSections(villageId);
+                    break;
+                case "4":
+                    createSectionProcess(villageId, userId);
+                    break;
+                case "5":
+                    return;
+                default:
+                    System.out.println("[시스템] 올바른 메뉴 번호를 입력해주세요.");
+            }
+        }
+    }
+
+    // 강사 - 섹션 등록
+    private void createSectionProcess(long villageId, Long userId) {
+        try {
+            System.out.println("\n=== 새로운 강의(섹션) 업로드 ===");
+
+            System.out.print("주차(chap_no) 입력 : ");
+            int chapNo = Integer.parseInt(sc.nextLine().trim());
+
+            System.out.print("강의 제목(section_name) 입력 : ");
+            String sectionName = sc.nextLine().trim();
+
+            System.out.print("강의 내용(content) 입력 : ");
+            String content = sc.nextLine().trim();
+
+            System.out.print("영상 링크(video_url) 입력 (선택) : ");
+            String videoUrl = sc.nextLine().trim();
+
+            if (videoUrl.isBlank()) {
+                videoUrl = null;
+            }
+
+            sectionController.createSection(
+                    villageId,
+                    userId,
+                    chapNo,
+                    sectionName,
+                    content,
+                    videoUrl
+            );
+
+            System.out.println("[시스템] 새로운 강의가 성공적으로 업로드되었습니다.");
+
+        } catch (NumberFormatException e) {
+            System.out.println("[시스템] 주차(chap_no)는 숫자로 입력하세요.");
+        } catch (Exception e) {
+            System.out.println("[시스템] 섹션 등록 중 오류가 발생했습니다.");
+            System.out.println(e.getMessage());
+        }
     }
 
 
@@ -174,27 +283,6 @@ public class SectionInputView {
 
         System.out.println("]");
     }
-    private void showCompletedSections(long villageId) {
-//        showAllSectionsProcess(villageId);
-//
-//        boolean found = false;
-//
-//        System.out.println("\n=== 완료한 학습 목록 ===");
-//        for (SectionDTO section : sections) {
-//            if (completedSectionIds.contains(section.getSectionId())) {
-//                System.out.println(section.getSectionId() + ". ["
-//                        + section.getChapNo() + "주차] "
-//                        + section.getSectionName());
-//                found = true;
-//            }
-//        }
-//
-//        if (!found) {
-//            System.out.println("완료한 학습이 없습니다.");
-//        }
-//    }
-//
 
-    }
 }
 

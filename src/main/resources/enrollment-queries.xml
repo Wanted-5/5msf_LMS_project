@@ -32,4 +32,66 @@
         ORDER BY
         e.applied_at DESC
     </query>
+
+    <query key="enrollment.findWaitingByVillageId">
+        SELECT e.enrollment_id,
+        e.village_id,
+        e.user_id,
+        u.username,
+        e.status,
+        e.applied_at
+        FROM enrollment e
+        JOIN users u ON e.user_id = u.user_id
+        WHERE e.village_id = ?
+        AND e.status = 'WAITING'
+        ORDER BY e.applied_at ASC
+    </query>
+
+    <query key="enrollment.findApprovedByVillageId">
+        SELECT e.enrollment_id,
+        e.village_id,
+        e.user_id,
+        u.username,
+        e.status,
+        e.applied_at
+        FROM enrollment e
+        JOIN users u ON e.user_id = u.user_id
+        WHERE e.village_id = ?
+        AND e.status = 'APPROVED'
+        ORDER BY e.applied_at ASC
+    </query>
+
+    <query key="enrollment.findManageTargetById">
+        SELECT e.enrollment_id,
+        e.village_id,
+        e.user_id,
+        u.username,
+        e.status,
+        e.applied_at
+        FROM enrollment e
+        JOIN users u ON e.user_id = u.user_id
+        WHERE e.village_id = ?
+        AND e.enrollment_id = ?
+    </query>
+
+    <query key="enrollment.approve">
+        UPDATE enrollment
+        SET status = 'APPROVED'
+        WHERE village_id = ?
+        AND enrollment_id = ?
+    </query>
+
+    <query key="enrollment.reject">
+        UPDATE enrollment
+        SET status = 'REJECTED'
+        WHERE village_id = ?
+        AND enrollment_id = ?
+    </query>
+
+    <query key="enrollment.expel">
+        UPDATE enrollment
+        SET status = 'EXPELLED'
+        WHERE village_id = ?
+        AND enrollment_id = ?
+    </query>
 </properties>

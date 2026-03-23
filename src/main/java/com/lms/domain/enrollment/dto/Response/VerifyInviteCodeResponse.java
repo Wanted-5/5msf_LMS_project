@@ -2,6 +2,7 @@ package com.lms.domain.enrollment.dto.Response;
 
 import java.time.LocalDate;
 
+// 입장 코드 일치 조회 후, 마을 정보 보여주는 Response
 public class VerifyInviteCodeResponse {
     private final long villageId;
     private final String villageName;

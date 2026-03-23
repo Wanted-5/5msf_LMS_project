@@ -1,5 +1,6 @@
 package com.lms.domain.enrollment.controller;
 
+import com.lms.domain.enrollment.dto.Response.ApprovedEnrollmentResponse;
 import com.lms.domain.enrollment.dto.Response.EnterVillageResponse;
 import com.lms.domain.enrollment.dto.Response.VerifyInviteCodeResponse;
 import com.lms.domain.enrollment.dto.Response.WaitingEnrollmentResponse;
@@ -47,12 +48,8 @@ public class EnrollmentController {
         return service.findWaitingEnrollmentList(villageId);
     }
 
-    public List<Map<String, Object>> findApprovedEnrollmentList(long villageId) {
+    public List<ApprovedEnrollmentResponse> findApprovedEnrollmentList(long villageId) {
         return service.findApprovedEnrollmentList(villageId);
-    }
-
-    public Map<String, Object> findEnrollmentManageTarget(long villageId, long enrollmentId) {
-        return service.findEnrollmentManageTarget(villageId, enrollmentId);
     }
 
     public void approveEnrollment(long villageId, long enrollmentId) {

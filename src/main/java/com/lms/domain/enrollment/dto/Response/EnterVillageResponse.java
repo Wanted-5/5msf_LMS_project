@@ -5,6 +5,7 @@ import com.lms.domain.enrollment.dto.EnrollmentStatus;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+// 특정 마을의 id, 이름, 입장 상태, 신청 시간을 담는 Response
 public class EnterVillageResponse {
     private Long villageId;
     private String villageName;

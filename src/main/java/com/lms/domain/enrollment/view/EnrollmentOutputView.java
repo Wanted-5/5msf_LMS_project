@@ -1,5 +1,6 @@
 package com.lms.domain.enrollment.view;
 
+import com.lms.domain.enrollment.dto.Response.ApprovedEnrollmentResponse;
 import com.lms.domain.enrollment.dto.Response.EnterVillageResponse;
 import com.lms.domain.enrollment.dto.Response.WaitingEnrollmentResponse;
 
@@ -66,21 +67,31 @@ public class EnrollmentOutputView {
             }
     }
 
-    public void printEnrollmentList(List<Map<String, Object>> list) {
-        if (list == null || list.isEmpty()) {
-            System.out.println("조회된 대상이 없습니다.");
-            return;
-        }
+    public void displayApprovedEnrollments(List<ApprovedEnrollmentResponse> list) {
+        System.out.println("\n  [ 🏡 마을 주민 목록 (승인 완료) ]");
+        System.out.println("────────────────────────────────────────────────────────────────");
+        System.out.println("  [ 수강번호 ] |    [ 성함 ]    |  [ 상태 ]  |      [ 최종 업데이트 ]");
+        System.out.println("────────────────────────────────────────────────────────────────");
 
-        for (Map<String, Object> row : list) {
-            System.out.println("--------------------------------");
-            System.out.println("신청번호(enrollment_id): " + row.get("enrollmentId"));
-            System.out.println("학생번호(user_id): " + row.get("userId"));
-            System.out.println("학생이름: " + row.get("userName"));
-            System.out.println("상태: " + row.get("status"));
-            System.out.println("신청일시: " + row.get("appliedAt"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        if (list.isEmpty()) {
+            System.out.println("                현재 마을에 승인된 수강생이 없습니다.           ");
+        } else {
+            for (ApprovedEnrollmentResponse response : list) {
+                String dateStr = response.getEnrolledAt() != null
+                        ? response.getEnrolledAt().format(formatter)
+                        : "기록 없음";
+
+                System.out.printf("   No.%-7d | %-12s | %-8s | %s\n",
+                        response.getEnrollmentId(),
+                        response.getName(),
+                        response.getStatus(),
+                        dateStr
+                );
+            }
         }
-        System.out.println("--------------------------------");
+        System.out.println("────────────────────────────────────────────────────────────────");
     }
 
     public void displayWaitingEnrollments(List<WaitingEnrollmentResponse> list) {

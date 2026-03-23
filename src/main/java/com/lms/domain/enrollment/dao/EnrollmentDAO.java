@@ -2,6 +2,7 @@ package com.lms.domain.enrollment.dao;
 
 import com.lms.domain.enrollment.dto.EnrollmentDTO;
 import com.lms.domain.enrollment.dto.EnrollmentStatus;
+import com.lms.domain.enrollment.dto.Response.ApprovedEnrollmentResponse;
 import com.lms.domain.enrollment.dto.Response.EnterVillageResponse;
 import com.lms.domain.enrollment.dto.Response.VerifyInviteCodeResponse;
 import com.lms.domain.enrollment.dto.Response.WaitingEnrollmentResponse;
@@ -64,7 +65,7 @@ public class EnrollmentDAO {
             }
         }
     }
-
+    // [조회] 현재 학생이 가입 '승인(APPROVED)'된 마을 목록만 찾기
     public List<EnterVillageResponse> findActiveVillageByUserId(long currentUserId) throws SQLException {
 
         List<EnterVillageResponse> enterVillageList = new ArrayList<>();
@@ -88,6 +89,7 @@ public class EnrollmentDAO {
         return enterVillageList;
     }
 
+    // 특정 마을 대기 인원 조회
     public List<EnterVillageResponse> findWaitingVillageByUserId(long currentUserId) throws SQLException {
 
         List<EnterVillageResponse> waitingVillageResponseList = new ArrayList<>();
@@ -112,6 +114,7 @@ public class EnrollmentDAO {
         return waitingVillageResponseList;
     }
 
+    // 특정 마을 승인된 유저 조회
     public boolean checkApprovedEnrollment(long currentUserId, long villageId) throws SQLException {
 
         String query = QueryUtil.getQuery("enrollment.checkApprovedStatus");
@@ -129,9 +132,10 @@ public class EnrollmentDAO {
         return false;
     }
 
-    //comment, 정현이 코드
+    //comment, 정현이 코드 리펙토링 OK
     // ===== 강사용 수강생 관리 기능 추가 =====
 
+    // 대기 상태인 학생들 전체 조회 기능
     public List<WaitingEnrollmentResponse> findWaitingEnrollmentList(long villageId) throws SQLException {
         List<WaitingEnrollmentResponse> waitingResponseList = new ArrayList<>();
         String query = QueryUtil.getQuery("enrollment.findWaitingResponseByVillageId");
@@ -157,8 +161,9 @@ public class EnrollmentDAO {
         return waitingResponseList;
     }
 
-    public List<Map<String, Object>> findApprovedEnrollmentList(long villageId) throws SQLException {
-        List<Map<String, Object>> list = new ArrayList<>();
+    // 특정 마을의 승인된 유저만 조회하는 기능
+    public List<EnrollmentDTO> findApprovedEnrollmentList(long villageId) throws SQLException {
+        List<EnrollmentDTO> enrollmentDTOList = new ArrayList<>();
         String query = QueryUtil.getQuery("enrollment.findApprovedByVillageId");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -166,30 +171,15 @@ public class EnrollmentDAO {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    list.add(convertJoinRowToMap(rs));
+                    enrollmentDTOList.add(convertToDTO(rs));
                 }
             }
         }
-        return list;
+        return enrollmentDTOList;
     }
 
-    public Map<String, Object> findEnrollmentManageTarget(long villageId, long enrollmentId) throws SQLException {
-        String query = QueryUtil.getQuery("enrollment.findManageTargetById");
-
-        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setLong(1, villageId);
-            pstmt.setLong(2, enrollmentId);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    return convertJoinRowToMap(rs);
-                }
-            }
-        }
-        return null;
-    }
-
-    public void approveEnrollment(long villageId, long enrollmentId) throws SQLException {
+    // 승인 기능
+    public int approveEnrollment(long villageId, long enrollmentId) throws SQLException {
         String query = QueryUtil.getQuery("enrollment.approve");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -199,47 +189,44 @@ public class EnrollmentDAO {
 
             if (updatedRows == 0) {
                 throw new SQLException("[approveEnrollment error] 승인으로 변경 실패");
-            } else {
-                System.out.println("🎉 승인 성공");
             }
+            return updatedRows;
         }
     }
 
+    // 거절 기능
     public int rejectEnrollment(long villageId, long enrollmentId) throws SQLException {
         String query = QueryUtil.getQuery("enrollment.reject");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1, villageId);
             pstmt.setLong(2, enrollmentId);
-            return pstmt.executeUpdate();
+
+            int updatedRows = pstmt.executeUpdate();
+
+            if (updatedRows == 0) {
+                throw new SQLException("[rejectEnrollment error] 거절 실패");
+            }
+            return updatedRows;
         }
     }
 
+    // 추방 기능
     public int expelEnrollment(long villageId, long enrollmentId) throws SQLException {
         String query = QueryUtil.getQuery("enrollment.expel");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1, villageId);
             pstmt.setLong(2, enrollmentId);
-            return pstmt.executeUpdate();
+
+            int updatedRows = pstmt.executeUpdate();
+
+            if (updatedRows == 0) {
+                throw new SQLException("[expelEnrollment error] 거절 실패");
+            }
+            return updatedRows;
         }
     }
-
-    private Map<String, Object> convertJoinRowToMap(ResultSet rs) throws SQLException {
-        Map<String, Object> row = new HashMap<>();
-
-        Timestamp appliedAt = rs.getTimestamp("applied_at");
-
-        row.put("enrollmentId", rs.getLong("enrollment_id"));
-        row.put("villageId", rs.getLong("village_id"));
-        row.put("userId", rs.getLong("user_id"));
-        row.put("userName", rs.getString("username"));
-        row.put("status", rs.getString("status"));
-        row.put("appliedAt", appliedAt != null ? appliedAt.toLocalDateTime() : null);
-
-        return row;
-    }
-
 
     // ======================= 내부 편의 메서드 =============================
     private EnrollmentDTO convertToDTO(ResultSet rs) throws SQLException {

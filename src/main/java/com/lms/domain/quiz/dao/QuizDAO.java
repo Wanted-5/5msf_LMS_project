@@ -18,20 +18,22 @@ public class QuizDAO {
         this.connection = connection;
     }
 
-    // 모든 퀴즈 조회
-    public List<QuizDTO> findAll() throws SQLException {
+    // 모든 퀴즈 조회 v, 추가
+    public List<QuizDTO> findAllByVillageId(long villageId) throws SQLException {
 
-        String query = QueryUtil.getQuery("quiz.findAll");
+        String query = QueryUtil.getQuery("quiz.findAllByVillageId");
         List<QuizDTO> quizList = new ArrayList<>();
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, villageId);
             ResultSet rset = pstmt.executeQuery();
 
             while(rset.next()) {
                 QuizDTO quiz = new QuizDTO(
                         rset.getString("content"),
                         rset.getString("quiz_title"),
-                        rset.getLong("quiz_Id")
+                        rset.getLong("quiz_Id"),
+                        rset.getLong("village_id")
                 );
 
                 quizList.add(quiz);
@@ -41,14 +43,14 @@ public class QuizDAO {
         return quizList;
     }
 
-    // 퀴즈 상세 조회
-    public QuizDTO findByQuizId(long quizId) throws SQLException {
+    // 퀴즈 상세 조회, v 추가
+    public QuizDTO findByQuizId(long quizId, long villageId) throws SQLException {
 
         String query = QueryUtil.getQuery("quiz.findById");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-
             pstmt.setLong(1,quizId);
+            pstmt.setLong(2, villageId);
 
             ResultSet rset = pstmt.executeQuery();
 
@@ -56,7 +58,8 @@ public class QuizDAO {
                 return new QuizDTO(
                         rset.getString("content"),
                         rset.getString("quiz_title"),
-                        rset.getLong("quiz_Id")
+                        rset.getLong("quiz_Id"),
+                        rset.getLong("village_id")
                 );
 
             }
@@ -75,9 +78,11 @@ public class QuizDAO {
             pstmt.setObject(2, quiz.getUserId());
             //null 값은 Object로
             pstmt.setObject(3, quiz.getMafiaId());
-            pstmt.setString(4, quiz.getTitle());
-            pstmt.setString(5, quiz.getContent());
-            pstmt.setString(6, quiz.getAnswer());
+            // 🌟 [추가] INSERT 쿼리의 4번째 '?' 인 village_id 바인딩
+            pstmt.setLong(4, quiz.getVillageId());
+            pstmt.setString(5, quiz.getTitle());
+            pstmt.setString(6, quiz.getContent());
+            pstmt.setString(7, quiz.getAnswer());
 
             pstmt.executeUpdate();
 
@@ -102,33 +107,42 @@ public class QuizDAO {
         return 1L;
     }
 
-    // 마피아가 퀴즈 삭제
-    public Long deleteByMafia(Long quiz, Long userId) throws SQLException {
+    // 마피아가 퀴즈 삭제, v 추가
+    public int deleteByMafia(Long quiz, Long userId, long villageId) throws SQLException {
 
         String query = QueryUtil.getQuery("quiz.deleteByMafia");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1,quiz);
-            pstmt.setLong(2,userId);
-            pstmt.executeUpdate();
+            pstmt.setLong(2, villageId);
+            pstmt.setLong(3,userId);
+            pstmt.setLong(4, villageId);
+
+            int rs = pstmt.executeUpdate();
+
+            if(rs == 0) {
+                throw new RuntimeException("본인이 작성한 퀴즈만 삭제 할 수 있습니다");
+            }
+            return rs;
         }
-        return 0L;
     }
 
 
-    // 강사가 삭제
-    public Long deleteByInstructorAndAdmin(Long quiz) throws SQLException {
+    // 강사가 삭제 v, 추가 완
+    public int deleteByInstructorAndAdmin(Long quiz, long villageId) throws SQLException {
 
         String query = QueryUtil.getQuery("quiz.deleteByinstructorAndAdmin");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setLong(1,quiz);
-            pstmt.executeUpdate();
+            pstmt.setLong(1, quiz);
+            pstmt.setLong(2, villageId);
+            int rs = pstmt.executeUpdate();
+            return rs;
         }
-        return 0L;
     }
 
-    public int updateQuizByMafia(Long quizId, String title, String content, String answer,Long userId) throws SQLException {
+    // 🌟 [수정] 파라미터에 long villageId 추가
+    public int updateQuizByMafia(Long quizId, String title, String content, String answer, Long userId, long villageId) throws SQLException {
 
         String query = QueryUtil.getQuery("quiz.updateByMafia");
 
@@ -137,7 +151,11 @@ public class QuizDAO {
             pstmt.setString(2, content);
             pstmt.setString(3, answer);
             pstmt.setLong(4, quizId);
-            pstmt.setLong(5, userId);
+            // 🌟 [추가] 쿼리 메인 조건의 village_id
+            pstmt.setLong(5, villageId);
+            pstmt.setLong(6, userId);
+            // 🌟 [추가] 쿼리 서브쿼리 조건의 village_id
+            pstmt.setLong(7, villageId);
 
             int rs = pstmt.executeUpdate();
 
@@ -148,7 +166,8 @@ public class QuizDAO {
         }
     }
 
-    public int updateQuizByInstructorAndAdmin(Long quizId, String title, String content, String answer) throws SQLException {
+    // 🌟 [수정] 파라미터에 long villageId 추가
+    public int updateQuizByInstructorAndAdmin(Long quizId, String title, String content, String answer, long villageId) throws SQLException {
 
         String query = QueryUtil.getQuery("quiz.updateByInstructorAndAdmin");
 
@@ -157,26 +176,32 @@ public class QuizDAO {
             pstmt.setString(2, content);
             pstmt.setString(3, answer);
             pstmt.setLong(4, quizId);
+            // 🌟 [추가] 쿼리 조건의 village_id
+            pstmt.setLong(5, villageId);
 
             int rs = pstmt.executeUpdate();
 
             if (rs == 0 ) {
-                throw new RuntimeException("본인이 작성한 퀴즈만 수정할 수 있습니다.");
+                throw new RuntimeException("해당 마을의 퀴즈를 수정할 권한이 없거나, 존재하지 않는 퀴즈입니다.");
             }
             return rs;
         }
     }
 
     // 오늘의 퀴즈 있는지 조회
-    public QuizDTO selectTodayQuiz() throws SQLException {
+    public QuizDTO selectTodayQuiz(long villageId) throws SQLException {
         String query = QueryUtil.getQuery("quiz.selectTodayQuiz");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            // 🌟 [추가] 쿼리에 추가된 village_id = ? 바인딩
+            pstmt.setLong(1, villageId);
+
             ResultSet rset = pstmt.executeQuery();
             if (rset.next()) {
                 return new QuizDTO(
                         rset.getLong("quiz_id"),
                         rset.getString("quiz_title"),
+                        rset.getLong("village_id"),
                         rset.getString("content"),
                         rset.getString("answer")
                 );

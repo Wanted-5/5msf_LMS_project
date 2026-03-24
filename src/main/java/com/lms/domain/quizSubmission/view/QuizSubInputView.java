@@ -15,9 +15,9 @@ public class QuizSubInputView {
         this.quizsubOutputView = quizsubOutputView;
     }
 
-    public boolean submitAnswer(String submittedAnswer) {
+    public boolean submitAnswer(String submittedAnswer, long villageId) {
         try {
-            boolean isCorrect = quizsubController.submitAnswer(submittedAnswer);
+            boolean isCorrect = quizsubController.submitAnswer(submittedAnswer, villageId);
             if (isCorrect) {
                 quizsubOutputView.printCorrect();
             } else {

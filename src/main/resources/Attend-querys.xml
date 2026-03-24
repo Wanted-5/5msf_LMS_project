@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <properties>
     <query key="insert_Attend">
-    insert into attendance (attendance_id, village_id, user_id, status, attendance_date)
-    values (?, ?, ?, ?, ?)
+    insert into attendance (village_id, user_id, status, attendance_date)
+    values (?, ?, ?, ?)
     </query>
     <query key="select_Attend">
         SELECT a.*, u.name as user_name

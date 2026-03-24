@@ -26,6 +26,17 @@ public class MafiaController {
         return response;
     }
 
+    public SelectMafiaResponse selectTodayMafiaInfo(long villageId) {
+
+        SelectMafiaResponse todayMafia = mafiaService.selectTodayMafiaInfo(villageId);
+
+        SelectMafiaResponse response = new SelectMafiaResponse(
+                todayMafia.getRealname(),
+                todayMafia.getNickname()
+        );
+        return response;
+    }
+
      //마을 돌면서 마피아 뽑기
     public void selectVillageAll() {
         mafiaService.selectVillageAll();

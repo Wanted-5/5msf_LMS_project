@@ -23,26 +23,27 @@ public class QuizService {
         this.connection = connection;
     }
 
-    public List<QuizDTO> findAllQuiz() {
+    public List<QuizDTO> findAllQuiz(long villageId) {
 
         try {
-            return quizDAO.findAll();
+            return quizDAO.findAllByVillageId(villageId);
         } catch (SQLException e) {
             throw new RuntimeException("퀴즈 전체 조회 중 Error 발생!!" + e);
         }
 
     }
 
-    public QuizDTO findByQuizId(long quizId) {
+    public QuizDTO findByQuizId(long quizId, long villageId) {
 
         try {
-            return quizDAO.findByQuizId(quizId);
+            return quizDAO.findByQuizId(quizId, villageId);
         } catch (SQLException e) {
-            throw new RuntimeException("강좌 상세 조회 중 오류 발생!!" + e);
+            throw new RuntimeException("퀴즈 상세 조회 중 오류 발생!!" + e);
         }
 
     }
 
+    // v 추가 완
     public Long createQuiz(QuizDTO newQuiz) {
         try {
             Long userId = UserSession.getLoggedInUser().getUserId();
@@ -53,7 +54,7 @@ public class QuizService {
                 newQuiz.setMafiaId(null);
             } else {
                 // 학생은 오늘 마피아인지 체크
-                Long mafiaId = mafiaDAO.selectTodayMafiaId(userId);
+                Long mafiaId = mafiaDAO.selectTodayMafiaId(userId, newQuiz.getVillageId());
                 newQuiz.setMafiaId(mafiaId);
             }
             newQuiz.setUserId(userId);
@@ -66,7 +67,8 @@ public class QuizService {
         }
     }
 
-    public Long deleteQuiz(Long quizId) {
+    // v 추가 완
+    public int deleteQuiz(Long quizId, long villageId) {
         try {
             // 로그인 여부 체크
             if (!UserSession.isLoggedIn()) {
@@ -77,21 +79,18 @@ public class QuizService {
             UserRole role = UserSession.getLoggedInUser().getRole();
 
             if (role == UserRole.INSTRUCTOR || role == UserRole.ADMIN) {
-                quizDAO.deleteByInstructorAndAdmin(quizId);
+                int result = quizDAO.deleteByInstructorAndAdmin(quizId, villageId);
+                return result;
             } else {
-                Long result = quizDAO.deleteByMafia(quizId, userId);
-
-                if (result == 0) {
-                    throw new RuntimeException("본인이 작성한 퀴즈만 삭제할 수 있습니다.");
-                }
+                int result = quizDAO.deleteByMafia(quizId, userId, villageId);
+                return result;
             }
         } catch (SQLException e) {
             throw new RuntimeException("퀴즈 삭제 실패 : " + e.getMessage());
         }
-        return 0L;
     }
 
-    public int updateQuiz(long quizId, String title, String content, String answer) {
+    public int updateQuiz(long quizId, String title, String content, String answer, long villageId) {
         try {
             if (!UserSession.isLoggedIn()) {
                 throw new RuntimeException("로그인이 필요합니다.");
@@ -101,10 +100,10 @@ public class QuizService {
             UserRole role = UserSession.getLoggedInUser().getRole();
 
             if (role == UserRole.INSTRUCTOR || role == UserRole.ADMIN) {
-                int result = quizDAO.updateQuizByInstructorAndAdmin(quizId, title, content, answer);
+                int result = quizDAO.updateQuizByInstructorAndAdmin(quizId, title, content, answer, villageId);
                 return result;
             } else {
-                int result = quizDAO.updateQuizByMafia(quizId, title, content, answer, userId);
+                int result = quizDAO.updateQuizByMafia(quizId, title, content, answer, userId, villageId);
                 return result;
             }
         } catch (SQLException e) {
@@ -112,9 +111,9 @@ public class QuizService {
         }
     }
 
-    public QuizDTO selectTodayQuiz() {
+    public QuizDTO selectTodayQuiz(long villageId) {
         try {
-            QuizDTO quiz = quizDAO.selectTodayQuiz();
+            QuizDTO quiz = quizDAO.selectTodayQuiz(villageId);
             if (quiz == null) {
                 throw new RuntimeException("오늘의 퀴즈가 없습니다.");
             }

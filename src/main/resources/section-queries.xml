@@ -20,7 +20,7 @@
 
     <query key="section.findSectionsByVillageId">
         SELECT
-        section_id, chap_no, section_name, status
+         *
         FROM
         section
         WHERE village_id = ?
@@ -41,7 +41,8 @@
 
     <query key="section.findSectionById">
         <![CDATA[
-        SELECT section_id, village_id, chap_no, section_name, content, video_url, status
+        SELECT
+            *
         FROM section
         WHERE section_id = ?
           AND status = 'ACTIVE'

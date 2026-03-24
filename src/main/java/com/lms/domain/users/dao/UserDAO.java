@@ -127,6 +127,49 @@ public class UserDAO {
         }
     }
 
+    // userId로 실명 조회
+    public String findNameById(Long userId) throws SQLException {
+        String query = QueryUtil.getQuery("users.findNameById");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, userId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("name");
+                }
+            }
+        }
+        return null;
+    }
+
+    //userId로 닉네임 조회
+    public String findNickNameById(Long userId) throws SQLException {
+        String query = QueryUtil.getQuery("users.findNicknameById");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, userId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("nickname");
+                }
+            }
+        }
+        return null;
+    }
+
+    // 권한 승격 로직
+    public int updateRoleToInstructor(String username) throws SQLException {
+        String query = QueryUtil.getQuery("users.updateRole");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, username);
+
+            return pstmt.executeUpdate();
+        }
+    }
+
 
     // ---------- 내부 편의 메서드 ----------------
     private UserDTO convertToDTO(ResultSet rs) throws SQLException {

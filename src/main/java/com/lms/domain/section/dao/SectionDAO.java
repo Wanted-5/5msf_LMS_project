@@ -2,13 +2,11 @@ package com.lms.domain.section.dao;
 
 import com.lms.domain.section.dto.SectionDTO;
 import com.lms.domain.section.dto.request.SectionDetailRequest;
+import com.lms.domain.section.dto.response.CreateSectionRequest;
 import com.lms.global.config.JDBCTemplate;
 import com.lms.global.util.QueryUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -163,20 +161,31 @@ public class SectionDAO {
 
     //comment, 강사 기능
 
-    public int insertSection(Connection con, long villageId, long userId, int chapNo,
-                             String sectionName, String content, String videoUrl) throws SQLException {
+    public Long insertSection(CreateSectionRequest request) throws SQLException {
 
         String sql = QueryUtil.getQuery("section.insertSection");
 
-        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
-            pstmt.setLong(1, villageId);
-            pstmt.setLong(2, userId);
-            pstmt.setInt(3, chapNo);
-            pstmt.setString(4, sectionName);
-            pstmt.setString(5, content);
-            pstmt.setString(6, videoUrl);
+        try (PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setLong(1, request.getVillageId());
+            pstmt.setLong(2, request.getUserId());
+            pstmt.setInt(3, request.getChapNo());
+            pstmt.setString(4, request.getSectionName());
+            pstmt.setString(5, request.getContent());
+            pstmt.setString(6, request.getVideoUrl());
 
-            return pstmt.executeUpdate();
+            int insertRows = pstmt.executeUpdate();
+
+            if (insertRows == 0) {
+                throw new SQLException("[DB error] 강의 등록에 실패했습니다.");
+            }
+
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getLong(1);
+                } else {
+                    throw new SQLException("[DB error] 강의 등록은 성공, But ID를 가져오지 못했습니다.");
+                }
+            }
         }
     }
 

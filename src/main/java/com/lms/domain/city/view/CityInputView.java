@@ -6,7 +6,12 @@ import com.lms.domain.city.dto.request.CreateCityRequest;
 import com.lms.domain.city.dto.request.UpdateCityRequest;
 import com.lms.domain.city.dto.response.CreateCityResponse;
 import com.lms.domain.city.dto.response.UpdateCityResponse;
+import com.lms.domain.enrollment.controller.EnrollmentController;
+import com.lms.domain.users.controller.UserController;
 import com.lms.domain.users.dto.UserRole;
+import com.lms.domain.village.controller.VillageController;
+import com.lms.domain.village.dto.VillageDTO;
+import com.lms.domain.village.dto.response.CreateVillageResponse;
 import com.lms.global.AppContext.AppContext;
 import com.lms.global.common.UserSession;
 
@@ -18,12 +23,18 @@ public class CityInputView {
 
     private final CityController controller;
     private final CityOutputView cityOutputView;
+    private final UserController userController;
+    private final VillageController villageController;
+    private final EnrollmentController enrollmentController;
 
     Scanner sc = new Scanner(System.in);
 
-    public CityInputView(CityController controller, CityOutputView cityOutputView) {
+    public CityInputView(CityController controller, CityOutputView cityOutputView, UserController userController, VillageController villageController, EnrollmentController enrollmentController) {
         this.controller = controller;
         this.cityOutputView = cityOutputView;
+        this.userController = userController;
+        this.villageController = villageController;
+        this.enrollmentController = enrollmentController;
     }
 
     public void displayCityAdminMenu() {
@@ -44,7 +55,8 @@ public class CityInputView {
             System.out.println("      [ 3 ] 도시 정보 재건축");
             System.out.println("      [ 4 ] 도시 상태 변경 (활성화 ↔ 비활성화 토글)");
             System.out.println("      [ 5 ] 신규 마을 개척 (생성)");
-            System.out.println("      [ 5 ] 관할 마을 현장 시찰 (마을 입장)");
+            System.out.println("      [ 6 ] 관할 마을 입장");
+            System.out.println("      [ 7 ] 권한 승격 (학생 -> 강사) ");
             System.out.println("      [ 0 ] 관리자 시스템 로그아웃");
             System.out.println("────────────────────────────────────────────────────────────────");
             System.out.print("  ▶ 원하시는 행정 업무의 번호를 입력해주세요 : ");
@@ -54,7 +66,7 @@ public class CityInputView {
             switch (choice) {
                 case "1":
                     System.out.println("\n  [ 시스템 ] 새로운 도시를 건설합니다...");
-                    createCityProcess(); // 도시 건설 로직 호출
+                    createCityProcess();
                     break;
                 case "2":
                     System.out.println("\n  [ 시스템 ] 전체 도시의 조감도를 불러옵니다...");
@@ -70,18 +82,24 @@ public class CityInputView {
                     break;
                 case "5":
                     System.out.println("\n  [ 시스템 ] 신규 마을 개척 프로세스를 가동합니다...");
-                    routeToCreateVillage(); // 🌟 마을 생성 라우팅 메서드 호출!
+                    routeToCreateVillage();
                     break;
                 case "6":
+                    // comment, 구현, 연동 OK
                     System.out.println("\n  [ 시스템 ] 마을에 입장합니다...");
-                    // TODO: 마을 입장 전 전체 리스트 조회하고 마을 번호 받아서 입장하기 (deleteCityProcess)
+                    routeToEnterVillage();
+                    break;
+                case "7":
+                    // comment, 구현, 연동 OK
+                    System.out.println("\n  [ 시스템 ] 권한을 수정합니다...");
+                    promoteUserToInstructor();
                     break;
                 case "0":
                     System.out.println("  [ 시스템 ] 관리자 계정에서 안전하게 로그아웃 되었습니다.");
                     UserSession.setLoggedInUser(null);
                     return;
                 default:
-                    System.out.println("\n  [🚨] 올바른 업무 번호(0~6)를 입력해주세요.");
+                    System.out.println("\n  [🚨] 올바른 업무 번호(0~7)를 입력해주세요.");
             }
         }
     }
@@ -245,6 +263,63 @@ public class CityInputView {
         }
 
         System.out.println("\n  [ 시스템 ] 행정 코드 [ " + cityId + " ] 도시로 마을 개척 업무를 이관합니다...");
-        AppContext.getAppContext().villageAppContext.villageInputView.createVillageProcess(cityId);
+        AppContext.getAppContext().villageAppContext.adminVillageInputView.createVillageProcess(cityId);
+    }
+
+    // 권한 승격
+    private void promoteUserToInstructor() {
+        if (UserSession.getLoggedInUser().getRole() != UserRole.ADMIN) {
+            System.out.println("\n  [ 시스템 ] 관리자 전용 메뉴입니다.");
+            return;
+        }
+
+        System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
+        System.out.println("║                 👑 운영진 권한 승격 (Promote)                 ║");
+        System.out.println("╚══════════════════════════════════════════════════════════════╝");
+        System.out.print("  ▶ 강사로 승격시킬 유저의 아이디(Username) 입력 : ");
+        String username = sc.nextLine().trim();
+
+        try {
+            userController.updateRoleToInstructor(username);
+            System.out.println("\n  🎉 [ 성공 ] " + username + " 님이 강사(INSTRUCTOR)로 승격되었습니다.");
+        } catch (Exception e) {
+            System.out.println("\n  🚨 [ 실패 ] " + e.getMessage());
+        }
+    }
+
+
+    private void routeToEnterVillage() {
+        System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
+        System.out.println("║                 🌐 전 지역 마을 통합 관제 시스템                 ║");
+        System.out.println("╚══════════════════════════════════════════════════════════════╝");
+        System.out.println("  [ 시스템 ] 관리자 권한으로 전체 마을 리스트를 동기화합니다...\n");
+
+        List<CreateVillageResponse> villageList = villageController.findAllVillages();
+
+        if (villageList == null || villageList.isEmpty()) {
+            System.out.println("  [ 시스템 ] 현재 개척된 마을이 하나도 없습니다.");
+            return;
+        }
+
+        cityOutputView.displayVillageList(villageList);
+
+        System.out.println("────────────────────────────────────────────────────────────────");
+        System.out.print("  ▶ 직권 입장할 마을의 고유 번호(ID)를 입력하세요 (취소: 0) : ");
+
+        long villageId;
+        try {
+            villageId = Long.parseLong(sc.nextLine().trim());
+        } catch (NumberFormatException e) {
+            System.out.println("\n [🚨] 마을 번호는 숫자만 입력 가능합니다.");
+            return;
+        }
+
+        if (villageId == 0) return;
+
+        System.out.println("\n  [ 시스템 ] 관리자 직권으로 마을 출입 보안망을 해제합니다...");
+        enrollmentController.enterVillageByAdmin(villageId);
+
+        AppContext.getAppContext().villageAppContext.instructorVillageInputView.displayInstructorMainMenu(villageId);
+
     }
 }

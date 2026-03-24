@@ -218,4 +218,12 @@ public class UserService {
             throw new RuntimeException("비밀번호 변경 중 시스템 오류가 발생했습니다.", e);
         }
     }
+
+    public int updateRoleToInstructor(String username) {
+        try {
+            return userDAO.updateRoleToInstructor(username);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

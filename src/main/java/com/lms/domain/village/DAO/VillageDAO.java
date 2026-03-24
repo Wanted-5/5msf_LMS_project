@@ -6,6 +6,13 @@ import com.lms.global.config.JDBCTemplate;
 import com.lms.global.util.QueryUtil;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.sql.Date.valueOf;
+import static java.sql.Types.DATE;
 
 public class VillageDAO {
 
@@ -102,14 +109,14 @@ public class VillageDAO {
             pstmt.setString(4, request.getInviteCode());
             if (request.getStartDate() != null) {
                 // LocalDate를 JDBC가 이해할 수 있는 java.sql.Date로 변환해서 넣습니다.
-                pstmt.setDate(5, java.sql.Date.valueOf(request.getStartDate()));
+                pstmt.setDate(5, valueOf(request.getStartDate()));
             } else {
-                pstmt.setNull(5, java.sql.Types.DATE);
+                pstmt.setNull(5, DATE);
             }
             if (request.getEndDate() != null) {
-                pstmt.setDate(6, java.sql.Date.valueOf(request.getEndDate()));
+                pstmt.setDate(6, valueOf(request.getEndDate()));
             } else {
-                pstmt.setNull(6, java.sql.Types.DATE);
+                pstmt.setNull(6, DATE);
             }
 
             int insertRows = pstmt.executeUpdate();
@@ -128,16 +135,40 @@ public class VillageDAO {
         }
     }
 
+    public List<VillageDTO> findAllVillages() throws SQLException {
+        List<VillageDTO> villageDTOList = new ArrayList<>();
+
+        String query = QueryUtil.getQuery("village.findAll");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                villageDTOList.add(convertToDTO(rs));
+            }
+        }
+        return villageDTOList;
+    }
+
     // TODO : 편의 메서드 구현하기
     // ================== 내부 편의 메서드 ===============
-//    private VillageDTO convertToDTO (ResultSet rset) {
-//        try {
-//            return new VillageDTO(
-//                    // 구현예정
-//            );
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            throw new RuntimeException("[error] DTO 변환 작업 중 에러 발생", e);
-//        }
-//    }
+    private VillageDTO convertToDTO(ResultSet rs) {
+        try {
+            return new VillageDTO(
+                    rs.getLong("village_id"),
+                    rs.getLong("city_id"),
+                    rs.getString("village_name"),
+                    rs.getString("description"),
+                    rs.getString("invite_code"),
+                    rs.getObject("start_date", LocalDate.class),
+                    rs.getObject("end_date", LocalDate.class),
+                    rs.getString("status"),
+                    rs.getObject("created_at", LocalDateTime.class),
+                    rs.getObject("updated_at", LocalDateTime.class)
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException("[error] VillageDTO 변환 작업 중 에러 발생", e);
+        }
+    }
 }

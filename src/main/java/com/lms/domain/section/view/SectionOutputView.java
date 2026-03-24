@@ -1,5 +1,7 @@
 package com.lms.domain.section.view;
 
+import com.lms.domain.learning.dto.LearningDTO;
+import com.lms.domain.learning.dto.reseponse.LearningSectionResponse;
 import com.lms.domain.section.dto.response.SectionDetailResponse;
 import com.lms.domain.section.dto.response.SectionListResponse;
 
@@ -48,20 +50,38 @@ public class SectionOutputView {
         System.out.println("────────────────────────────────────────────────────────────────");
     }
 
-    public void printSectionList(List<SectionListResponse> list) {
-        if (list == null || list.isEmpty()) {
-            System.out.println("조회된 강의가 없습니다.");
-            return;
+    public void displaySectionsByStatus(List<LearningSectionResponse> list, String statusDisplayName) {
+
+        System.out.println("────────────────────────────────────────────────────────────────");
+        System.out.println("  📌 현재 조회 상태 : " + statusDisplayName);
+        System.out.println("────────────────────────────────────────────────────────────────");
+
+        // 🌟 복잡한 로직(if, match 등)은 1도 없습니다. 그저 리스트를 순회하며 출력할 뿐!
+        for (LearningSectionResponse response : list) {
+            System.out.printf("  ▶ %2d번. [ %2d주차 ] %s\n",
+                    response.getSectionId(),
+                    response.getChapNo(),
+                    response.getSectionName()
+            );
         }
 
-        for (SectionListResponse section : list) {
-            System.out.println("--------------------------------");
-            System.out.println("강의번호(section_id): " + section.getSectionId());
-            System.out.println("주차(chap_no): " + section.getChapNo());
-            System.out.println("강의명: " + section.getSectionName());
-            System.out.println("상태: " + section.getStatus());
+        System.out.println("────────────────────────────────────────────────────────────────\n");
+    }
+
+    public void displayCreateSectionSuccess(int studentCount) {
+        System.out.println("\n  🎉 [ 성공 ] 새로운 강의가 성공적으로 배포되었습니다!");
+
+        if (studentCount > 0) {
+            System.out.println("  [ 알림 ] " + studentCount + "명의 마을 주민에게 '수강 전' 이력이 생성되었습니다.");
+        } else {
+            System.out.println("  [ 알림 ] 현재 마을에 수강생이 없어 강의만 등록되었습니다.");
         }
-        System.out.println("--------------------------------");
+    }
+
+    // 🌟 섹션 관련 에러 메시지 출력
+    public void displaySectionError(String message) {
+        System.out.println("\n  🚨 [ 섹션 오류 ] 작업을 완료하지 못했습니다.");
+        System.out.println("  ▶ 사유: " + message);
     }
 
 

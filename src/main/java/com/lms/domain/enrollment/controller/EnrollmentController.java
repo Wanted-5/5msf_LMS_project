@@ -1,7 +1,9 @@
 package com.lms.domain.enrollment.controller;
 
+import com.lms.domain.enrollment.dto.Response.ApprovedEnrollmentResponse;
 import com.lms.domain.enrollment.dto.Response.EnterVillageResponse;
 import com.lms.domain.enrollment.dto.Response.VerifyInviteCodeResponse;
+import com.lms.domain.enrollment.dto.Response.WaitingEnrollmentResponse;
 import com.lms.domain.enrollment.service.EnrollmentService;
 
 import java.util.List;
@@ -36,17 +38,18 @@ public class EnrollmentController {
         return service.getWaitingVillages(currentUserId);
     }
 
+    // 사용자가 해당 마을의 승인된 유저인지 검증
+    public boolean verifyVillageApproval(long currentUserId, long villageId) {
+        return service.isApprovedUser(currentUserId, villageId);
+    }
+
     // comment, 정현이 코드
-    public List<Map<String, Object>> findWaitingEnrollmentList(long villageId) {
+    public List<WaitingEnrollmentResponse> findWaitingEnrollmentList(long villageId) {
         return service.findWaitingEnrollmentList(villageId);
     }
 
-    public List<Map<String, Object>> findApprovedEnrollmentList(long villageId) {
+    public List<ApprovedEnrollmentResponse> findApprovedEnrollmentList(long villageId) {
         return service.findApprovedEnrollmentList(villageId);
-    }
-
-    public Map<String, Object> findEnrollmentManageTarget(long villageId, long enrollmentId) {
-        return service.findEnrollmentManageTarget(villageId, enrollmentId);
     }
 
     public void approveEnrollment(long villageId, long enrollmentId) {
@@ -59,5 +62,9 @@ public class EnrollmentController {
 
     public void expelEnrollment(long villageId, long enrollmentId) {
         service.expelEnrollment(villageId, enrollmentId);
+    }
+
+    public void enterVillageByAdmin(long villageId) {
+        service.enterVillageByAdmin(villageId);
     }
 }

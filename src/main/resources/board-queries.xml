@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<properties>
+
+    <query key="board.findAllByCategory">
+        SELECT
+        b.board_id,
+        b.title,
+        b.created_at,
+        u.nickname
+        FROM board b
+        JOIN Users u ON b.creator_id = u.user_id
+        WHERE b.category_id = ?
+        ORDER BY b.created_at DESC
+    </query>
+
+    <query key="board.findByUser">
+        SELECT
+        b.board_id, b.title, b.created_at, u.nickname
+        FROM board b
+        JOIN Users u ON b.creator_id = u.user_id
+        WHERE b.creator_id = ?
+        ORDER BY b.created_at DESC
+    </query>
+
+
+    <query key="board.insert">
+        INSERT INTO board (village_id, creator_id, category_id, title, content)
+        VALUES (?, ?, ?, ?, ?)
+    </query>
+
+    <query key="board.update">
+        UPDATE board SET
+        title = ?,
+        content = ?,
+        updated_at = NOW()
+        WHERE board_id = ? AND creator_id = ?
+    </query>
+
+    <query key="board.delete">
+        DELETE FROM board
+        WHERE board_id = ? AND creator_id = ?
+    </query>
+
+
+    <query key="board.findById">
+        SELECT
+        b.board_id,
+        b.title,
+        b.content,
+        b.created_at,
+        u.nickname
+        FROM board b
+        JOIN Users u ON b.creator_id = u.user_id
+        WHERE b.board_id = ?
+    </query>
+</properties>

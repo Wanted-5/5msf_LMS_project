@@ -1,10 +1,12 @@
 package com.lms;
 
-import com.lms.global.common.AppContext;
+import com.lms.domain.users.dto.UserRole;
+import com.lms.domain.users.dto.response.LoginResponse;
+import com.lms.global.AppContext.AppContext;
+import com.lms.global.common.UserSession;
 import com.lms.global.config.JDBCTemplate;
-
-import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Connection;
 
 public class Application {
     public static void main(String[] args) {
@@ -12,13 +14,38 @@ public class Application {
         try (Connection con = JDBCTemplate.getConnection()) {
 
             System.out.println("✅ 데이터베이스 연결 성공!!!");
-            JDBCTemplate.printConnectionStatus();
+            AppContext appContext = new AppContext(con);
 
-            AppContext appContext = new AppContext();
-//            appContext.userAppContext(con);
+            AppContext.init(con);
 
+            while (true) {
+                LoginResponse loggedInUser = UserSession.getLoggedInUser();
 
+                if (loggedInUser == null) {
+                    appContext.userAppContext.userInputView.displayInitialMenu();
+                }
 
+                else {
+                    UserRole role = loggedInUser.getRole();
+
+                    if (role == UserRole.ADMIN) {
+                        System.out.println("  [시스템] " + UserSession.getLoggedInUser().getRole().getDescription() + "(ADMIN) 권한으로 접속했습니다.");
+                        appContext.cityAppContext.cityInputView.displayCityAdminMenu();
+                        //TODO: 관리자는 마을을 선택할 수 있게 로직 구현
+
+                    } else if (role == UserRole.INSTRUCTOR) {
+                        System.out.println("  [시스템] " + UserSession.getLoggedInUser().getRole().getDescription() + "(INSTRUCTOR) 권한으로 접속했습니다.");
+                        appContext.enrollmentAppContext.enrollmentInputView.displayEnrollMainMenu();
+                        //TODO: 강사 옵션으로 로직 구현
+
+                    } else if (role == UserRole.STUDENT) {
+                        System.out.println("  [시스템] " + UserSession.getLoggedInUser().getRole().getDescription() + "(STUDENT) 권한으로 접속했습니다.");
+                        appContext.enrollmentAppContext.enrollmentInputView.displayEnrollMainMenu();
+                        //TODO: 학생 옵션으로 로직 구현
+
+                    }
+                }
+            }
 
 
 

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<properties>
+
+<!--    유저id와, 마을id로 모든 수강기록 조회-->
+    <query key = "learning.findByUserIdAndVillageId">
+        SELECT
+            *
+        FROM
+            Learning_history
+        WHERE
+            user_id = ? AND village_id = ?
+    </query>
+
+    <query key = "learning.findByUserIdAndVillageIdAndStatus">
+        SELECT
+        *
+        FROM
+        Learning_history
+        WHERE
+        user_id = ? AND village_id = ? AND status = ?
+    </query>
+
+    <query key = "learning.findByUserIdAndVillageId">
+        SELECT
+        *
+        FROM
+        Learning_history
+        WHERE
+        user_id = ? AND village_id = ? AND status = 'COMPLETE'
+    </query>
+
+<!--    villageId, sectionId를 받아 모든 user_id에게 status BEFORE_LEARNING으로 넣기-->
+    <query key="learning.insertIntoBeforeLearning">
+        INSERT INTO learning_history
+        (user_id, village_id, section_id, status)
+        SELECT
+        user_id, village_id, ?, 'BEFORE_LEARNING'
+        FROM
+        Enrollment
+        WHERE
+        village_id = ?
+        AND status = 'APPROVED'
+    </query>
+
+<!--    villageId, sectionId를 받아, status를 IN_PROGRESS로 업데이트하기-->
+    <query key = "learning.updateStatusToInProgress">
+        UPDATE
+            learning_history
+        SET
+            status = 'IN_PROGRESS'
+        WHERE
+            user_id = ? AND section_id = ? AND status = 'BEFORE_LEARNING'
+    </query>
+
+<!--    villageId, sectionId를 받아, status를 COMPLETED로 업데이트하기-->
+    <query key = "learning.updateStatusToCompleted">
+        UPDATE
+            learning_history
+        SET
+            status = 'COMPLETED'
+        WHERE
+            user_id = ? AND section_id = ? AND status IN ('BEFORE_LEARNING', 'IN_PROGRESS')
+    </query>
+
+<!--    유저id, 마을id, 상태로 색션 정보 가져오기-->
+    <query key="learning.findLearningDetailsByStatus">
+        SELECT
+            lh.learning_id, lh.section_id, s.chap_no, s.section_name, lh.status
+        FROM
+            Learning_history lh
+        JOIN
+            Section s ON lh.section_id = s.section_id
+        WHERE
+            lh.user_id = ? AND lh.village_id = ? AND lh.status = ?
+    </query>
+
+<!--    신규 학생 입장 시, 기존 강의 수강전으로 초기화-->
+    <query key="learning.insertExistingSectionsForNewStudent">
+        INSERT INTO learning_history (user_id, village_id, section_id, status)
+        SELECT ?, ?, section_id, 'BEFORE_LEARNING'
+        FROM section
+        WHERE village_id = ? AND status = 'ACTIVE'
+    </query>
+</properties>

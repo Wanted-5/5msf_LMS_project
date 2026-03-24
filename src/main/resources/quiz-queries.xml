@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<properties>
+    <query key = "quiz.todayQuiz" >
+        SELECT * FROM quizzes
+        WHERE DATE(created_at) = CURDATE()
+        ORDER BY created_at DESC
+        LIMIT 1;
+    </query>
+
+    <query key = "quiz.findAll">
+        select
+        content, mafia_Id, quiz_title, quiz_Id
+        from quizzes
+    </query>
+
+    <query key = "quiz.findById">
+        select
+            content, mafia_id, quiz_title, quiz_id
+        from quizzes
+        where quiz_id = ?
+    </query>
+
+    <query key = "quiz.create">
+        INSERT INTO quizzes (quiz_id, user_id, mafia_id, quiz_title, content, answer, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, NOW())
+    </query>
+
+    <query key="quiz.selectNextQuizId">
+    SELECT IFNULL(MAX(quiz_id), 0) + 1 FROM quizzes
+    </query>
+
+    <query key ="quiz.deleteByMafia">
+        DELETE FROM quizzes
+        WHERE quiz_id = ?
+        AND mafia_id = (
+        SELECT mafia_id FROM mafia_history
+        WHERE user_id = ?
+        AND selected_date = CURDATE()
+        )
+    </query>
+
+    <query key ="quiz.deleteByinstructorAndAdmin">
+        DELETE FROM quizzes
+        WHERE quiz_id = ?
+    </query>
+
+    <query key="quiz.updateByMafia">
+        UPDATE quizzes
+        SET quiz_title = ?, content = ?, answer = ?
+        WHERE quiz_id = ?
+        AND mafia_id = (
+        SELECT mafia_id FROM mafia_history
+        WHERE user_id = ?
+        AND selected_date = CURDATE()
+        )
+    </query>
+
+    <query key="quiz.updateByInstructorAndAdmin">
+        UPDATE quizzes
+        SET quiz_title = ?, content = ?, answer = ?
+        WHERE quiz_id = ?
+    </query>
+
+   -- 오늘의 퀴즈 조회
+    <query key="quiz.selectTodayQuiz">
+        SELECT quiz_id, quiz_title, content, answer
+        FROM quizzes
+        WHERE DATE(created_at) = CURDATE()
+        ORDER BY created_at DESC
+        LIMIT 1
+    </query>
+
+</properties>

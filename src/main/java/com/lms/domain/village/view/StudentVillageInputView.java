@@ -40,8 +40,9 @@ public class StudentVillageInputView {
 
             switch (choice) {
                 case "1":
-                    System.out.println("\n  [ 시스템 ] 📅 출석 체크 기능은 현재 공사 중입니다.");
-                    // TODO : 추후 강현이 attendanceInputView와 연결
+                    // comment, 연동 OK, 테스트 해야함
+                    System.out.println("\n  [ 시스템 ] 📅 출석 체크 방으로 아동합니다...");
+                    AppContext.getAppContext().attendAppContext.attendInputView.AttendMenu(villageId);
                     break;
                 case "2":
                     System.out.println("\n  [ 시스템 ] 🎓 교육센터(Section)로 이동합니다...");
@@ -49,21 +50,22 @@ public class StudentVillageInputView {
                     AppContext.getAppContext().sectionAppContext.studentSectionInputView.displayStudentSectionMenu(villageId);
                     break;
                 case "3":
-                    System.out.println("\n  [ 시스템 ] 📢 마을 게시판 기능은 현재 공사 중입니다.");
-                    // TODO : 추후 종호형 boardInputView와 연결
+                    // comment, 연동 OK, 테스트 해야함
+                    System.out.println("\n  [ 시스템 ] 📢 마을 게시판으로 아동합니다...");
+                    AppContext.getAppContext().boardAppContext.boardInputView.boardFirstMenu(villageId);
                     break;
                 case "4":
-                    System.out.println("\n  [ 시스템 ] 🏠 개인 숙소(마이페이지) 기능은 현재 공사 중입니다.");
+                    System.out.println("\n  [ 시스템 ] 🏠 개인 숙소(마이페이지)으로 아동합니다...");
                     // comment, 연동 OK
                     AppContext.getAppContext().userAppContext.userInputView.displayMyPageMenu();
                     break;
                 case "5":
-                    System.out.println("\n  [ 시스템 ] 🕵️ 마피아 광장 기능은 현재 공사 중입니다.");
-                    // TODO : 추후 태연이 mafiaInputVIew? 와 연결
+                    System.out.println("\n  [ 시스템 ] 🕵️ 마피아 광장으로 아동합니다...");
+                    AppContext.getAppContext().quizAppContext.quizInputView.displayMainMenu();
                     break;
                 case "0":
                     System.out.println("\n  [ 시스템 ] 마을에서 퇴장합니다. 짐을 챙겨 이동합니다...");
-                    return; // while 루프 종료
+                    return;
                 default:
                     System.out.println("\n  🚨 [오류] 올바른 시설 번호(0~5)를 입력해주세요.");
             }

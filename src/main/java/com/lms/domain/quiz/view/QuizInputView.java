@@ -62,17 +62,18 @@ public class QuizInputView {
         System.out.println(" ╠══════════════════════════════════════════════════════════════╣");
 
         while (true) {
-            System.out.println(" ╠══════════════════════════════════════════════════════════════╣");
-            System.out.println(" ║                                                              ║");
-            System.out.println(" ║      [ 1 ]  📋 퀴즈 전체 조회                                  ║");
-            System.out.println(" ║      [ 2 ]  🩸 퀴즈 작성하기                                   ║");
-            System.out.println(" ║      [ 3 ]  🔪 퀴즈 수정 및 삭제하기                            ║");
-            System.out.println(" ║      [ 4 ]  🎭 오늘의 퀴즈 풀기                                ║");
-            System.out.println(" ║      [ 5 ]  🚪 메인화면으로 나가기                              ║");
-            System.out.println(" ║                                                              ║");
-            System.out.println(" ╚══════════════════════════════════════════════════════════════╝");
-            System.out.println();
-            System.out.print("▶ 선택하세요 : ");
+            System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
+            System.out.println("║                 🕵️ 마피아 게임 (코드 퀴즈) 관제실               ║");
+            System.out.println("╚══════════════════════════════════════════════════════════════╝");
+            System.out.println("  [ 시스템 ] 이곳은 밤이 되면 누군가 퀴즈를 남기고 가는 곳입니다.");
+            System.out.println("────────────────────────────────────────────────────────────────");
+            System.out.println("      [ 1 ]  📋 퀴즈 전체 리스트 조회");
+            System.out.println("      [ 2 ]  🩸 새로운 퀴즈 기획 및 작성");
+            System.out.println("      [ 3 ]  🔪 퀴즈 관리 (수정/삭제) [권한 제한]");
+            System.out.println("      [ 4 ]  🎭 오늘의 퀴즈 풀기 (실행)");
+            System.out.println("      [ 0 ]  🚪 마을 광장으로 돌아가기");
+            System.out.println("────────────────────────────────────────────────────────────────");
+            System.out.print("  ▶ 요원의 다음 행동을 선택하세요 : ");
 
             int menu = inputInt();
 
@@ -90,9 +91,9 @@ public class QuizInputView {
                 case 4:
                     selectTodayQuiz();
                     break;
-                case 5:
-                    displayMainMenu();
-                    break;
+                case 0:
+                    //TODO : 테스트 해보기
+                    return;
             }
         }
 
@@ -204,6 +205,9 @@ public class QuizInputView {
                 quizOutputview.printError(e.getMessage());
             }
     }
+
+    // TODO : 퀴즈 삭제도 수정처럼 수정하기.
+    // TODO : 오늘의 마피아 조회, 강사,관리자,마피아 본인만
     // 퀴즈 삭제
     private void deleteQuiz() {
         showAllQuiz();
@@ -260,11 +264,11 @@ public class QuizInputView {
         System.out.print("  🩸 수정할 정답 번호를 입력하시오... : ");
         String answer = sc.nextLine();
         try {
-            Long result = quizController.updateQuiz(quizId, title, fullContent, answer);
+            int result = quizController.updateQuiz(quizId, title, fullContent, answer);
 
-            if (result != null && result >= 0) {
+            if (result != 0) {
                 quizOutputview.printSuccess("🩸 퀴즈가 어둠 속에서 변형되었습니다...");
-                QuizDTO updateQuiz = quizController.findByQuizId((int) quizId);
+                QuizDTO updateQuiz = quizController.findByQuizId(quizId);
 
                 if (updateQuiz != null) {
                     quizOutputview.printMessage("확인 : " + quizId + "번 퀴즈가 정상 수정 되었습니다");

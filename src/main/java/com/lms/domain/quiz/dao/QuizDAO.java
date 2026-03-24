@@ -42,13 +42,13 @@ public class QuizDAO {
     }
 
     // 퀴즈 상세 조회
-    public QuizDTO findByQuizId(long id) throws SQLException {
+    public QuizDTO findByQuizId(long quizId) throws SQLException {
 
         String query = QueryUtil.getQuery("quiz.findById");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
 
-            pstmt.setLong(1,id);
+            pstmt.setLong(1,quizId);
 
             ResultSet rset = pstmt.executeQuery();
 
@@ -128,7 +128,7 @@ public class QuizDAO {
         return 0L;
     }
 
-    public Long updateQuizByMafia(Long quizId, String title, String content, String answer,Long userId) throws SQLException {
+    public int updateQuizByMafia(Long quizId, String title, String content, String answer,Long userId) throws SQLException {
 
         String query = QueryUtil.getQuery("quiz.updateByMafia");
 
@@ -138,13 +138,17 @@ public class QuizDAO {
             pstmt.setString(3, answer);
             pstmt.setLong(4, quizId);
             pstmt.setLong(5, userId);
-            pstmt.executeUpdate();
-        }
 
-        return 0L;
+            int rs = pstmt.executeUpdate();
+
+            if (rs == 0 ) {
+                throw new RuntimeException("본인이 작성한 퀴즈만 수정할 수 있습니다.");
+            }
+            return rs;
+        }
     }
 
-    public Long updateQuizByInstructorAndAdmin(Long quizId, String title, String content, String answer) throws SQLException {
+    public int updateQuizByInstructorAndAdmin(Long quizId, String title, String content, String answer) throws SQLException {
 
         String query = QueryUtil.getQuery("quiz.updateByInstructorAndAdmin");
 
@@ -153,10 +157,14 @@ public class QuizDAO {
             pstmt.setString(2, content);
             pstmt.setString(3, answer);
             pstmt.setLong(4, quizId);
-            pstmt.executeUpdate();
-        }
 
-        return 0L;
+            int rs = pstmt.executeUpdate();
+
+            if (rs == 0 ) {
+                throw new RuntimeException("본인이 작성한 퀴즈만 수정할 수 있습니다.");
+            }
+            return rs;
+        }
     }
 
     // 오늘의 퀴즈 있는지 조회

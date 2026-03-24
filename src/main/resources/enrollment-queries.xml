@@ -70,6 +70,11 @@
         WHERE enrollment_id = ?
     </query>
 
+    <query key="enrollment.findById">
+        SELECT * FROM enrollment
+        WHERE enrollment_id = ?
+    </query>
+
 
     <query key="enrollment.findApprovedVillagesByUserId">
         SELECT

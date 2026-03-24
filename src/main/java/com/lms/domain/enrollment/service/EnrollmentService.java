@@ -7,31 +7,31 @@ import com.lms.domain.enrollment.dto.Response.ApprovedEnrollmentResponse;
 import com.lms.domain.enrollment.dto.Response.EnterVillageResponse;
 import com.lms.domain.enrollment.dto.Response.VerifyInviteCodeResponse;
 import com.lms.domain.enrollment.dto.Response.WaitingEnrollmentResponse;
+import com.lms.domain.learning.dao.LearningDAO;
+import com.lms.domain.learning.service.LearningService;
 import com.lms.domain.users.dao.UserDAO;
 import com.lms.domain.users.dto.UserDTO;
 import com.lms.domain.users.dto.UserRole;
-import com.lms.domain.village.dto.VillageDTO;
 import com.lms.global.common.UserSession;
-import com.lms.global.util.QueryUtil;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
 
 public class EnrollmentService {
 
     private final EnrollmentDAO enrollmentDAO;
     private final UserDAO userDAO;
+    private final LearningService learningService;
     private final Connection connection;
 
     public EnrollmentService(Connection connection) {
         this.enrollmentDAO = new EnrollmentDAO(connection);
         this.userDAO = new UserDAO(connection);
         this.connection = connection;
+        this.learningService = new LearningService(connection);
     }
 
 
@@ -138,6 +138,12 @@ public class EnrollmentService {
     public void approveEnrollment(long villageId, long enrollmentId) {
         try {
             enrollmentDAO.approveEnrollment(villageId, enrollmentId);
+
+            EnrollmentDTO enrollment = enrollmentDAO.findById(enrollmentId);
+            long userId = enrollment.getUserId();
+
+            learningService.insertExistingSectionsForNewStudent(userId, villageId);
+
         } catch (SQLException e) {
             throw new RuntimeException("승인 처리 중 DB 오류가 발생했습니다: " + e.getMessage());
         }

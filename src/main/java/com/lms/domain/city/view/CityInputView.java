@@ -1,5 +1,6 @@
 package com.lms.domain.city.view;
 
+import com.lms.Application;
 import com.lms.domain.city.controller.CityController;
 import com.lms.domain.city.dto.CityDTO;
 import com.lms.domain.city.dto.request.CreateCityRequest;
@@ -57,7 +58,7 @@ public class CityInputView {
             System.out.println("      [ 5 ] 신규 마을 개척 (생성)");
             System.out.println("      [ 6 ] 관할 마을 입장");
             System.out.println("      [ 7 ] 권한 승격 (학생 -> 강사) ");
-            System.out.println("      [ 0 ] 관리자 시스템 로그아웃");
+            System.out.println("      [ 8 ] 관리자 시스템 로그아웃");
             System.out.println("────────────────────────────────────────────────────────────────");
             System.out.print("  ▶ 원하시는 행정 업무의 번호를 입력해주세요 : ");
 
@@ -94,10 +95,10 @@ public class CityInputView {
                     System.out.println("\n  [ 시스템 ] 권한을 수정합니다...");
                     promoteUserToInstructor();
                     break;
-                case "0":
+                case "8":
                     System.out.println("  [ 시스템 ] 관리자 계정에서 안전하게 로그아웃 되었습니다.");
                     UserSession.setLoggedInUser(null);
-                    return;
+                    AppContext.getAppContext().userAppContext.userInputView.displayInitialMenu();
                 default:
                     System.out.println("\n  [🚨] 올바른 업무 번호(0~7)를 입력해주세요.");
             }

@@ -23,9 +23,9 @@ public class QuizController {
 
     }
 
-    public QuizDTO findByQuizId(long id) {
+    public QuizDTO findByQuizId(long quizId) {
 
-        return quizService.findByQuizId(id);
+        return quizService.findByQuizId(quizId);
     }
 
     public Long createQuiz(String title, String content, String answer) {
@@ -38,7 +38,7 @@ public class QuizController {
         return quizService.deleteQuiz(quiz);
     }
 
-    public Long updateQuiz(long quizId, String title, String content, String answer) {
+    public int updateQuiz(long quizId, String title, String content, String answer) {
         return quizService.updateQuiz(quizId, title, content, answer);
     }
 

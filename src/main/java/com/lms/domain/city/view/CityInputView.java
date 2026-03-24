@@ -99,6 +99,7 @@ public class CityInputView {
                     System.out.println("  [ 시스템 ] 관리자 계정에서 안전하게 로그아웃 되었습니다.");
                     UserSession.setLoggedInUser(null);
                     AppContext.getAppContext().userAppContext.userInputView.displayInitialMenu();
+                    return;
                 default:
                     System.out.println("\n  [🚨] 올바른 업무 번호(0~7)를 입력해주세요.");
             }

@@ -163,12 +163,27 @@ public class StudentSectionInputView {
         String statusDisplayName = "";
 
         while (true) {
+<<<<<<< HEAD:src/main/java/com/lms/domain/section/view/StudentSectionInputView.java
             System.out.println("  [ 1 ] ⏳ 수강 전 (BEFORE_LEARNING)");
             System.out.println("  [ 2 ] ▶️ 수강 중 (IN_PROGRESS)");
             System.out.println("  [ 3 ] ✅ 수강 완료 (COMPLETED)");
             System.out.println("  [ 0 ] 🔙 이전 메뉴로 돌아가기");
             System.out.println("────────────────────────────────────────────────────────────────");
             System.out.print("  ▶ 조회할 상태의 번호를 선택해 주세요 : ");
+=======
+            System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
+            System.out.println("║                  🎓 교육센터 운영 패널 (강사)                   ║");
+            System.out.println("╚══════════════════════════════════════════════════════════════╝");
+            System.out.println("  [ 시스템 ] 강의 진행 현황과 섹션 관리를 여기서 수행합니다.");
+            System.out.println("────────────────────────────────────────────────────────────────");
+            System.out.println("      [ 1 ] 📚 전체 강의 목록 조회");
+            System.out.println("      [ 2 ] ▶️ 학습 시작 / 테스트");
+            System.out.println("      [ 3 ] ✅ 완료 강의 목록 확인");
+            System.out.println("      [ 4 ] 🛠 신규 섹션 업로드");
+            System.out.println("      [ 5 ] ↩ 메인페이지 복귀");
+            System.out.println("────────────────────────────────────────────────────────────────");
+            System.out.print("  ▶ 번호를 입력하세요 : ");
+>>>>>>> eb58bcbe2084f6f92bafc69820cff2a086fed614:src/main/java/com/lms/domain/section/view/SectionInputView.java
 
             String choice = sc.nextLine().trim();
 

@@ -26,6 +26,7 @@
     <query key="users.updatePassword">
         UPDATE Users SET password = ? WHERE user_id = ?
     </query>
+<<<<<<< HEAD
 
     <query key="users.findNameById">
         SELECT name FROM Users WHERE user_id = ?
@@ -39,4 +40,18 @@
         UPDATE Users SET role = 'INSTRUCTOR' WHERE username = ?
     </query>
 
+=======
+    <query key="user.findAllUsers">
+        <![CDATA[
+        SELECT user_id, username, name, nickname, role
+        FROM users
+        ORDER BY user_id ASC
+    ]]>
+    </query>
+    <query key="users.updateUserRole">
+    UPDATE users
+    SET role = ?
+    WHERE user_id = ?
+    </query>
+>>>>>>> eb58bcbe2084f6f92bafc69820cff2a086fed614
 </properties>

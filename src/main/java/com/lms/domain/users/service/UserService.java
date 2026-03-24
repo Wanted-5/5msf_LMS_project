@@ -14,6 +14,7 @@ import com.lms.global.util.PasswordUtil;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 public class UserService {
 
@@ -219,6 +220,7 @@ public class UserService {
         }
     }
 
+<<<<<<< HEAD
     public int updateRoleToInstructor(String username) {
         try {
             return userDAO.updateRoleToInstructor(username);
@@ -226,4 +228,6 @@ public class UserService {
             throw new RuntimeException(e);
         }
     }
+=======
+>>>>>>> eb58bcbe2084f6f92bafc69820cff2a086fed614
 }

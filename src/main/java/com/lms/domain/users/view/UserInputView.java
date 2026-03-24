@@ -1,6 +1,8 @@
 package com.lms.domain.users.view;
 
+import com.lms.domain.city.dto.CityDTO;
 import com.lms.domain.users.controller.UserController;
+import com.lms.domain.users.dto.UserDTO;
 import com.lms.domain.users.dto.request.SignupRequest;
 import com.lms.domain.users.dto.response.LoginResponse;
 import com.lms.domain.users.dto.response.MyPageResponse;
@@ -9,6 +11,7 @@ import com.lms.domain.users.dto.response.SignupResponse;
 import com.lms.global.AppContext.AppContext;
 import com.lms.global.common.UserSession;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class UserInputView {
@@ -356,5 +359,6 @@ public class UserInputView {
             userOutputView.displayMyPageFailure(e.getMessage());
         }
     }
+
 
 }

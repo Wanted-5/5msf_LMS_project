@@ -1,10 +1,15 @@
 package com.lms.domain.enrollment.controller;
 
+<<<<<<< HEAD
 import com.lms.domain.enrollment.dto.Response.ApprovedEnrollmentResponse;
+=======
+import com.lms.domain.enrollment.dao.EnrollmentDAO;
+>>>>>>> eb58bcbe2084f6f92bafc69820cff2a086fed614
 import com.lms.domain.enrollment.dto.Response.EnterVillageResponse;
 import com.lms.domain.enrollment.dto.Response.VerifyInviteCodeResponse;
 import com.lms.domain.enrollment.dto.Response.WaitingEnrollmentResponse;
 import com.lms.domain.enrollment.service.EnrollmentService;
+import com.lms.domain.users.dto.UserDTO;
 
 import java.util.List;
 
@@ -64,7 +69,19 @@ public class EnrollmentController {
         service.expelEnrollment(villageId, enrollmentId);
     }
 
+<<<<<<< HEAD
     public void enterVillageByAdmin(long villageId) {
         service.enterVillageByAdmin(villageId);
+=======
+    public boolean verifyVillageApproval(long userId, long villageId) {
+        return service.verifyVillageApproval(userId, villageId);
+    }
+    public List<Map<String, Object>> findAllWaitingEnrollmentList() {
+        return service.findAllWaitingEnrollmentList();
+    }
+
+    public void promoteWaitingStudentToInstructor(long enrollmentId) {
+        service.promoteWaitingStudentToInstructor(enrollmentId);
+>>>>>>> eb58bcbe2084f6f92bafc69820cff2a086fed614
     }
 }

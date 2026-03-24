@@ -7,12 +7,19 @@ import com.lms.domain.city.dto.request.CreateCityRequest;
 import com.lms.domain.city.dto.request.UpdateCityRequest;
 import com.lms.domain.city.dto.response.CreateCityResponse;
 import com.lms.domain.city.dto.response.UpdateCityResponse;
+<<<<<<< HEAD
 import com.lms.domain.enrollment.controller.EnrollmentController;
 import com.lms.domain.users.controller.UserController;
 import com.lms.domain.users.dto.UserRole;
 import com.lms.domain.village.controller.VillageController;
 import com.lms.domain.village.dto.VillageDTO;
 import com.lms.domain.village.dto.response.CreateVillageResponse;
+=======
+import com.lms.domain.users.controller.UserController;
+import com.lms.domain.users.dto.UserDTO;
+import com.lms.domain.users.dto.UserRole;
+import com.lms.domain.users.service.UserService;
+>>>>>>> eb58bcbe2084f6f92bafc69820cff2a086fed614
 import com.lms.global.AppContext.AppContext;
 import com.lms.global.common.UserSession;
 
@@ -37,7 +44,6 @@ public class CityInputView {
         this.villageController = villageController;
         this.enrollmentController = enrollmentController;
     }
-
     public void displayCityAdminMenu() {
 
         while (true) {
@@ -56,9 +62,15 @@ public class CityInputView {
             System.out.println("      [ 3 ] 도시 정보 재건축");
             System.out.println("      [ 4 ] 도시 상태 변경 (활성화 ↔ 비활성화 토글)");
             System.out.println("      [ 5 ] 신규 마을 개척 (생성)");
+<<<<<<< HEAD
             System.out.println("      [ 6 ] 관할 마을 입장");
             System.out.println("      [ 7 ] 권한 승격 (학생 -> 강사) ");
             System.out.println("      [ 8 ] 관리자 시스템 로그아웃");
+=======
+            System.out.println("      [ 6 ] 관할 마을 현장 시찰 (마을 입장)");
+            System.out.println("      [ 7 ] 역할 부여 ");
+            System.out.println("      [ 0 ] 관리자 시스템 로그아웃");
+>>>>>>> eb58bcbe2084f6f92bafc69820cff2a086fed614
             System.out.println("────────────────────────────────────────────────────────────────");
             System.out.print("  ▶ 원하시는 행정 업무의 번호를 입력해주세요 : ");
 
@@ -91,11 +103,18 @@ public class CityInputView {
                     routeToEnterVillage();
                     break;
                 case "7":
+<<<<<<< HEAD
                     // comment, 구현, 연동 OK
                     System.out.println("\n  [ 시스템 ] 권한을 수정합니다...");
                     promoteUserToInstructor();
                     break;
                 case "8":
+=======
+                    System.out.println("\n  [ 시스템 ] 신청 대기 중인 유저 목록을 조회합니다...");
+                    assignInstructorRoleFromWaitingList();
+                    break;
+                case "0":
+>>>>>>> eb58bcbe2084f6f92bafc69820cff2a086fed614
                     System.out.println("  [ 시스템 ] 관리자 계정에서 안전하게 로그아웃 되었습니다.");
                     UserSession.setLoggedInUser(null);
                     AppContext.getAppContext().userAppContext.userInputView.displayInitialMenu();
@@ -103,6 +122,7 @@ public class CityInputView {
                     System.out.println("\n  [🚨] 올바른 업무 번호(0~7)를 입력해주세요.");
             }
         }
+
     }
 
     // 도시 생성
@@ -322,5 +342,65 @@ public class CityInputView {
 
         AppContext.getAppContext().villageAppContext.instructorVillageInputView.displayInstructorMainMenu(villageId);
 
+    }
+
+    private void assignInstructorRoleFromWaitingList() {
+        try {
+            java.util.List<java.util.Map<String, Object>> waitingList =
+                    AppContext.getAppContext()
+                            .enrollmentAppContext
+                            .enrollmentController
+                            .findAllWaitingEnrollmentList();
+
+            if (waitingList == null || waitingList.isEmpty()) {
+                System.out.println("  [ 시스템 ] 현재 신청 대기 중인 유저가 없습니다.");
+                return;
+            }
+
+            System.out.println("\n=== 신청 대기 중인 유저 목록 ===");
+
+            for (java.util.Map<String, Object> row : waitingList) {
+                System.out.println("신청번호: " + row.get("enrollmentId")
+                        + " | 유저명: " + row.get("userName")
+                        + " | 마을명: " + row.get("villageName")
+                        + " | 상태: " + row.get("status"));
+            }
+
+            System.out.print("\n강사로 승격할 신청 번호(enrollment_id)를 입력하세요 : ");
+            long enrollmentId = Long.parseLong(sc.nextLine());
+
+            java.util.Map<String, Object> target = null;
+            for (java.util.Map<String, Object> row : waitingList) {
+                long rowId = ((Number) row.get("enrollmentId")).longValue();
+                if (rowId == enrollmentId) {
+                    target = row;
+                    break;
+                }
+            }
+
+            if (target == null) {
+                System.out.println("  [ 시스템 ] 존재하지 않는 신청 번호입니다.");
+                return;
+            }
+
+            System.out.print("정말로 [" + target.get("userName") + "] 님을 강사로 승격하시겠습니까? (Y/N) : ");
+            String confirm = sc.nextLine();
+
+            if (confirm.equalsIgnoreCase("Y")) {
+                AppContext.getAppContext()
+                        .enrollmentAppContext
+                        .enrollmentController
+                        .promoteWaitingStudentToInstructor(enrollmentId);
+
+                System.out.println("  [ 시스템 ] 강사 승격이 완료되었습니다.");
+            } else {
+                System.out.println("  [ 시스템 ] 취소되었습니다.");
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("  [ 시스템 ] 신청 번호는 숫자로 입력해야 합니다.");
+        } catch (Exception e) {
+            System.out.println("  [ 시스템 ] 오류: " + e.getMessage());
+        }
     }
 }

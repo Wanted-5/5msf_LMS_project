@@ -17,6 +17,7 @@ import java.sql.Connection;
 public class CityAppContext {
 
     public final CityInputView cityInputView;
+    public CityController cityController;
 
     public CityAppContext(Connection con) {
         CityService cityService = new CityService(con);

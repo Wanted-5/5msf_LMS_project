@@ -28,6 +28,23 @@ public class EnrollmentDAO {
         this.connection = connection;
     }
 
+    public boolean existsApprovedEnrollment(long userId, long villageId) throws SQLException {
+        String sql = QueryUtil.getQuery("existsApprovedEnrollment");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setLong(1, userId);
+            pstmt.setLong(2, villageId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("cnt") > 0;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public VerifyInviteCodeResponse findVillageByInviteCode(String inviteCode) throws SQLException {
 
         String query = QueryUtil.getQuery("village.findByInviteCode");
@@ -264,6 +281,7 @@ public class EnrollmentDAO {
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1, enrollmentId);
 
+<<<<<<< HEAD
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     return convertToDTO(rs);
@@ -274,6 +292,50 @@ public class EnrollmentDAO {
     }
 
     // ======================= 내부 편의 메서드 =============================
+=======
+        row.put("enrollmentId", rs.getLong("enrollment_id"));
+        row.put("villageId", rs.getLong("village_id"));
+        row.put("userId", rs.getLong("user_id"));
+        row.put("userName", rs.getString("username"));
+        row.put("villageName", rs.getString("village_name"));   // 추가
+        row.put("status", rs.getString("status"));
+        row.put("appliedAt", appliedAt != null ? appliedAt.toLocalDateTime() : null);
+
+        return row;
+    }
+
+    public List<Map<String, Object>> findAllWaitingEnrollmentList() throws SQLException {
+        List<Map<String, Object>> list = new ArrayList<>();
+        String query = QueryUtil.getQuery("enrollment.findAllWaitingList");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                list.add(convertJoinRowToMap(rs));
+            }
+        }
+
+        return list;
+    }
+    public Map<String, Object> findWaitingEnrollmentTarget(long enrollmentId) throws SQLException {
+        String query = QueryUtil.getQuery("enrollment.findWaitingTargetByEnrollmentId");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, enrollmentId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return convertJoinRowToMap(rs);
+                }
+            }
+        }
+
+        return null;
+    }
+
+// ======================= 내부 편의 메서드 =============================
+>>>>>>> eb58bcbe2084f6f92bafc69820cff2a086fed614
     private EnrollmentDTO convertToDTO(ResultSet rs) throws SQLException {
         return new EnrollmentDTO(
                 rs.getLong("enrollment_id"),

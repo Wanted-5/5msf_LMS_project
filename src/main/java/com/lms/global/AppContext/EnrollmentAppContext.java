@@ -10,14 +10,16 @@ import java.sql.Connection;
 
 public class EnrollmentAppContext {
 
+    public final EnrollmentService enrollmentService;
+    public final EnrollmentController enrollmentController;
+    public final EnrollmentOutputView enrollmentOutputView;
     public final EnrollmentInputView enrollmentInputView;
     public final InstructorEnrollmentInputView instructorEnrollmentInputView;
 
-
     public EnrollmentAppContext(Connection con) {
-        EnrollmentService enrollmentService = new EnrollmentService(con);
-        EnrollmentController enrollmentController = new EnrollmentController(enrollmentService);
-        EnrollmentOutputView enrollmentOutputView = new EnrollmentOutputView();
+        this.enrollmentService = new EnrollmentService(con);
+        this.enrollmentController = new EnrollmentController(enrollmentService);
+        this.enrollmentOutputView = new EnrollmentOutputView();
         this.enrollmentInputView = new EnrollmentInputView(enrollmentController, enrollmentOutputView);
         this.instructorEnrollmentInputView = new InstructorEnrollmentInputView(enrollmentController, enrollmentOutputView);
     }

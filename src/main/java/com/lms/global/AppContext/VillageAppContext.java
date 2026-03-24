@@ -11,9 +11,14 @@ import java.sql.Connection;
 
 public class VillageAppContext {
 
+<<<<<<< HEAD
     public final StudentVillageInputView studentVillageInputView;
     public final InstructorVillageInputView instructorVillageInputView;
     public final AdminVillageInputView adminVillageInputView;
+=======
+    public final VillageInputView villageInputView;
+    public Object villageController;
+>>>>>>> eb58bcbe2084f6f92bafc69820cff2a086fed614
 
     public VillageAppContext(Connection con) {
         VillageService villageService = new VillageService(con);

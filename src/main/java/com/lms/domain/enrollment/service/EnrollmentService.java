@@ -164,6 +164,7 @@ public class EnrollmentService {
             throw new RuntimeException("추방 처리 중 DB 오류", e);
         }
     }
+<<<<<<< HEAD
 
     public void enterVillageByAdmin(long villageId) {
         long currentUserId = UserSession.getLoggedInUser().getUserId(); //
@@ -179,6 +180,62 @@ public class EnrollmentService {
 
         } catch (SQLException e) {
             throw new RuntimeException("[Service Error] 관리자 직권 입장 처리 중 오류 발생", e);
+=======
+    public  boolean verifyVillageApproval(long userId, long villageId) {
+        try {
+            return enrollmentDAO.existsApprovedEnrollment(userId, villageId);
+        } catch (SQLException e) {
+            throw new RuntimeException("승인된 마을 여부를 확인하는 중 오류가 발생했습니다.", e);
+>>>>>>> eb58bcbe2084f6f92bafc69820cff2a086fed614
         }
     }
+
+    public void promoteWaitingStudentToInstructor(long enrollmentId) {
+        try {
+            connection.setAutoCommit(false);
+
+            Map<String, Object> target = enrollmentDAO.findWaitingEnrollmentTarget(enrollmentId);
+
+            if (target == null) {
+                throw new RuntimeException("해당 신청 번호의 대기 중인 유저가 없습니다.");
+            }
+
+            long userId = ((Number) target.get("userId")).longValue();
+            long villageId = ((Number) target.get("villageId")).longValue();
+
+            com.lms.domain.users.dao.UserDAO userDAO =
+                    new com.lms.domain.users.dao.UserDAO(connection);
+
+            userDAO.updateUserRole(userId, com.lms.domain.users.dto.UserRole.INSTRUCTOR);
+
+            int result = enrollmentDAO.approveEnrollment(villageId, enrollmentId);
+            if (result <= 0) {
+                throw new RuntimeException("승인 처리 실패");
+            }
+
+            connection.commit();
+
+        } catch (Exception e) {
+            try {
+                connection.rollback();
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+            throw new RuntimeException("강사 승격 처리 실패", e);
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public List<Map<String, Object>> findAllWaitingEnrollmentList() {
+        try {
+            return enrollmentDAO.findAllWaitingEnrollmentList();
+        } catch (SQLException e) {
+            throw new RuntimeException("전체 대기 중인 수강 신청 목록 조회 실패", e);
+        }
+    }
+
 }

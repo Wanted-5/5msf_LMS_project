@@ -1,4 +1,4 @@
-package com.lms.domain.section.dto.response;
+package com.lms.domain.section.dto.request;
 
 public class CreateSectionRequest {
     private Long villageId;

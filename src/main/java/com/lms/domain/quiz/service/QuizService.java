@@ -33,10 +33,10 @@ public class QuizService {
 
     }
 
-    public QuizDTO findByQuizId(long id) {
+    public QuizDTO findByQuizId(long quizId) {
 
         try {
-            return quizDAO.findByQuizId(id);
+            return quizDAO.findByQuizId(quizId);
         } catch (SQLException e) {
             throw new RuntimeException("강좌 상세 조회 중 오류 발생!!" + e);
         }
@@ -91,7 +91,7 @@ public class QuizService {
         return 0L;
     }
 
-    public Long updateQuiz(long quizId, String title, String content, String answer) {
+    public int updateQuiz(long quizId, String title, String content, String answer) {
         try {
             if (!UserSession.isLoggedIn()) {
                 throw new RuntimeException("로그인이 필요합니다.");
@@ -101,18 +101,15 @@ public class QuizService {
             UserRole role = UserSession.getLoggedInUser().getRole();
 
             if (role == UserRole.INSTRUCTOR || role == UserRole.ADMIN) {
-                quizDAO.updateQuizByInstructorAndAdmin(quizId, title, content, answer);
+                int result = quizDAO.updateQuizByInstructorAndAdmin(quizId, title, content, answer);
+                return result;
             } else {
-                Long result = quizDAO.updateQuizByMafia(quizId, title, content, answer, userId);
-
-                if (result == 0) {
-                    throw new RuntimeException("본인이 작성한 퀴즈만 수정할 수 있습니다.");
-                }
+                int result = quizDAO.updateQuizByMafia(quizId, title, content, answer, userId);
+                return result;
             }
         } catch (SQLException e) {
             throw new RuntimeException("퀴즈 수정 실패 : " + e.getMessage());
         }
-        return 0L;
     }
 
     public QuizDTO selectTodayQuiz() {

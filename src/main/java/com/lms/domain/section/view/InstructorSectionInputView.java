@@ -2,7 +2,7 @@ package com.lms.domain.section.view;
 
 import com.lms.domain.learning.controller.LearningController;
 import com.lms.domain.section.controller.SectionController;
-import com.lms.domain.section.dto.response.CreateSectionRequest;
+import com.lms.domain.section.dto.request.CreateSectionRequest;
 import com.lms.global.AppContext.AppContext;
 import com.lms.global.common.UserSession;
 
@@ -107,6 +107,8 @@ public class InstructorSectionInputView {
             // 2. 강의 생성 실행
             Long newSectionId = sectionController.createSection(request);
 
+
+            // TODO : 만약 마을에 유저가 있으면
             // 수강 등록 성공 -> Learning_history에 해당하는 마을의 모든 유저 수강전으로 등록
             int studentCount = learningController.insertIntoBeforeLearning(newSectionId, villageId);
 
@@ -117,6 +119,7 @@ public class InstructorSectionInputView {
         } catch (IllegalArgumentException e) {
             sectionOutputView.displaySectionError(e.getMessage());
         } catch (Exception e) {
+            e.printStackTrace();
             sectionOutputView.displaySectionError("예상치 못한 서버 오류: " + e.getMessage());
         }
     }

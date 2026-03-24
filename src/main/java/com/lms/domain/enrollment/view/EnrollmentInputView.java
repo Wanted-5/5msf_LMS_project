@@ -55,6 +55,7 @@ public class EnrollmentInputView {
                 case "0":
                     System.out.println("  [ 시스템 ] 안전하게 로그아웃 되었습니다. 초기 화면으로 돌아갑니다.");
                     UserSession.setLoggedInUser(null);
+                    AppContext.getAppContext().userAppContext.userInputView.displayInitialMenu();
                     return;
                 default:
                     System.out.println("\n  🚨 [오류] 올바른 메뉴 번호(0~3)를 입력해주세요.");

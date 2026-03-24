@@ -258,6 +258,21 @@ public class EnrollmentDAO {
         }
     }
 
+    public EnrollmentDTO findById(long enrollmentId) throws SQLException {
+        String query = QueryUtil.getQuery("enrollment.findById");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, enrollmentId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return convertToDTO(rs);
+                }
+            }
+        }
+        return null;
+    }
+
     // ======================= 내부 편의 메서드 =============================
     private EnrollmentDTO convertToDTO(ResultSet rs) throws SQLException {
         return new EnrollmentDTO(
@@ -268,4 +283,5 @@ public class EnrollmentDAO {
                 rs.getTimestamp("applied_at").toLocalDateTime()
         );
     }
+
 }

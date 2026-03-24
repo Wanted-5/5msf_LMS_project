@@ -38,11 +38,6 @@ public class Application {
                         appContext.enrollmentAppContext.enrollmentInputView.displayEnrollMainMenu();
                         //TODO: 강사 옵션으로 로직 구현
 
-//                        long villageId = 1L; // 임시로 해둠
-//                        AppContext.getAppContext()
-//                                .villageAppContext
-//                                .villageInputView
-//                                .displayInstructorMainMenu(villageId);
                     } else if (role == UserRole.STUDENT) {
                         System.out.println("  [시스템] " + UserSession.getLoggedInUser().getRole().getDescription() + "(STUDENT) 권한으로 접속했습니다.");
                         appContext.enrollmentAppContext.enrollmentInputView.displayEnrollMainMenu();

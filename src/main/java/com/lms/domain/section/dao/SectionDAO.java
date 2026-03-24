@@ -2,7 +2,7 @@ package com.lms.domain.section.dao;
 
 import com.lms.domain.section.dto.SectionDTO;
 import com.lms.domain.section.dto.request.SectionDetailRequest;
-import com.lms.domain.section.dto.response.CreateSectionRequest;
+import com.lms.domain.section.dto.request.CreateSectionRequest;
 import com.lms.global.config.JDBCTemplate;
 import com.lms.global.util.QueryUtil;
 

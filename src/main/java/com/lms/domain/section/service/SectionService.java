@@ -3,7 +3,7 @@ package com.lms.domain.section.service;
 import com.lms.domain.section.dao.SectionDAO;
 import com.lms.domain.section.dto.SectionDTO;
 import com.lms.domain.section.dto.request.SectionDetailRequest;
-import com.lms.domain.section.dto.response.CreateSectionRequest;
+import com.lms.domain.section.dto.request.CreateSectionRequest;
 import com.lms.domain.section.dto.response.SectionDetailResponse;
 import com.lms.domain.section.dto.response.SectionListResponse;
 
@@ -109,6 +109,9 @@ public class SectionService {
                 return resultSectionId;
             }
         } catch (SQLException e) {
+            if (e.getMessage() != null && e.getMessage().contains("Duplicate entry")) {
+                throw new IllegalArgumentException("해당 주차(Chapter)는 이미 등록되어 있습니다. 다른 주차 번호를 입력해 주세요.");
+            }
             throw new RuntimeException("섹션 등록 중 DB 오류가 발생했습니다.", e);
         }
     }

@@ -1,5 +1,6 @@
 package com.lms.domain.village.view;
 
+import com.lms.domain.users.dto.UserRole;
 import com.lms.domain.village.controller.VillageController;
 import com.lms.domain.village.dto.request.CreateVillageRequest;
 import com.lms.domain.village.dto.response.CreateVillageResponse;
@@ -27,6 +28,7 @@ public class InstructorVillageInputView {
     public void displayInstructorMainMenu(long villageId) {
 
         long currentUser = UserSession.getLoggedInUser().getUserId();
+        UserRole currentUserRole = UserSession.getLoggedInUser().getRole();
 
         while (true) {
             System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
@@ -41,7 +43,7 @@ public class InstructorVillageInputView {
             System.out.println("      [ 5 ] 🏠 강사 숙소 (마이페이지)");
             System.out.println("      [ 6 ] 👥 수강생 관리 (입장 승인 및 추방)");
             System.out.println("      [ 7 ] 🎲 오늘의 마피아 지목하기");
-            System.out.println("      [ 8 ] 🚪 로그아웃 (마을 떠나기)");
+            System.out.println("      [ 0 ] 🚪 로그아웃 (마을 떠나기)");
             System.out.println("────────────────────────────────────────────────────────────────");
             System.out.print("  ▶ 원하시는 메뉴의 번호를 입력해주세요 : ");
 
@@ -49,8 +51,9 @@ public class InstructorVillageInputView {
 
             switch (input) {
                 case "1":
+                    // TODO : 연동 OK, 테스트 해야함
                     System.out.println("\n  [ 시스템 ] 📅 출석 관리 시스템으로 이동합니다...");
-                    // TODO: 추후 강현이 연동, 출결 관리 View 호출
+                    AppContext.getAppContext().attendAppContext.attendInputView.AttendMenu(villageId);
                     break;
 
                 case "2":
@@ -62,7 +65,8 @@ public class InstructorVillageInputView {
 
                 case "3":
                     System.out.println("\n  [ 시스템 ] 📢 마을 게시판 관리로 이동합니다...");
-                    // TODO: 추후 종호형 연동, 게시판 관리 View 호출
+                    // TODO : 연동 OK, 테스트 해야함
+                    AppContext.getAppContext().boardAppContext.boardInputView.boardFirstMenu(villageId);
                     break;
 
                 case "4":
@@ -84,17 +88,22 @@ public class InstructorVillageInputView {
                     break;
 
                 case "7":
+                    // TODO : 연동 OK, 테스트 해야함
                     System.out.println("\n  [ 시스템 ] 🎲 오늘의 마피아 지목 시스템을 가동합니다...");
-                    // TODO: 마피아 뽑기 로직 호출
+                    AppContext.getAppContext().mafiaAppContext.mafiaInputView.selectMafia(villageId);
                     break;
 
-                case "8":
-                    System.out.println("\n  [ 시스템 ] 🚪 안전하게 로그아웃 되었습니다. 메인 화면으로 돌아갑니다.");
-                    UserSession.setLoggedInUser(null);
-                    return;
+                case "0":
+                    System.out.println("\n  [ 시스템 ] 🚪 메인 화면으로 돌아갑니다.");
+                    if (currentUserRole == UserRole.ADMIN) {
+                        AppContext.getAppContext().cityAppContext.cityInputView.displayCityAdminMenu();
+                    }
+                    if (currentUserRole == UserRole.INSTRUCTOR) {
+                        AppContext.getAppContext().enrollmentAppContext.enrollmentInputView.displayEnrollMainMenu();
+                    }
 
                 default:
-                    System.out.println("\n  🚨 [오류] 올바른 메뉴 번호(1~8)를 입력해 주세요.");
+                    System.out.println("\n  🚨 [오류] 올바른 메뉴 번호(0~7)를 입력해 주세요.");
             }
         }
     }

@@ -89,10 +89,6 @@ public class UserInputView {
 
             UserSession.setLoggedInUser(response);
 
-//            System.out.println("\n🎉 로그인에 성공했습니다!");
-//            System.out.println("  " + response.getName() + "[" + response.getNickname() + "]님 어서오세요.");
-//            System.out.println("────────────────────────────────────────────────────────────────\n");
-
             userOutputView.displayLoginSuccess(response);
 
             return;

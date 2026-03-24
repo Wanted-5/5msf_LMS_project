@@ -138,6 +138,19 @@ public class LearningDAO {
         return resultList;
     }
 
+    // 새로운 학생들에게 기존 강의 수강전으로 입력
+    public int insertExistingSectionsForNewStudent(long userId, long villageId) throws SQLException {
+        String query = QueryUtil.getQuery("learning.insertExistingSectionsForNewStudent");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, userId);
+            pstmt.setLong(2, villageId);
+            pstmt.setLong(3, villageId);
+
+            return pstmt.executeUpdate();
+        }
+    }
+
 
     // =================== 내부 편의 메서드 ==================
     private LearningDTO convertToDTO(ResultSet rs) throws SQLException {

@@ -34,21 +34,23 @@ public class MafiaDAO {
     }
 
     // 마피아 뽑기
-    public List<MafiaDTO> selectMafia(int villageId) throws SQLException {
+    public List<MafiaDTO> selectMafia(long villageId) throws SQLException {
 
-        String query = QueryUtil.getQuery("mafia.selectMafia");
+        String query = QueryUtil.getQuery("mafia.selectMafia2");
 
         List<MafiaDTO> mafiaList = new ArrayList<>();
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
 
-            pstmt.setInt(1, villageId);
+            pstmt.setLong(1, villageId);
 
             ResultSet rset = pstmt.executeQuery();
             while(rset.next()) {
                 MafiaDTO mafia = new MafiaDTO();
                 mafia.setUserId(rset.getLong("user_id"));
-                mafia.setVillageId(rset.getInt("village_id"));
+                mafia.setVillageId(rset.getLong("village_id"));
+                mafia.setName(rset.getString("name"));
+                mafia.setNickname(rset.getString("nickname"));
 
                 mafiaList.add(mafia);
             }
@@ -63,7 +65,7 @@ public class MafiaDAO {
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1, mafia.getMafiaId());  // Java에서 계산한 순번
             pstmt.setLong(2, mafia.getUserId());
-            pstmt.setInt(3, mafia.getVillageId());
+            pstmt.setLong(3, mafia.getVillageId());
             pstmt.setDate(4, Date.valueOf(mafia.getCreatedAt()));
 
             return pstmt.executeUpdate();
@@ -76,10 +78,10 @@ public class MafiaDAO {
     }
 
     // 모든 학생이 한번 씩 다 마피아 했으면 초기화
-    public int deleteMafiaHistory(int villageId) throws SQLException {
+    public int deleteMafiaHistory(long villageId) throws SQLException {
         String query = QueryUtil.getQuery("mafia.deleteMafiahistory");
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setInt(1,villageId);
+            pstmt.setLong(1,villageId);
 
             return pstmt.executeUpdate();
         }

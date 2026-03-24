@@ -1,15 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <properties>
     -- 마피아 히스토리 테이블에 없는 유저 아이디만 조회해서 마피아 선정
-    <query key = "mafia.selectMafia">
-        SELECT s.user_id, s.village_id
-        FROM enrollment s
-        LEFT JOIN mafia_history mh
-        ON s.user_id = mh.user_id
-        AND s.village_id = mh.village_id
-        WHERE s.village_id = ?
-        AND s.status = 'APPROVED'
-        AND mh.user_id IS NULL
+    <query key = "mafia.selectMafia1">
+        SELECT
+            s.user_id, s.village_id
+        FROM
+            enrollment s
+        LEFT JOIN
+            mafia_history mh
+        ON
+            s.user_id = mh.user_id AND s.village_id = mh.village_id
+        WHERE
+            s.village_id = ? AND s.status = 'APPROVED' AND mh.user_id IS NULL
+    </query>
+
+    <query key="mafia.selectMafia2">
+        SELECT
+        e.user_id, e.village_id, u.nickname, u.name
+        FROM
+            enrollment e
+        INNER JOIN
+            users u
+        ON e.user_id = u.user_id
+        LEFT JOIN
+        mafia_history mh
+        ON e.user_id = mh.user_id AND e.village_id = mh.village_id
+        WHERE
+            e.village_id = ? AND e.status = 'APPROVED' AND mh.user_id IS NULL
     </query>
 
     -- 마을 별 마피아

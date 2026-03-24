@@ -3,7 +3,7 @@ package com.lms.domain.section.controller;
 
 import com.lms.domain.section.dto.SectionDTO;
 import com.lms.domain.section.dto.request.SectionDetailRequest;
-import com.lms.domain.section.dto.response.CreateSectionRequest;
+import com.lms.domain.section.dto.request.CreateSectionRequest;
 import com.lms.domain.section.dto.response.SectionDetailResponse;
 import com.lms.domain.section.dto.response.SectionListResponse;
 import com.lms.domain.section.service.SectionService;

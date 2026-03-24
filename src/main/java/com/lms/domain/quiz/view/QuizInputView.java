@@ -4,8 +4,8 @@ import com.lms.domain.quiz.controller.QuizController;
 import com.lms.domain.quiz.dto.QuizDTO;
 
 
+import com.lms.domain.quiz.dto.Requset.CreateQuizRequest;
 import com.lms.domain.quizSubmission.view.QuizSubInputView;
-import com.lms.domain.quizSubmission.view.QuizSubOutputView;
 
 import com.lms.domain.users.dto.UserRole;
 import com.lms.global.common.UserSession;
@@ -27,7 +27,7 @@ public class QuizInputView {
         this.quizSubInputView = quizSubInputView;
     }
 
-    public void displayMainMenu() {
+    public void displayMainMenu(long villageId) {
 
         System.out.println("⢽⢝⡽⡺⣝⢽⢝⣞⢽⢝⡽⡺⣝⢽⢝⣞⢽⢝⡽⡺⣝⢽⡹⣝⡵⡯⣫⢯⣳⡫⡯⣫⢗⢯⡫⡯⣳⡫⡯⣫⢗⢯⡫⡯⣳⡫⡯⣫⢗⢯ ");
         System.out.println("⣗⡯⣞⢽⡪⡯⡳⣝⢵⡫⣞⢽⣪⢯⢳⡳⡽⣕⢯⡫⡾⣟⢮⡳⣝⢮⡳⡳⡵⣝⣝⢮⡫⣗⢽⢝⡞⡮⡯⡺⣝⢵⡫⡯⣺⣪⡻⣪⢏⡧");
@@ -80,16 +80,16 @@ public class QuizInputView {
             switch(menu) {
 
                 case 1:
-                    backMain();
+                    backMain(villageId);
                     break;
                 case 2:
-                    createQuiz();
+                    createQuiz(villageId);
                     break;
                 case 3:
-                    updateAndDelete();
+                    updateAndDelete(villageId);
                     break;
                 case 4:
-                    selectTodayQuiz();
+                    selectTodayQuiz(villageId);
                     break;
                 case 0:
                     //TODO : 테스트 해보기
@@ -99,34 +99,32 @@ public class QuizInputView {
 
     }
 
-    private void showAllQuiz() {
+    private void showAllQuiz(long villageId) {
         quizOutputview.printMessage("전체 퀴즈 목록 조회");
 
-        quizController.findAllQuiz();
-
-        List<QuizDTO> quizList = quizController.findAllQuiz();
+        List<QuizDTO> quizList = quizController.findAllQuiz(villageId);
 
         quizOutputview.printQuiz(quizList);
 
     }
 
     // 퀴즈 상세 조회
-    private void findByQuizId() {
+    private void findByQuizId(long villageId) {
         System.out.println("🔪 조회할 퀴즈 번호를 입력하시오... : ");
 
         int id = inputInt();
 
-        quizController.findByQuizId(id);
+        quizController.findByQuizId(id, villageId);
 
-        QuizDTO quiz =  quizController.findByQuizId(id);
+        QuizDTO quiz =  quizController.findByQuizId(id, villageId);
 
         quizOutputview.printDetailQuiz(quiz);
     }
 
     // 마피아 게시판으로 돌아가기
-    private void backMain() {
+    private void backMain(long villageId) {
 
-            showAllQuiz();
+            showAllQuiz(villageId);
 
         System.out.println("  🩸 [ 1 ]  퀴즈 상세 조회하기");
         System.out.println("  🚪 [ 2 ]  돌아가기");
@@ -136,24 +134,24 @@ public class QuizInputView {
             int no = inputInt();
 
             if(no == 1) {
-                findByQuizId();
+                findByQuizId(villageId);
             } else if (no == 2) {
                 System.out.println("  🚪 마피아 게시판으로 돌아갑니다...");
-                displayMainMenu();
+                displayMainMenu(villageId);
             } else {
                 System.out.println("  ⚠️  잘못된 입력입니다. 1번이나 2번만 눌러주세요.");
             }
 
     }
 
-    private void createQuiz() {
+    private void createQuiz(long villageId) {
 
         UserRole role = UserSession.getLoggedInUser().getRole();
         Long userId = UserSession.getLoggedInUser().getUserId();
 
         boolean isMafia = false;
         try {
-            quizController.getTodayMafiaId(userId.intValue());
+            quizController.getTodayMafiaId(userId.intValue(), villageId);
             isMafia = true;
         } catch (RuntimeException e) {
             isMafia = false;
@@ -192,7 +190,8 @@ public class QuizInputView {
         String answer = sc.nextLine();
 
             try {
-                Long result = quizController.createQuiz(title, fullContent, answer);
+                CreateQuizRequest request = new CreateQuizRequest(villageId, title, fullContent, answer);
+                Long result = quizController.createQuiz(request);
 
 
 
@@ -206,35 +205,30 @@ public class QuizInputView {
             }
     }
 
-    // TODO : 퀴즈 삭제도 수정처럼 수정하기.
-    // TODO : 오늘의 마피아 조회, 강사,관리자,마피아 본인만
     // 퀴즈 삭제
-    private void deleteQuiz() {
-        showAllQuiz();
+    private void deleteQuiz(long villageId) {
+        showAllQuiz(villageId);
 
         System.out.println("  🔪 삭제할 퀴즈 번호를 입력하시오... : ");
-        long quiz = inputLong();
+        long quizId = inputLong();
 
         try {
-            Long result = quizController.deleteQuiz(quiz);
+            int result = quizController.deleteQuiz(quizId, villageId);
 
-            if (result != null && result >= 0) {
+            if (result != 0) {
                 quizOutputview.printSuccess("🩸 퀴즈가 어둠 속으로 사라졌습니다...");
-                QuizDTO deleteQuiz = quizController.findByQuizId((int) quiz);
-
-                if (deleteQuiz == null) {
-                    quizOutputview.printMessage("확인 : " + quiz + "번 퀴즈가 정상 삭제 되었습니다");
-                } else {
-                    quizOutputview.printError("삭제 확인 중 문제 발생 !!");
-                }
+                quizOutputview.printMessage("확인 : " + quizId + "번 퀴즈가 정상 삭제 되었습니다");
+            } else {
+                quizOutputview.printError("수정 확인 중 문제 발생 !!");
             }
         } catch (RuntimeException e) {
             quizOutputview.printError(e.getMessage());
         }
     }
+
     // 퀴즈 수정 로직
-    private void updateQuiz() {
-        showAllQuiz();
+    private void updateQuiz(long villageId) {
+        showAllQuiz(villageId);
         System.out.println("  ☠️ ═══════════════════════════════════════ ☠️");
         System.out.println("           🩸 퀴즈 수정하기 🩸               ");
         System.out.println("  ☠️ ═══════════════════════════════════════ ☠️");
@@ -264,11 +258,11 @@ public class QuizInputView {
         System.out.print("  🩸 수정할 정답 번호를 입력하시오... : ");
         String answer = sc.nextLine();
         try {
-            int result = quizController.updateQuiz(quizId, title, fullContent, answer);
+            int result = quizController.updateQuiz(quizId, title, fullContent, answer, villageId);
 
             if (result != 0) {
                 quizOutputview.printSuccess("🩸 퀴즈가 어둠 속에서 변형되었습니다...");
-                QuizDTO updateQuiz = quizController.findByQuizId(quizId);
+                QuizDTO updateQuiz = quizController.findByQuizId(quizId, villageId);
 
                 if (updateQuiz != null) {
                     quizOutputview.printMessage("확인 : " + quizId + "번 퀴즈가 정상 수정 되었습니다");
@@ -281,14 +275,14 @@ public class QuizInputView {
         }
     }
 
-    private void updateAndDelete() {
+    private void updateAndDelete(long villageId) {
 
         UserRole role = UserSession.getLoggedInUser().getRole();
         Long userId = UserSession.getLoggedInUser().getUserId();
 
         boolean isMafia = false;
         try {
-            quizController.getTodayMafiaId(userId.intValue());
+            quizController.getTodayMafiaId(userId.intValue(), villageId);
             isMafia = true;
         } catch (RuntimeException e) {
             isMafia = false;
@@ -312,18 +306,18 @@ public class QuizInputView {
             int no = inputInt();
 
             if (no == 1) {
-                updateQuiz();
+                updateQuiz(villageId);
             } else if (no == 2) {
-                deleteQuiz();
+                deleteQuiz(villageId);
             } else if (no == 3) {
-                displayMainMenu();
+                displayMainMenu(villageId);
             } else {
                 System.out.println("없는 번호입니다 다시 입력해주세요");
             }
     }
 
     // 오늘의 퀴즈 풀기
-    private void selectTodayQuiz() {
+    private void selectTodayQuiz(long villageId) {
         try {
 
             if(!isBeforeDeadline()) {
@@ -331,7 +325,7 @@ public class QuizInputView {
                 return;
             }
 
-            QuizDTO quiz = quizController.selectTodayQuiz();
+            QuizDTO quiz = quizController.selectTodayQuiz(villageId);
 
             System.out.println("  ☠️ ═══════════════════════════════════════ ☠️");
             System.out.println("           🩸 오늘의 퀴즈 🩸                  ");
@@ -352,9 +346,9 @@ public class QuizInputView {
                     quizOutputview.printError("🕯️  시간이 지났습니다... 제출이 불가합니다... 🕯️");
                     return;
                 }
-                quizSubInputView.submitAnswer(String.valueOf(answer));
+                quizSubInputView.submitAnswer(String.valueOf(answer), villageId);
             } else {
-                displayMainMenu();
+                displayMainMenu(villageId);
             }
         } catch (RuntimeException e) {
             quizOutputview.printError(e.getMessage());

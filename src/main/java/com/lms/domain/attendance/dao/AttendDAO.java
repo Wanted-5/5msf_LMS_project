@@ -21,11 +21,10 @@ public class AttendDAO {
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
 
-            pstmt.setLong(1, dto.getAttendanceId());
-            pstmt.setLong(2, dto.getVillageId());
-            pstmt.setLong(3, dto.getUserId());
-            pstmt.setString(4, dto.getStatus().toString());
-            pstmt.setDate(5, java.sql.Date.valueOf(java.time.LocalDate.now()));
+            pstmt.setLong(1, dto.getVillageId());
+            pstmt.setLong(2, dto.getUserId());
+            pstmt.setString(3, dto.getStatus().toString());
+            pstmt.setDate(4, java.sql.Date.valueOf(java.time.LocalDate.now()));
             return pstmt.executeUpdate();
         }
 

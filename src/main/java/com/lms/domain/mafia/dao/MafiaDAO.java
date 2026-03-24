@@ -1,6 +1,7 @@
 package com.lms.domain.mafia.dao;
 
 import com.lms.domain.mafia.dto.MafiaDTO;
+import com.lms.domain.mafia.dto.Response.SelectMafiaResponse;
 import com.lms.global.util.QueryUtil;
 
 
@@ -103,11 +104,12 @@ public class MafiaDAO {
     }
 
     // 오늘 날짜에 해당하는 마피아 아이디 검증
-    public Long selectTodayMafiaId(Long userId) throws SQLException {
+    public Long selectTodayMafiaId(Long userId, long villageId) throws SQLException {
         String query = QueryUtil.getQuery("mafia.selectTodayMafiaId");
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setLong(1, userId);
+            pstmt.setLong(2, villageId);
             ResultSet rset = pstmt.executeQuery();
             if (rset.next()) {
                 return rset.getLong("mafia_id");
@@ -116,4 +118,19 @@ public class MafiaDAO {
         }
     }
 
+    public SelectMafiaResponse selectTodayMafiaInfo(long villageId) throws SQLException {
+        String query = QueryUtil.getQuery("mafia.selectTodayMafiaInfo");
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setLong(1, villageId);
+            ResultSet rset = pstmt.executeQuery();
+            if (rset.next()) {
+                return new SelectMafiaResponse(
+                        rset.getString("name"),
+                        rset.getString("nickname")
+                );
+            }
+        }
+        return null;
+    }
 }

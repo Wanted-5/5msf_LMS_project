@@ -14,7 +14,6 @@ public class UserDAO {
         this.connection = connection;
     }
 
-    //
     public UserDTO findById(Long userId) throws SQLException {
 
         String query = QueryUtil.getQuery("users.findById");

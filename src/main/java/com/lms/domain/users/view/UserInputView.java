@@ -25,9 +25,7 @@ public class UserInputView {
     public void displayInitialMenu() {
 
         while (true) {
-            // 핵심 라우팅 방어막 코드
-            // loginProcess()가 성공적으로 끝나고 세션에 값이 담긴 채로 돌아오면,
-            // 이 방어막에 걸려서 즉시 초기 화면 루프를 탈출하고 광장(main)으로 나간다
+
             if (UserSession.getLoggedInUser() != null) {
                 return;
             }
@@ -165,9 +163,7 @@ public class UserInputView {
         System.out.println("\n────────────────────────────────────────────────────────────────");
         System.out.println("  🚶 마을 길을 따라 나의 숙소로 이동합니다...");
 
-        // 1. 역동적인 가로 보행 모션 (애니메이션)
-        // 💡 10년 차 선배의 팁: '\r'과 System.out.flush()를 활용하여
-        // 한 줄 안에서 프레임이 바뀌는 효과를 줍니다.
+        // 쓰레드로 걸어가는 애니메이션
         try {
             int totalSteps = 25; // 걷는 전체 거리 (칸 수)
             int animSpeed = 150; // 걸음 속도 (밀리초, 낮을수록 빠름)
@@ -181,23 +177,20 @@ public class UserInputView {
                     frame.append(" ");
                 }
 
-                // 🌟 발자국 아스키 아트 (옆으로 걸어가는 모양)
-                // 짝수/홀수 프레임에 따라 미묘하게 모양을 바꾸면 더 걷는 느낌이 납니다!
                 if (i % 2 == 0) {
                     frame.append("👣 (뚜벅)");
                 } else {
                     frame.append("  👣 (뚜벅)");
                 }
 
-                // 만든 프레임을 출력 (ln 아님에 주의!)
+                // 만든 프레임을 출력
                 System.out.print(frame.toString());
 
-                // 🌟 버퍼를 강제로 비워 즉시 화면에 출력되게 합니다.
                 System.out.flush();
 
                 Thread.sleep(animSpeed);
             }
-            // 도착 후 다음 줄로 넘어감
+
             System.out.println("\n\n  🏠 [도착!] 정수님의 숙소 앞입니다.");
             System.out.println("────────────────────────────────────────────────────────────────\n");
 
@@ -205,9 +198,8 @@ public class UserInputView {
             Thread.currentThread().interrupt();
         }
 
-        // 숙소 내부 모션
         while (true) {
-            // 콘솔 출력 전에 세션값 존재 여부 검증하는 코드
+
             if (UserSession.getLoggedInUser() == null) {
                 return;
             }
@@ -225,12 +217,10 @@ public class UserInputView {
 
             switch (choice) {
                 case "1":
-                    // TODO: 내 정보 조회 로직
                     showProfileProcess();
                     System.out.println("\n  [ 시스템 ] 거울을 봅니다. (내 정보 조회 실행)");
                     break;
                 case "2":
-                    // TODO: 내 정보 수정 로직
                     displayEditInfoMenu();
                     System.out.println("\n  [ 시스템 ] 옷장을 정리합니다. (내 정보 수정 실행)");
                     break;
@@ -239,8 +229,6 @@ public class UserInputView {
                     break;
                 case "0":
                     System.out.println("\n  🚪 문을 열고 다시 활기찬 마을(메인페이지)로 나섭니다...");
-                    // return을 사용하면 이 메서드가 종료되고,
-                    // 나를 호출했던 이전 루프(메인페이지 루프)로 자연스럽게 돌아갑니다!
                     return;
                 default:
                     System.out.println("\n  [🚨] 올바른 번호(0, 1, 2, 3)를 입력해주세요.");
@@ -250,7 +238,6 @@ public class UserInputView {
 
     private void displayEditInfoMenu() {
         while (true) {
-            // 콘솔 출력 전에 세션값 존재 여부 검증하는 코드
             if (UserSession.getLoggedInUser() == null) {
                 return;
             }
@@ -282,7 +269,6 @@ public class UserInputView {
                     break;
                 case "4":
                     System.out.println("\n  🚪 옷장 문을 닫고 다시 방으로 돌아갑니다.");
-                    // 🌟 return을 호출하면 이 메서드가 종료되고, 이전 화면인 '숙소 메인 메뉴'로 돌아갑니다.
                     return;
                 default:
                     System.out.println("\n  [🚨] 올바른 번호(1, 2, 3, 4)를 입력해주세요.");
@@ -306,8 +292,6 @@ public class UserInputView {
             System.out.println("보안을 위해 자동 로그아웃됩니다. 새로운 비밀번호로 다시 로그인해 주세요.\n");
 
         } catch (Exception e) {
-            // [❌개발 중 삭제 금지] 병합 중에도 추가하기, 디버깅용
-            e.printStackTrace();
             userOutputView.displayUpdateFailure(e.getMessage());
         }
     }
@@ -321,8 +305,6 @@ public class UserInputView {
 
            userOutputView.displayUpdateSuccess(response);
         } catch (Exception e) {
-            // [❌개발 중 삭제 금지] 병합 중에도 추가하기, 디버깅용
-            e.printStackTrace();
             userOutputView.displayUpdateFailure(e.getMessage());
         }
     }
@@ -337,8 +319,6 @@ public class UserInputView {
 
             userOutputView.displayUpdateSuccess(response);
         } catch (Exception e) {
-            // [❌개발 중 삭제 금지] 병합 중에도 추가하기, 디버깅용
-            e.printStackTrace();
             userOutputView.displayUpdateFailure(e.getMessage());
         }
     }
@@ -351,8 +331,6 @@ public class UserInputView {
             userOutputView.displayMyPageSuccess(response);
 
         } catch (Exception e) {
-            // [❌개발 중 삭제 금지] 병합 중에도 추가하기, 디버깅용
-            e.printStackTrace();
             userOutputView.displayMyPageFailure(e.getMessage());
         }
     }

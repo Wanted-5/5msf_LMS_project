@@ -71,7 +71,7 @@ public class InstructorVillageInputView {
 
                 case "4":
                     System.out.println("\n  [ 시스템 ] 🕵️‍♂️ 마피아 게시판 관리로 이동합니다...");
-                    // TODO: 추후 태연이 연동, 마피아 게시판 View 호출
+                    AppContext.getAppContext().quizAppContext.quizInputView.displayMainMenu(villageId);
                     break;
 
                 case "5":

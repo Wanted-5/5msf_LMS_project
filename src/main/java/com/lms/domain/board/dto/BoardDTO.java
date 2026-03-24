@@ -5,10 +5,6 @@ import com.lms.global.common.UserSession;
 import java.time.LocalDateTime;
 
 public class BoardDTO {
-
-    private final Long TEST_USER_ID = 6L;
-
-
     private Long boardId;
     private Long villageId;
     private Long creatorId;
@@ -49,10 +45,6 @@ public class BoardDTO {
         this.content = content;
         this.createdAt = createdAt;
         this.nickname = nickname;
-    }
-
-    public Long getTEST_USER_ID() {
-        return TEST_USER_ID;
     }
 
     public Long getBoardId() {
@@ -131,8 +123,7 @@ public class BoardDTO {
     @Override
     public String toString() {
         return "BoardDTO{" +
-                "TEST_USER_ID=" + TEST_USER_ID +
-                ", boardId=" + boardId +
+                "boardId=" + boardId +
                 ", villageId=" + villageId +
                 ", creatorId=" + creatorId +
                 ", categoryId=" + categoryId +

@@ -26,7 +26,6 @@ public class CommentOutputView {
             return;
         }
 
-        // 🌟 날짜를 예쁘게 출력하기 위한 포매터 설정
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yy-MM-dd HH:mm");
 
         System.out.println("\n==========================================================================");
@@ -35,7 +34,6 @@ public class CommentOutputView {
         System.out.printf("%-5s | %-10s | %-15s | %-20s\n", "번호", "작성자(ID)", "작성/수정 시간", "내용");
         System.out.println("--------------------------------------------------------------------------");
 
-        // 🌟 순번을 매기기 위해 for문 변경 (인덱스 사용)
         for (int i = 0; i < commentList.size(); i++) {
             CommentDTO comment = commentList.get(i);
 
@@ -51,7 +49,6 @@ public class CommentOutputView {
                 shortContent = shortContent.substring(0, 20) + "...";
             }
 
-            // 🌟 [핵심] 리스트 순번(i+1), 작성자 ID, 시간, 내용 출력
             System.out.printf("[ %2d ] | %-10d | %-15s | %s\n",
                     (i + 1),
                     comment.getCreatorId(),

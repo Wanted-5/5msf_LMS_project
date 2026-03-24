@@ -23,10 +23,6 @@ public class AttendInputView {
 
     public void AttendMenu(Long villageId) {
         LoginResponse loginUser = UserSession.getLoggedInUser();
-        if (!UserSession.isLoggedIn()) {
-            attendOutputView.printError("출결 메뉴는 로그인 후 이용 가능합니다.");
-            return;
-        }
 
         if (loginUser.getRole() == UserRole.ADMIN || loginUser.getRole() == UserRole.INSTRUCTOR) {
             AdminAttendMenu(villageId);
@@ -39,67 +35,80 @@ public class AttendInputView {
         LoginResponse loginUser = UserSession.getLoggedInUser();
 
         while (true) {
-            System.out.println("\n==== 🧑‍🎓 [학생] 출결 메뉴 ====");
-            System.out.println("1. 출석체크 하기");
-            System.out.println("2. 출결 확인");
-            System.out.println("3. 메인 메뉴로 돌아가기");
-            System.out.print("번호를 입력해 주세요 : ");
+            System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
+            System.out.println("║                 📅 마을 교육센터 - 출입/출결 시스템 (학생용)       ║");
+            System.out.println("╚══════════════════════════════════════════════════════════════╝");
+            System.out.println("  [ 시스템 ] 교육센터의 일일 출석을 인증하고 누적 기록을 열람합니다.");
+            System.out.println("────────────────────────────────────────────────────────────────");
+            System.out.println("      [ 1 ] ✅ 금일 출석 인증 (Check-in)");
+            System.out.println("      [ 2 ] 📊 나의 누적 출결 기록 열람");
+            System.out.println("      [ 3 ] ↩️ 출결 시스템 종료 (마을 광장 복귀)");
+            System.out.println("────────────────────────────────────────────────────────────────");
+            System.out.print("  ▶ 원하시는 업무 번호를 입력해주세요 : ");
 
             try {
                 int menu1 = Integer.parseInt(sc.nextLine());
 
                 switch (menu1) {
                     case 1:
+                        System.out.println("\n  [ 시스템 ] 현재 시간부로 교육센터 출입(출석) 인증 프로세스를 가동합니다...");
                         AttendDTO newAttend = new AttendDTO();
-                        newAttend.setAttendanceId(System.currentTimeMillis());
                         newAttend.setVillageId(villageId);
                         newAttend.setUserId(loginUser.getUserId());
                         newAttend.setAttendanceDate(java.time.LocalDateTime.now());
                         attendController.processAttendanceCheck(newAttend);
                         break;
                     case 2:
+                        System.out.println("\n  [ 시스템 ] 데이터베이스에서 본인의 누적 출결 기록을 동기화합니다...");
                         List<AttendDTO> myList = attendController.viewMyAttendance(loginUser.getUserId());
                         attendOutputView.printAttendanceList(myList);
                         break;
                     case 3:
-                        System.out.println("메인 메뉴로 돌아갑니다.");
+                        System.out.println("\n  [ 시스템 ] 출결 관리 시스템을 안전하게 종료하고 이전 화면으로 복귀합니다.");
                         return;
                     default:
-                        attendOutputView.printError("1~3 사이의 숫자를 입력해주세요.");
+                        attendOutputView.printError("존재하지 않는 업무 번호입니다. 1~3 사이의 숫자를 입력해 주세요.");
                 }
             } catch (NumberFormatException e) {
-                attendOutputView.printError("입력 오류: 숫자만 입력해주세요!");
+                attendOutputView.printError("입력 오류: 업무 번호는 숫자만 입력 가능합니다.");
             }
         }
     }
 
     public void AdminAttendMenu(Long villageId) {
         while (true) {
-            System.out.println("\n==== 👨‍🏫 [관리자] 출결 관리 메뉴 ====");
-            System.out.println("1. 수강생 전체 출결 조회(최신순)");
-            System.out.println("2. 수강생 출결 관리 (수정/삭제)");
-            System.out.println("3. 이전 메뉴로 돌아가기");
-            System.out.print("번호를 입력해 주세요 : ");
+            System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
+            System.out.println("║                 👨‍🏫 마을 교육센터 - 출결 통합 관제실 (관리자용)     ║");
+            System.out.println("╚══════════════════════════════════════════════════════════════╝");
+            System.out.println("  [ 시스템 ] 마을 전체 수강생의 출결 현황을 감독하고 기록을 관리합니다.");
+            System.out.println("────────────────────────────────────────────────────────────────");
+            System.out.println("      [ 1 ] 📊 수강생 전체 출결 조감도 열람 (최신순)");
+            System.out.println("      [ 2 ] ⚙️ 특정 수강생 출결 기록 재정비 (수정/철거)");
+            System.out.println("      [ 3 ] ↩️ 관제실 퇴장 및 이전 메뉴 복귀");
+            System.out.println("────────────────────────────────────────────────────────────────");
+            System.out.print("  ▶ 원하시는 행정 업무 번호를 입력해주세요 : ");
 
             try {
                 int menu2 = Integer.parseInt(sc.nextLine());
 
                 switch (menu2) {
                     case 1:
+                        System.out.println("\n  [ 시스템 ] 전체 수강생의 최신 출결 데이터를 서버에서 동기화합니다...");
                         List<AttendDTO> allList = attendController.viewAllAttendance();
                         attendOutputView.printAttendanceList(allList);
                         break;
                     case 2:
+                        System.out.println("\n  [ 시스템 ] 수강생 출결 기록 재정비 프로세스를 가동합니다...");
                         AttendUpdate();
                         break;
                     case 3:
-                        System.out.println("메인 메뉴로 돌아갑니다.");
+                        System.out.println("\n  [ 시스템 ] 출결 관제실을 안전하게 종료하고 이전 화면으로 복귀합니다.");
                         return;
                     default:
-                        attendOutputView.printError("올바른 번호(1~3)를 입력해주세요.");
+                        attendOutputView.printError("존재하지 않는 업무 번호입니다. 올바른 번호(1~3)를 입력해주세요.");
                 }
             } catch (NumberFormatException e) {
-                attendOutputView.printError("입력 오류: 숫자만 입력해주세요!");
+                attendOutputView.printError("입력 오류: 업무 번호는 숫자만 입력 가능합니다.");
             }
         }
     }
@@ -152,12 +161,6 @@ public class AttendInputView {
 
                 } else if (action == 2) {
                     System.out.print("정말 삭제하시겠습니까? (y/n) : ");
-//                    public boolean equalsIgnoreCase(String anotherString) {
-//                        return (this == anotherString) ? true
-//                                : (anotherString != null)
-//                                && (anotherString.length() == length())
-//                                && regionMatches(true, 0, anotherString, 0, length());
-//                    } ---> equalsIgnoreCase (y/Y 같은거 출력)
                     if (sc.nextLine().equalsIgnoreCase("y")) {
                         boolean isSuccess = attendController.deleteAttendance(targetId);
                         if (isSuccess) {

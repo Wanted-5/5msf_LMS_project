@@ -45,17 +45,14 @@ public class StudentSectionInputView {
 
             switch (choice) {
                 case "1":
-                    //comment, 연동 OK
                     System.out.println("\n  [ 시스템 ] 📚 수강 가능한 강의 목록을 탐색합니다...");
                     showAllSectionsProcess(villageId);
                     break;
                 case "2":
-                    //comment, 연동 OK
                     System.out.println("\n  [ 시스템 ] ▶️ 학습 시스템을 가동합니다...");
                     startLearning(villageId);
                     break;
                 case "3":
-                    //comment, 연동 OK
                     System.out.println("\n  [ 시스템 ] ✅ 완료된 학습 기록을 조회합니다...");
                     showCompletedSections(villageId);
                     break;

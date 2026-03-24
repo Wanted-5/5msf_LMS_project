@@ -23,8 +23,8 @@ public class CommentService {
     }
 
     public boolean createComment(CommentDTO newComment) {
-        try {
 
+        try {
             int result = commentDAO.insertComment(newComment);
 
             return result > 0;
@@ -35,30 +35,36 @@ public class CommentService {
             return false;
         }
     }
+
     public List<CommentDTO> findCommentAll(long boardId) {
 
         try {
-            return commentDAO.findCommentAll(boardId);
+            List<CommentDTO> commentDTOList = commentDAO.findCommentAll(boardId);
+
+            if (commentDTOList == null || commentDTOList.isEmpty()) {
+               throw new IllegalArgumentException("댓글이 존재하지 않습니다.");
+            }
+
+            return commentDTOList;
+
         } catch (SQLException e) {
-            throw new RuntimeException("강의 전체 조회 중 Error 발생!! " + e);
+            throw new RuntimeException("댓글 전체 조회 중 Error 발생!! " + e);
         }
     }
-    public List<CommentDTO> getCommentsForBoard(long boardId) throws SQLException {
-
-        if (!UserSession.isLoggedIn()) {
-            System.out.println("로그인이 필요한 기능입니다. 먼저 로그인을 해주세요.");
-
-            return new ArrayList<>();
-        }
+    public List<CommentDTO> getCommentsForBoard(long boardId) {
 
         LoginResponse loginUser = UserSession.getLoggedInUser();
 
-        if (loginUser.getRole() == UserRole.ADMIN || loginUser.getRole() == UserRole.INSTRUCTOR) {
-            return commentDAO.findCommentAll(boardId);
-        } else {
-            return commentDAO.findUserCommentAll(boardId, loginUser.getUserId());
+            try {
+                if (loginUser.getRole() == UserRole.ADMIN || loginUser.getRole() == UserRole.INSTRUCTOR) {
+                    return commentDAO.findCommentAll(boardId);
+                } else {
+                    return commentDAO.findUserCommentAll(boardId, loginUser.getUserId());
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
-    }
 
     public boolean updateComment(CommentDTO updateDto) {
         try {

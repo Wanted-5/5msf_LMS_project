@@ -61,7 +61,7 @@ public class StudentVillageInputView {
                     break;
                 case "5":
                     System.out.println("\n  [ 시스템 ] 🕵️ 마피아 광장으로 아동합니다...");
-                    AppContext.getAppContext().quizAppContext.quizInputView.displayMainMenu();
+                    AppContext.getAppContext().quizAppContext.quizInputView.displayMainMenu(villageId);
                     break;
                 case "0":
                     System.out.println("\n  [ 시스템 ] 마을에서 퇴장합니다. 짐을 챙겨 이동합니다...");

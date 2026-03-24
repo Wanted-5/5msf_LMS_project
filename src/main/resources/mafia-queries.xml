@@ -56,6 +56,16 @@
     <query key="mafia.selectTodayMafiaId">
         SELECT mafia_id FROM mafia_history
         WHERE user_id = ?
+        AND village_id = ?
         AND selected_date = CURDATE()
     </query>
+
+    <query key = "mafia.selectTodayMafiaInfo">
+        SELECT mh.mafia_id, mh.user_id, u.name, u.nickname
+        FROM mafia_history mh
+        JOIN users u ON mh.user_id = u.user_id
+        WHERE mh.selected_date = CURDATE()
+        AND mh.village_id = ?
+    </query>
+
 </properties>

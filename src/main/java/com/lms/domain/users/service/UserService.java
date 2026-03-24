@@ -28,17 +28,14 @@ public class UserService {
     public SignupResponse signup(SignupRequest request) {
         try {
 
-            // 검증 객체 생성
             UserDTO existingUser = null;
 
             existingUser = userDAO.findByUsername(request.getUsername());
 
-            // 존재 여부 검증
             if (existingUser != null) {
                 throw new IllegalArgumentException("👪 이미 존재하는 회원입니다.");
             }
 
-            // 비밀번호 암호화
             String hashedPassword = PasswordUtil.hash(request.getPassword());
 
             UserDTO newUser = new UserDTO(
@@ -62,8 +59,6 @@ public class UserService {
 
             if (newUserId == null) {
                 throw new RuntimeException("[🚨] 회원가입 처리에 실패했습니다. (DB 저장 실패)");
-                // 추후 사용자 친화적인 mseeage로 변경
-                // "시스템 오류로 로그인할 수 없습니다. 잠시 후 다시 시도해주세요."
             }
 
             newUser.setUserId(newUserId);

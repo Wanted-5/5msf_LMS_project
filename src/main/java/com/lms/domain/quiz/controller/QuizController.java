@@ -2,8 +2,8 @@ package com.lms.domain.quiz.controller;
 
 import com.lms.domain.mafia.service.MafiaService;
 import com.lms.domain.quiz.dto.QuizDTO;
+import com.lms.domain.quiz.dto.Requset.CreateQuizRequest;
 import com.lms.domain.quiz.service.QuizService;
-import com.lms.global.common.UserSession;
 
 import java.util.List;
 
@@ -17,37 +17,43 @@ public class QuizController {
         this.mafiaService = mafiaService;
     }
 
-    public List<QuizDTO> findAllQuiz() {
+    public List<QuizDTO> findAllQuiz(long villageId) {
 
-        return quizService.findAllQuiz();
+        return quizService.findAllQuiz(villageId);
 
     }
 
-    public QuizDTO findByQuizId(long quizId) {
+    public QuizDTO findByQuizId(long quizId, long villageId) {
 
-        return quizService.findByQuizId(quizId);
+        return quizService.findByQuizId(quizId, villageId);
     }
 
-    public Long createQuiz(String title, String content, String answer) {
+    public Long createQuiz(CreateQuizRequest request) {
 
-        QuizDTO newQuiz = new QuizDTO(null, null, title, content, answer);
+        QuizDTO newQuiz = new QuizDTO(
+                null,
+                null,
+                request.getTitle(),
+                request.getVillageId(),
+                request.getContent(),
+                request.getAnswer());
         return quizService.createQuiz(newQuiz);
     }
 
-    public Long deleteQuiz(long quiz) {
-        return quizService.deleteQuiz(quiz);
+    public int deleteQuiz(long quiz, long villageId) {
+        return quizService.deleteQuiz(quiz, villageId);
     }
 
-    public int updateQuiz(long quizId, String title, String content, String answer) {
-        return quizService.updateQuiz(quizId, title, content, answer);
+    public int updateQuiz(long quizId, String title, String content, String answer, long villageId) {
+        return quizService.updateQuiz(quizId, title, content, answer, villageId);
     }
 
-    public QuizDTO selectTodayQuiz() {
-        return quizService.selectTodayQuiz();
+    public QuizDTO selectTodayQuiz(long villageId) {
+        return quizService.selectTodayQuiz(villageId);
     }
 
-    public Long getTodayMafiaId(long userId) {
-        return mafiaService.selectTodayMafiaId(userId);
+    public Long getTodayMafiaId(long userId, long villageId) {
+        return mafiaService.selectTodayMafiaId(userId, villageId);
     }
 
 }

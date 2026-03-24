@@ -2,6 +2,7 @@ package com.lms.domain.mafia.service;
 
 import com.lms.domain.mafia.dao.MafiaDAO;
 import com.lms.domain.mafia.dto.MafiaDTO;
+import com.lms.domain.mafia.dto.Response.SelectMafiaResponse;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -84,13 +85,24 @@ public class MafiaService {
     }
 
     // 오늘 날짜에 해당하는 마피아 아이디 검증
-    public Long selectTodayMafiaId(long userId) {
+    public Long selectTodayMafiaId(long userId, long villageId) {
         try {
-            return mafiaDAO.selectTodayMafiaId(userId);
+            return mafiaDAO.selectTodayMafiaId(userId, villageId);
         } catch (SQLException e) {
             throw new RuntimeException("마피아 정보 조회 실패 : " + e.getMessage());
         }
     }
 
 
+    public SelectMafiaResponse selectTodayMafiaInfo(long villageId) {
+        try {
+            SelectMafiaResponse mafia = mafiaDAO.selectTodayMafiaInfo(villageId);
+            if (mafia == null) {
+                throw new RuntimeException("오늘의 마피아가 아직 선정되지 않았습니다.");
+            }
+            return mafia;
+        } catch (SQLException e) {
+            throw new RuntimeException("마피아 조회 실패 : " + e.getMessage());
+        }
+    }
 }

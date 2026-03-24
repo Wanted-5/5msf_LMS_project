@@ -30,12 +30,15 @@ public class AttendController {
 
         return attendService.getMyAttendance(userId);
     }
+
     public List<AttendDTO> viewAllAttendance() {
         return attendService.getAllAttendanceForAdmin();
     }
+
     public List<AttendDTO> viewAttendanceByDate(LocalDate targetDate) {
         return attendService.getAttendanceByDate(targetDate);
     }
+
     //discription5는 enum의 5가지 discription
     public boolean updateAttendStatus(long targetId, String description5) {
 

@@ -29,12 +29,29 @@ public class MafiaInputView {
         }
 
         try {
-            // TODO : 닉네임, 이름 보여주는걸로 리펙토링
-
             SelectMafiaResponse response = mafiaController.selectMafia(villageId);
             mafiaOutputView.printTodayMafia(response);
         } catch (RuntimeException e) {
             mafiaOutputView.printError(e.getMessage());
+        }
+    }
+
+    public void selectTodayMafiaInfo(long villageId) {
+        try {
+            UserRole role = UserSession.getLoggedInUser().getRole();
+            Long userId = UserSession.getLoggedInUser().getUserId();
+
+            SelectMafiaResponse response = mafiaController.selectTodayMafiaInfo(villageId);
+            // 권한 체크
+            if (role == UserRole.INSTRUCTOR || role == UserRole.ADMIN) {
+                mafiaOutputView.printTodayMafia(response);
+            } else if (response.getUserId() == userId.intValue()) {
+                mafiaOutputView.printTodayMafia(response);
+            } else {
+                System.out.println("  🚨 오늘의 마피아만 확인할 수 있습니다.");
+            }
+        } catch (RuntimeException e) {
+            System.out.println("  🚨 " + e.getMessage());
         }
     }
 

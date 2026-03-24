@@ -22,12 +22,12 @@ public class QuizSubService {
         this.quizDAO = new QuizDAO(connection);
     }
 
-    public boolean submitAnswer(String submitAnswer) {
+    public boolean submitAnswer(String submitAnswer, long villageId) {
         try {
             Long userId = UserSession.getLoggedInUser().getUserId();
 
             // 오늘 퀴즈 가져오기
-            QuizDTO todayQuiz = quizDAO.selectTodayQuiz();
+            QuizDTO todayQuiz = quizDAO.selectTodayQuiz(villageId);
 
             // 이미 제출했는지 체크
             boolean exists = quizsubDAO.alreadysubmit(todayQuiz.getQuizId(), userId);

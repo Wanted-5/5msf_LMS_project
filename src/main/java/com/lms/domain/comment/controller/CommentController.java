@@ -26,10 +26,7 @@ public class CommentController {
         }
 
         LoginResponse loginUser = UserSession.getLoggedInUser();
-        if (loginUser == null) {
-            System.out.println("로그인이 필요합니다.");
-            return false;
-        }
+
         Long currentUserId = loginUser.getUserId();
 
         CommentDTO newComment = new CommentDTO(boardId, currentUserId, content);
@@ -42,15 +39,7 @@ public class CommentController {
     }
 
     public List<CommentDTO> getEditableComments(long boardId) {
-
-        try {
-            //지우면 안되는 권한검증 로직
             return commentService.getCommentsForBoard(boardId);
-
-        } catch (SQLException e) {
-            System.out.println("권한 확인 중 오류 발생: " + e.getMessage());
-            return new ArrayList<>();
-        }
     }
 
     public boolean updateComment(long commentId, String content) {

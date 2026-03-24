@@ -8,38 +8,43 @@ public class QuizDTO {
     private String title;
     private Long mafiaId;
     private Long userId;
+    private Long villageId;
     private String content;
     private String answer;
     private LocalDateTime createdAt;
 
-    public QuizDTO(Long quizId, Long mafiaId, String title, String content, String answer) {
+    public QuizDTO(Long quizId, Long mafiaId, String title, Long villageId, String content, String answer) {
         this.quizId = quizId;
         this.mafiaId = mafiaId;
         this.title = title;
+        this.villageId = villageId;
         this.content = content;
         this.answer = answer;
     }
 
-    public QuizDTO(Long quizId, String title, Long mafiaId,Long userId, String content, String answer, LocalDateTime createdAt) {
+    public QuizDTO(Long quizId, String title, Long mafiaId, Long userId, Long villageId, String content, String answer, LocalDateTime createdAt) {
         this.quizId = quizId;
         this.title = title;
         this.mafiaId = mafiaId;
         this.userId = userId;
+        this.villageId = villageId;
         this.content = content;
         this.answer = answer;
         this.createdAt = createdAt;
     }
 
-    public QuizDTO(String content, String title, Long quizId) {
+    public QuizDTO(String content, String title, Long quizId, Long villageId) {
         this.content = content;
+        this.villageId = villageId;
         this.mafiaId = mafiaId;
         this.title = title;
         this.quizId = quizId;
     }
 
-    public QuizDTO(long quizId, String title, String content, String answer) {
+    public QuizDTO(long quizId, String title, Long villageId, String content, String answer) {
         this.quizId = quizId;
         this.title = title;
+        this.villageId = villageId;
         this.content = content;
         this.answer = answer;
     }
@@ -111,5 +116,9 @@ public class QuizDTO {
                 ", answer='" + answer + '\'' +
                 ", createdAt=" + createdAt +
                 '}';
+    }
+
+    public Long getVillageId() {
+        return villageId;
     }
 }

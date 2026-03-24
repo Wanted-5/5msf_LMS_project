@@ -10,8 +10,8 @@ public class QuizSubController {
         this.quizsubService = quizsubService;
     }
 
-    public boolean submitAnswer(String submittedAnswer) {
-        return quizsubService.submitAnswer(submittedAnswer);
+    public boolean submitAnswer(String submittedAnswer, long villageId) {
+        return quizsubService.submitAnswer(submittedAnswer, villageId);
     }
 }
 

@@ -46,19 +46,15 @@ public class InstructorSectionInputView {
 
             switch (choice) {
                 case "1":
-                    //comment, 연동 OK
                     AppContext.getAppContext().sectionAppContext.studentSectionInputView.showAllSectionsProcess(villageId);
                     break;
                 case "2":
-                    //comment, 연동 OK
                     AppContext.getAppContext().sectionAppContext.studentSectionInputView.startLearning(villageId);
                     break;
                 case "3":
-                    //comment, 연동 OK
                     AppContext.getAppContext().sectionAppContext.studentSectionInputView.showCompletedSections(villageId);
                     break;
                 case "4":
-                    //comment, 연동 OK
                     createSectionProcess(villageId, currentUser);
                     break;
                 case "5":
@@ -104,7 +100,7 @@ public class InstructorSectionInputView {
                     videoUrl
             );
 
-            // 2. 강의 생성 실행
+            // 강의 생성
             Long newSectionId = sectionController.createSection(request);
 
 
@@ -119,7 +115,6 @@ public class InstructorSectionInputView {
         } catch (IllegalArgumentException e) {
             sectionOutputView.displaySectionError(e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
             sectionOutputView.displaySectionError("예상치 못한 서버 오류: " + e.getMessage());
         }
     }

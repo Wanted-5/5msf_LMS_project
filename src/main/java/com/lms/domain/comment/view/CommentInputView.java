@@ -83,7 +83,6 @@ public class CommentInputView {
 
         //구분을 위해 []로 묶어서 출력 -> outputview 출력형태
         System.out.print("\n삭제할 순번( [ ] 안의 번호 )을 선택하세요 : ");
-        //인덱스 순번 호출을 위한 형변환(int만 가능하다고 함)
         int selectNum = (int) inputLong();
 
         if (selectNum < 1 || selectNum > deletComments.size()) {

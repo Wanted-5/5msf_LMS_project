@@ -11,6 +11,8 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
+import static java.time.LocalDateTime.now;
+
 public class AttendInputView {
     private final AttendController attendController;
     private final AttendOutputView attendOutputView;
@@ -51,10 +53,9 @@ public class AttendInputView {
                 switch (menu1) {
                     case 1:
                         AttendDTO newAttend = new AttendDTO();
-                        newAttend.setAttendanceId(System.currentTimeMillis());
                         newAttend.setVillageId(villageId);
                         newAttend.setUserId(loginUser.getUserId());
-                        newAttend.setAttendanceDate(java.time.LocalDateTime.now());
+                        newAttend.setAttendanceDate(now());
                         attendController.processAttendanceCheck(newAttend);
                         break;
                     case 2:
@@ -152,12 +153,6 @@ public class AttendInputView {
 
                 } else if (action == 2) {
                     System.out.print("정말 삭제하시겠습니까? (y/n) : ");
-//                    public boolean equalsIgnoreCase(String anotherString) {
-//                        return (this == anotherString) ? true
-//                                : (anotherString != null)
-//                                && (anotherString.length() == length())
-//                                && regionMatches(true, 0, anotherString, 0, length());
-//                    } ---> equalsIgnoreCase (y/Y 같은거 출력)
                     if (sc.nextLine().equalsIgnoreCase("y")) {
                         boolean isSuccess = attendController.deleteAttendance(targetId);
                         if (isSuccess) {

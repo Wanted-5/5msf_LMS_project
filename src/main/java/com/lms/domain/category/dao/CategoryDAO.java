@@ -24,17 +24,14 @@ public class CategoryDAO {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    CategoryDTO dto = new CategoryDTO();
-                    dto.setCategoryId(rs.getLong("category_id"));
-                    dto.setCategoryName(rs.getString("category_name"));
-                    dto.setVillageId(rs.getLong("village_id"));
-                    dto.setCreatorId(rs.getLong("creator_id"));
-                    dto.setCreatorNickname(rs.getString("creator_nickname"));
-                    Timestamp timestamp = rs.getTimestamp("created_at");
-                    if (timestamp != null) {
-                        dto.setCreatedAt(timestamp.toLocalDateTime());
-                    }
-                    list.add(dto);
+                    list.add(new CategoryDTO(
+                            rs.getLong("category_id"),
+                            rs.getString("category_name"),
+                            rs.getLong("village_id"),
+                            rs.getLong("creator_id"),
+                            rs.getTimestamp("created_at").toLocalDateTime(),
+                            rs.getString("creator_nickname")
+                    ));
                 }
             }
         } catch (SQLException e) {

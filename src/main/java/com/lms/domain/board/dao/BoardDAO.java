@@ -47,10 +47,10 @@ public class BoardDAO {
     }
 
     // 게시글 작성
-    public int insert(BoardDTO dto) throws SQLException {
+    public int insert(BoardDTO dto, Long villageId) throws SQLException {
         String query = getQuery("board.insert");
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setLong(1, dto.getVillageId());
+            pstmt.setLong(1, villageId);
             pstmt.setLong(2, dto.getCreatorId());
             pstmt.setLong(3, dto.getCategoryId());
             pstmt.setString(4, dto.getTitle());
@@ -82,14 +82,6 @@ public class BoardDAO {
         return null;
     }
 
-//    // 조회수 증가 (추가됨)
-//    public int updateViewCount(Long boardId) throws SQLException {
-//        String query = getQuery("board.updateViewCount");
-//        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-//            pstmt.setLong(1, boardId);
-//            return pstmt.executeUpdate();
-//        }
-//    }
 
     // 내 글 전체 조회
     public List<BoardDTO> findByUser(Long creatorId) throws SQLException {

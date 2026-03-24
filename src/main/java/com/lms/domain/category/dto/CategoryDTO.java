@@ -10,7 +10,9 @@ public class CategoryDTO {
     private LocalDateTime createdAt;
     private String creatorNickname;
 
-    public CategoryDTO(){}
+    public CategoryDTO(){
+
+    }
 
     @Override
     public String toString() {
@@ -18,7 +20,7 @@ public class CategoryDTO {
                 "categoryId=" + categoryId +
                 ", categoryName='" + categoryName + '\'' +
                 ", villageId=" + villageId +
-                ", creatorId='" + creatorId + '\'' +
+                ", creatorId=" + creatorId +
                 ", createdAt=" + createdAt +
                 ", creatorNickname='" + creatorNickname + '\'' +
                 '}';
@@ -69,6 +71,15 @@ public class CategoryDTO {
     }
 
     public void setCreatorNickname(String creatorNickname) {
+        this.creatorNickname = creatorNickname;
+    }
+
+    public CategoryDTO(Long categoryId, String categoryName, Long villageId, Long creatorId, LocalDateTime createdAt, String creatorNickname) {
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.villageId = villageId;
+        this.creatorId = creatorId;
+        this.createdAt = createdAt;
         this.creatorNickname = creatorNickname;
     }
 }

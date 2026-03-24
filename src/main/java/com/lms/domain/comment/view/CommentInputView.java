@@ -21,9 +21,7 @@ public class CommentInputView {
 
 
 
-    public void showInitialMenu() {
-        System.out.print("이동할 게시글 번호를 입력하세요: ");
-        long boardId = Long.parseLong(sc.nextLine());
+    public void showInitialMenu(Long boardId) {
 
         this.CommentMenu(boardId);
     }

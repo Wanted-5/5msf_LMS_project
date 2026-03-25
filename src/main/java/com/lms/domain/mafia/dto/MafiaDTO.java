@@ -81,9 +81,11 @@ public class MafiaDTO {
         return nickname;
     }
 
-    public void setMafiaId(long nextId) {
+    public void setMafiaId(long mafiaId) {
+        this.mafiaId = mafiaId;
     }
 
-    public void setCreatedAt(LocalDate now) {
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
     }
 }

@@ -50,7 +50,6 @@ public class QueryUtil {
 
             // InputStream이 null인 경우, 즉 파일을 찾지 못한 경우 예외 발생
             if (inputStream == null) {
-                System.out.println("⚠️ [안내] " + fileName + " 파일이 아직 없어 로딩을 건너뜁니다.");
                 return;
             }
 
@@ -76,7 +75,6 @@ public class QueryUtil {
                 // ID를 키로, SQL 쿼리를 값으로 하여 맵에 저장
                 queries.put(key, sql);
             }
-            System.out.println("✅ " + fileName + " 쿼리 로딩 완료!");
 
         } catch (Exception e) {
             // 예외 발생 시 RuntimeException으로 감싸서 다시 던짐

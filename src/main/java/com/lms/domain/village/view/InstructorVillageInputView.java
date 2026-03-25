@@ -31,6 +31,7 @@ public class InstructorVillageInputView {
         UserRole currentUserRole = UserSession.getLoggedInUser().getRole();
 
         while (true) {
+
             System.out.println("\n╔══════════════════════════════════════════════════════════════╗");
             System.out.println("║                👑 마을 메인 광장 (강사 전용 모드)              ║");
             System.out.println("╚══════════════════════════════════════════════════════════════╝");
@@ -43,7 +44,7 @@ public class InstructorVillageInputView {
             System.out.println("      [ 5 ] 🏠 강사 숙소 (마이페이지)");
             System.out.println("      [ 6 ] 👥 수강생 관리 (입장 승인 및 추방)");
             System.out.println("      [ 7 ] 🎲 오늘의 마피아 지목하기");
-            System.out.println("      [ 0 ] 🚪 로그아웃 (마을 떠나기)");
+            System.out.println("      [ 0 ] 🚪 로그인 화면 (마을 떠나기)");
             System.out.println("────────────────────────────────────────────────────────────────");
             System.out.print("  ▶ 원하시는 메뉴의 번호를 입력해주세요 : ");
 
@@ -97,9 +98,11 @@ public class InstructorVillageInputView {
                     System.out.println("\n  [ 시스템 ] 🚪 메인 화면으로 돌아갑니다.");
                     if (currentUserRole == UserRole.ADMIN) {
                         AppContext.getAppContext().cityAppContext.cityInputView.displayCityAdminMenu();
+                        return;
                     }
                     if (currentUserRole == UserRole.INSTRUCTOR) {
                         AppContext.getAppContext().enrollmentAppContext.enrollmentInputView.displayEnrollMainMenu();
+                        return;
                     }
 
                 default:

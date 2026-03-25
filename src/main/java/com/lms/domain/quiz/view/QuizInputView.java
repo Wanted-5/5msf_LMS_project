@@ -8,6 +8,7 @@ import com.lms.domain.quiz.dto.Requset.CreateQuizRequest;
 import com.lms.domain.quizSubmission.view.QuizSubInputView;
 
 import com.lms.domain.users.dto.UserRole;
+import com.lms.global.AppContext.AppContext;
 import com.lms.global.common.UserSession;
 
 
@@ -70,7 +71,8 @@ public class QuizInputView {
             System.out.println("      [ 1 ]  📋 퀴즈 전체 리스트 조회");
             System.out.println("      [ 2 ]  🩸 새로운 퀴즈 기획 및 작성");
             System.out.println("      [ 3 ]  🔪 퀴즈 관리 (수정/삭제) [권한 제한]");
-            System.out.println("      [ 4 ]  🎭 오늘의 퀴즈 풀기 (실행)");
+            System.out.println("      [ 4 ]  🎭 오늘의 퀴즈 풀기");
+            System.out.println("      [ 5 ]  🔎 오늘의 마피아 조회");
             System.out.println("      [ 0 ]  🚪 마을 광장으로 돌아가기");
             System.out.println("────────────────────────────────────────────────────────────────");
             System.out.print("  ▶ 요원의 다음 행동을 선택하세요 : ");
@@ -90,6 +92,9 @@ public class QuizInputView {
                     break;
                 case 4:
                     selectTodayQuiz(villageId);
+                    break;
+                case 5:
+                    AppContext.getAppContext().mafiaAppContext.mafiaInputView.selectTodayMafiaInfo(villageId);
                     break;
                 case 0:
                     //TODO : 테스트 해보기

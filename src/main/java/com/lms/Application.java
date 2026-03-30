@@ -14,7 +14,7 @@ public class Application {
         try (Connection con = JDBCTemplate.getConnection()) {
 
             System.out.println("✅ 데이터베이스 연결 성공!!!");
-            AppContext appContext = new AppContext(con);
+//            AppContext appContext = new AppContext(con);
 
             AppContext.init(con);
 
@@ -22,7 +22,7 @@ public class Application {
                 LoginResponse loggedInUser = UserSession.getLoggedInUser();
 
                 if (loggedInUser == null) {
-                    appContext.userAppContext.userInputView.displayInitialMenu();
+                    AppContext.getAppContext().userAppContext.userInputView.displayInitialMenu();
                 }
 
                 else {
@@ -30,17 +30,17 @@ public class Application {
 
                     if (role == UserRole.ADMIN) {
                         System.out.println("  [시스템] " + UserSession.getLoggedInUser().getRole().getDescription() + "(ADMIN) 권한으로 접속했습니다.");
-                        appContext.cityAppContext.cityInputView.displayCityAdminMenu();
+                        AppContext.getAppContext().cityAppContext.cityInputView.displayCityAdminMenu();
                         //TODO: 관리자는 마을을 선택할 수 있게 로직 구현
 
                     } else if (role == UserRole.INSTRUCTOR) {
                         System.out.println("  [시스템] " + UserSession.getLoggedInUser().getRole().getDescription() + "(INSTRUCTOR) 권한으로 접속했습니다.");
-                        appContext.enrollmentAppContext.enrollmentInputView.displayEnrollMainMenu();
+                        AppContext.getAppContext().enrollmentAppContext.enrollmentInputView.displayEnrollMainMenu();
                         //TODO: 강사 옵션으로 로직 구현
 
                     } else if (role == UserRole.STUDENT) {
                         System.out.println("  [시스템] " + UserSession.getLoggedInUser().getRole().getDescription() + "(STUDENT) 권한으로 접속했습니다.");
-                        appContext.enrollmentAppContext.enrollmentInputView.displayEnrollMainMenu();
+                        AppContext.getAppContext().enrollmentAppContext.enrollmentInputView.displayEnrollMainMenu();
                         //TODO: 학생 옵션으로 로직 구현
 
                     }

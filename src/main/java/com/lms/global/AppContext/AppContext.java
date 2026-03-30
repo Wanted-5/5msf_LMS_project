@@ -17,7 +17,7 @@ public class AppContext {
     public final CategoryAppContext categoryAppContext;
     public final SectionAppContext sectionAppContext;
 
-    public AppContext(Connection con) {
+    private AppContext(Connection con) {
         this.userAppContext = new UserAppContext(con);
         this.cityAppContext = new CityAppContext(con);
         this.commentAppContext = new CommentAppContext(con);
